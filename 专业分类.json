@@ -1,0 +1,4137 @@
+{
+  "哲学": {
+    "category_name": "哲学",
+    "majors": [
+      {
+        "discipline_class": "哲学类",
+        "code": "010101",
+        "major_name": "哲学"
+      },
+      {
+        "discipline_class": "哲学类",
+        "code": "010102",
+        "major_name": "逻辑学"
+      },
+      {
+        "discipline_class": "哲学类",
+        "code": "010103K",
+        "major_name": "宗教学"
+      },
+      {
+        "discipline_class": "哲学类",
+        "code": "010104T",
+        "major_name": "伦理学"
+      }
+    ]
+  },
+  "经济学": {
+    "category_name": "经济学",
+    "majors": [
+      {
+        "discipline_class": "经济学类",
+        "code": "020101",
+        "major_name": "经济学"
+      },
+      {
+        "discipline_class": "经济学类",
+        "code": "020102",
+        "major_name": "经济统计学"
+      },
+      {
+        "discipline_class": "经济学类",
+        "code": "020103T",
+        "major_name": "国民经济管理"
+      },
+      {
+        "discipline_class": "经济学类",
+        "code": "020104T",
+        "major_name": "资源与环境经济学"
+      },
+      {
+        "discipline_class": "经济学类",
+        "code": "020105T",
+        "major_name": "商务经济学"
+      },
+      {
+        "discipline_class": "经济学类",
+        "code": "020106T",
+        "major_name": "能源经济"
+      },
+      {
+        "discipline_class": "经济学类",
+        "code": "020107T",
+        "major_name": "劳动经济学"
+      },
+      {
+        "discipline_class": "经济学类",
+        "code": "020108T",
+        "major_name": "经济工程"
+      },
+      {
+        "discipline_class": "经济学类",
+        "code": "020109T",
+        "major_name": "数字经济"
+      },
+      {
+        "discipline_class": "财政学类",
+        "code": "020201K",
+        "major_name": "财政学"
+      },
+      {
+        "discipline_class": "财政学类",
+        "code": "020202",
+        "major_name": "税收学"
+      },
+      {
+        "discipline_class": "财政学类",
+        "code": "020203TK",
+        "major_name": "国际税收"
+      },
+      {
+        "discipline_class": "金融学类",
+        "code": "020301K",
+        "major_name": "金融学"
+      },
+      {
+        "discipline_class": "金融学类",
+        "code": "020302",
+        "major_name": "金融工程"
+      },
+      {
+        "discipline_class": "金融学类",
+        "code": "020303",
+        "major_name": "保险学"
+      },
+      {
+        "discipline_class": "金融学类",
+        "code": "020304",
+        "major_name": "投资学"
+      },
+      {
+        "discipline_class": "金融学类",
+        "code": "020305T",
+        "major_name": "金融数学"
+      },
+      {
+        "discipline_class": "金融学类",
+        "code": "020306T",
+        "major_name": "信用管理"
+      },
+      {
+        "discipline_class": "金融学类",
+        "code": "020307T",
+        "major_name": "经济与金融"
+      },
+      {
+        "discipline_class": "金融学类",
+        "code": "020308T",
+        "major_name": "精算学"
+      },
+      {
+        "discipline_class": "金融学类",
+        "code": "020309T",
+        "major_name": "互联网金融"
+      },
+      {
+        "discipline_class": "金融学类",
+        "code": "020310T",
+        "major_name": "金融科技"
+      },
+      {
+        "discipline_class": "金融学类",
+        "code": "020311TK",
+        "major_name": "金融审计"
+      },
+      {
+        "discipline_class": "经济与贸易类",
+        "code": "020401",
+        "major_name": "国际经济与贸易"
+      },
+      {
+        "discipline_class": "经济与贸易类",
+        "code": "020402",
+        "major_name": "贸易经济"
+      },
+      {
+        "discipline_class": "经济与贸易类",
+        "code": "020403T",
+        "major_name": "国际经济发展合作"
+      }
+    ]
+  },
+  "法学": {
+    "category_name": "法学",
+    "majors": [
+      {
+        "discipline_class": "法学类",
+        "code": "030101K",
+        "major_name": "法学"
+      },
+      {
+        "discipline_class": "法学类",
+        "code": "030102T",
+        "major_name": "知识产权"
+      },
+      {
+        "discipline_class": "法学类",
+        "code": "030103T",
+        "major_name": "监狱学"
+      },
+      {
+        "discipline_class": "法学类",
+        "code": "030104T",
+        "major_name": "信用风险管理与法律防控"
+      },
+      {
+        "discipline_class": "法学类",
+        "code": "030105T",
+        "major_name": "国际经贸规则"
+      },
+      {
+        "discipline_class": "法学类",
+        "code": "030106TK",
+        "major_name": "司法警察学"
+      },
+      {
+        "discipline_class": "法学类",
+        "code": "030107TK",
+        "major_name": "社区矫正"
+      },
+      {
+        "discipline_class": "法学类",
+        "code": "030108TK",
+        "major_name": "纪检监察"
+      },
+      {
+        "discipline_class": "法学类",
+        "code": "030109TK",
+        "major_name": "国际法"
+      },
+      {
+        "discipline_class": "法学类",
+        "code": "030110TK",
+        "major_name": "司法鉴定学"
+      },
+      {
+        "discipline_class": "法学类",
+        "code": "030111TK",
+        "major_name": "国家安全学"
+      },
+      {
+        "discipline_class": "法学类",
+        "code": "030112TK",
+        "major_name": "海外利益安全"
+      },
+      {
+        "discipline_class": "政治学类",
+        "code": "030201",
+        "major_name": "政治学与行政学"
+      },
+      {
+        "discipline_class": "政治学类",
+        "code": "030202",
+        "major_name": "国际政治"
+      },
+      {
+        "discipline_class": "政治学类",
+        "code": "030203",
+        "major_name": "外交学"
+      },
+      {
+        "discipline_class": "政治学类",
+        "code": "030204T",
+        "major_name": "国际事务与国际关系"
+      },
+      {
+        "discipline_class": "政治学类",
+        "code": "030205T",
+        "major_name": "政治学、经济学与哲学"
+      },
+      {
+        "discipline_class": "政治学类",
+        "code": "030206TK",
+        "major_name": "国际组织与全球治理"
+      },
+      {
+        "discipline_class": "社会学类",
+        "code": "030301",
+        "major_name": "社会学"
+      },
+      {
+        "discipline_class": "社会学类",
+        "code": "030302",
+        "major_name": "社会工作"
+      },
+      {
+        "discipline_class": "社会学类",
+        "code": "030303T",
+        "major_name": "人类学"
+      },
+      {
+        "discipline_class": "社会学类",
+        "code": "030304T",
+        "major_name": "女性学"
+      },
+      {
+        "discipline_class": "社会学类",
+        "code": "030305T",
+        "major_name": "家政学"
+      },
+      {
+        "discipline_class": "社会学类",
+        "code": "030306T",
+        "major_name": "老年学"
+      },
+      {
+        "discipline_class": "社会学类",
+        "code": "030307T",
+        "major_name": "社会政策"
+      },
+      {
+        "discipline_class": "民族学类",
+        "code": "030401",
+        "major_name": "民族学"
+      },
+      {
+        "discipline_class": "马克思主义理论类",
+        "code": "030501",
+        "major_name": "科学社会主义"
+      },
+      {
+        "discipline_class": "马克思主义理论类",
+        "code": "030502",
+        "major_name": "中国共产党历史"
+      },
+      {
+        "discipline_class": "马克思主义理论类",
+        "code": "030503",
+        "major_name": "思想政治教育"
+      },
+      {
+        "discipline_class": "马克思主义理论类",
+        "code": "030504T",
+        "major_name": "马克思主义理论"
+      },
+      {
+        "discipline_class": "马克思主义理论类",
+        "code": "030505TK",
+        "major_name": "工会学"
+      },
+      {
+        "discipline_class": "公安学类",
+        "code": "030601K",
+        "major_name": "治安学"
+      },
+      {
+        "discipline_class": "公安学类",
+        "code": "030602K",
+        "major_name": "侦查学"
+      },
+      {
+        "discipline_class": "公安学类",
+        "code": "030603K",
+        "major_name": "边防管理"
+      },
+      {
+        "discipline_class": "公安学类",
+        "code": "030604TK",
+        "major_name": "禁毒学"
+      },
+      {
+        "discipline_class": "公安学类",
+        "code": "030605TK",
+        "major_name": "警犬技术"
+      },
+      {
+        "discipline_class": "公安学类",
+        "code": "030606TK",
+        "major_name": "经济犯罪侦查"
+      },
+      {
+        "discipline_class": "公安学类",
+        "code": "030607TK",
+        "major_name": "边防指挥"
+      },
+      {
+        "discipline_class": "公安学类",
+        "code": "030608TK",
+        "major_name": "消防指挥"
+      },
+      {
+        "discipline_class": "公安学类",
+        "code": "030609TK",
+        "major_name": "警卫学"
+      },
+      {
+        "discipline_class": "公安学类",
+        "code": "030610TK",
+        "major_name": "公安情报学"
+      },
+      {
+        "discipline_class": "公安学类",
+        "code": "030611TK",
+        "major_name": "犯罪学"
+      },
+      {
+        "discipline_class": "公安学类",
+        "code": "030612TK",
+        "major_name": "公安管理学"
+      },
+      {
+        "discipline_class": "公安学类",
+        "code": "030613TK",
+        "major_name": "涉外警务"
+      },
+      {
+        "discipline_class": "公安学类",
+        "code": "030614TK",
+        "major_name": "国内安全保卫"
+      },
+      {
+        "discipline_class": "公安学类",
+        "code": "030615TK",
+        "major_name": "警务指挥与战术"
+      },
+      {
+        "discipline_class": "公安学类",
+        "code": "030616TK",
+        "major_name": "技术侦查学"
+      },
+      {
+        "discipline_class": "公安学类",
+        "code": "030617TK",
+        "major_name": "海警执法"
+      },
+      {
+        "discipline_class": "公安学类",
+        "code": "030618TK",
+        "major_name": "公安政治工作"
+      },
+      {
+        "discipline_class": "公安学类",
+        "code": "030619TK",
+        "major_name": "移民管理"
+      },
+      {
+        "discipline_class": "公安学类",
+        "code": "030620TK",
+        "major_name": "出入境管理"
+      },
+      {
+        "discipline_class": "公安学类",
+        "code": "030621TK",
+        "major_name": "反恐警务"
+      },
+      {
+        "discipline_class": "公安学类",
+        "code": "030622TK",
+        "major_name": "消防政治工作"
+      },
+      {
+        "discipline_class": "公安学类",
+        "code": "030623TK",
+        "major_name": "铁路警务"
+      }
+    ]
+  },
+  "教育学": {
+    "category_name": "教育学",
+    "majors": [
+      {
+        "discipline_class": "教育学类",
+        "code": "040101",
+        "major_name": "教育学"
+      },
+      {
+        "discipline_class": "教育学类",
+        "code": "040102",
+        "major_name": "科学教育"
+      },
+      {
+        "discipline_class": "教育学类",
+        "code": "040103",
+        "major_name": "人文教育"
+      },
+      {
+        "discipline_class": "教育学类",
+        "code": "040104",
+        "major_name": "教育技术学"
+      },
+      {
+        "discipline_class": "教育学类",
+        "code": "040105",
+        "major_name": "艺术教育"
+      },
+      {
+        "discipline_class": "教育学类",
+        "code": "040106",
+        "major_name": "学前教育"
+      },
+      {
+        "discipline_class": "教育学类",
+        "code": "040107",
+        "major_name": "小学教育"
+      },
+      {
+        "discipline_class": "教育学类",
+        "code": "040108",
+        "major_name": "特殊教育"
+      },
+      {
+        "discipline_class": "教育学类",
+        "code": "040109T",
+        "major_name": "华文教育"
+      },
+      {
+        "discipline_class": "教育学类",
+        "code": "040110TK",
+        "major_name": "教育康复学"
+      },
+      {
+        "discipline_class": "教育学类",
+        "code": "040111T",
+        "major_name": "卫生教育"
+      },
+      {
+        "discipline_class": "教育学类",
+        "code": "040112T",
+        "major_name": "认知科学与技术"
+      },
+      {
+        "discipline_class": "教育学类",
+        "code": "040113T",
+        "major_name": "融合教育"
+      },
+      {
+        "discipline_class": "教育学类",
+        "code": "040114TK",
+        "major_name": "劳动教育"
+      },
+      {
+        "discipline_class": "教育学类",
+        "code": "040115T",
+        "major_name": "家庭教育"
+      },
+      {
+        "discipline_class": "教育学类",
+        "code": "040116TK",
+        "major_name": "孤独症儿童教育"
+      },
+      {
+        "discipline_class": "体育学类",
+        "code": "040201",
+        "major_name": "体育教育"
+      },
+      {
+        "discipline_class": "体育学类",
+        "code": "040202K",
+        "major_name": "运动训练"
+      },
+      {
+        "discipline_class": "体育学类",
+        "code": "040203",
+        "major_name": "社会体育指导与管理"
+      },
+      {
+        "discipline_class": "体育学类",
+        "code": "040204K",
+        "major_name": "武术与民族传统体育"
+      },
+      {
+        "discipline_class": "体育学类",
+        "code": "040205",
+        "major_name": "运动人体科学"
+      },
+      {
+        "discipline_class": "体育学类",
+        "code": "040206T",
+        "major_name": "运动康复"
+      },
+      {
+        "discipline_class": "体育学类",
+        "code": "040207T",
+        "major_name": "休闲体育"
+      },
+      {
+        "discipline_class": "体育学类",
+        "code": "040208T",
+        "major_name": "体能训练"
+      },
+      {
+        "discipline_class": "体育学类",
+        "code": "040209T",
+        "major_name": "冰雪运动"
+      },
+      {
+        "discipline_class": "体育学类",
+        "code": "040210TK",
+        "major_name": "电子竞技运动与管理"
+      },
+      {
+        "discipline_class": "体育学类",
+        "code": "040211TK",
+        "major_name": "智能体育工程"
+      },
+      {
+        "discipline_class": "体育学类",
+        "code": "040212TK",
+        "major_name": "体育旅游"
+      },
+      {
+        "discipline_class": "体育学类",
+        "code": "040213T",
+        "major_name": "运动能力开发"
+      },
+      {
+        "discipline_class": "体育学类",
+        "code": "040214TK",
+        "major_name": "足球运动"
+      },
+      {
+        "discipline_class": "体育学类",
+        "code": "040215TK",
+        "major_name": "马术运动与管理"
+      },
+      {
+        "discipline_class": "体育学类",
+        "code": "040216T",
+        "major_name": "体育康养"
+      }
+    ]
+  },
+  "文学": {
+    "category_name": "文学",
+    "majors": [
+      {
+        "discipline_class": "中国语言文学类",
+        "code": "050101",
+        "major_name": "汉语言文学"
+      },
+      {
+        "discipline_class": "中国语言文学类",
+        "code": "050102",
+        "major_name": "汉语言"
+      },
+      {
+        "discipline_class": "中国语言文学类",
+        "code": "050103",
+        "major_name": "汉语国际教育"
+      },
+      {
+        "discipline_class": "中国语言文学类",
+        "code": "050104",
+        "major_name": "中国少数民族语言文学"
+      },
+      {
+        "discipline_class": "中国语言文学类",
+        "code": "050105",
+        "major_name": "古典文献学"
+      },
+      {
+        "discipline_class": "中国语言文学类",
+        "code": "050106T",
+        "major_name": "应用语言学"
+      },
+      {
+        "discipline_class": "中国语言文学类",
+        "code": "050107T",
+        "major_name": "秘书学"
+      },
+      {
+        "discipline_class": "中国语言文学类",
+        "code": "050108T",
+        "major_name": "中国语言与文化"
+      },
+      {
+        "discipline_class": "中国语言文学类",
+        "code": "050109T",
+        "major_name": "手语翻译"
+      },
+      {
+        "discipline_class": "中国语言文学类",
+        "code": "050110T",
+        "major_name": "数字人文"
+      },
+      {
+        "discipline_class": "中国语言文学类",
+        "code": "050111T",
+        "major_name": "中国古典学"
+      },
+      {
+        "discipline_class": "中国语言文学类",
+        "code": "050112T",
+        "major_name": "汉学与中国学"
+      },
+      {
+        "discipline_class": "中国语言文学类",
+        "code": "050113T",
+        "major_name": "应用中文"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050201",
+        "major_name": "英语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050202",
+        "major_name": "俄语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050203",
+        "major_name": "德语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050204",
+        "major_name": "法语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050205",
+        "major_name": "西班牙语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050206",
+        "major_name": "阿拉伯语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050207",
+        "major_name": "日语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050208",
+        "major_name": "波斯语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050209",
+        "major_name": "朝鲜语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050210",
+        "major_name": "菲律宾语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050211",
+        "major_name": "梵语巴利语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050212",
+        "major_name": "印度尼西亚语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050213",
+        "major_name": "印地语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050214",
+        "major_name": "柬埔寨语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050215",
+        "major_name": "老挝语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050216",
+        "major_name": "缅甸语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050217",
+        "major_name": "马来语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050218",
+        "major_name": "蒙古语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050219",
+        "major_name": "僧伽罗语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050220",
+        "major_name": "泰语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050221",
+        "major_name": "乌尔都语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050222",
+        "major_name": "希伯来语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050223",
+        "major_name": "越南语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050224",
+        "major_name": "豪萨语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050225",
+        "major_name": "斯瓦希里语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050226",
+        "major_name": "阿尔巴尼亚语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050227",
+        "major_name": "保加利亚语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050228",
+        "major_name": "波兰语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050229",
+        "major_name": "捷克语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050230",
+        "major_name": "斯洛伐克语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050231",
+        "major_name": "罗马尼亚语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050232",
+        "major_name": "葡萄牙语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050233",
+        "major_name": "瑞典语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050234",
+        "major_name": "塞尔维亚语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050235",
+        "major_name": "土耳其语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050236",
+        "major_name": "希腊语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050237",
+        "major_name": "匈牙利语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050238",
+        "major_name": "意大利语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050239",
+        "major_name": "泰米尔语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050240",
+        "major_name": "普什图语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050241",
+        "major_name": "世界语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050242",
+        "major_name": "孟加拉语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050243",
+        "major_name": "尼泊尔语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050244",
+        "major_name": "克罗地亚语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050245",
+        "major_name": "荷兰语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050246",
+        "major_name": "芬兰语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050247",
+        "major_name": "乌克兰语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050248",
+        "major_name": "挪威语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050249",
+        "major_name": "丹麦语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050250",
+        "major_name": "冰岛语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050251",
+        "major_name": "爱尔兰语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050252",
+        "major_name": "拉脱维亚语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050253",
+        "major_name": "立陶宛语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050254",
+        "major_name": "斯洛文尼亚语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050255",
+        "major_name": "爱沙尼亚语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050256",
+        "major_name": "马耳他语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050257",
+        "major_name": "哈萨克语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050258",
+        "major_name": "乌兹别克语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050259",
+        "major_name": "祖鲁语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050260",
+        "major_name": "拉丁语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050261",
+        "major_name": "翻译"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050262",
+        "major_name": "商务英语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050263T",
+        "major_name": "阿姆哈拉语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050264T",
+        "major_name": "吉尔吉斯语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050265T",
+        "major_name": "索马里语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050266T",
+        "major_name": "土库曼语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050267T",
+        "major_name": "加泰罗尼亚语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050268T",
+        "major_name": "约鲁巴语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050269T",
+        "major_name": "亚美尼亚语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050270T",
+        "major_name": "马达加斯加语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050271T",
+        "major_name": "格鲁吉亚语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050272T",
+        "major_name": "阿塞拜疆语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050273T",
+        "major_name": "阿非利卡语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050274T",
+        "major_name": "马其顿语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050275T",
+        "major_name": "塔吉克语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050276T",
+        "major_name": "茨瓦纳语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050277T",
+        "major_name": "恩德贝莱语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050278T",
+        "major_name": "科摩罗语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050279T",
+        "major_name": "克里奥尔语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050280T",
+        "major_name": "绍纳语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050281T",
+        "major_name": "提格雷尼亚语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050282T",
+        "major_name": "白俄罗斯语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050283T",
+        "major_name": "毛利语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050284T",
+        "major_name": "汤加语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050285T",
+        "major_name": "萨摩亚语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050286T",
+        "major_name": "库尔德语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050287T",
+        "major_name": "比斯拉马语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050288T",
+        "major_name": "达里语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050289T",
+        "major_name": "德顿语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050290T",
+        "major_name": "迪维希语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050291T",
+        "major_name": "斐济语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050292T",
+        "major_name": "库克群岛毛利语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050293T",
+        "major_name": "隆迪语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050294T",
+        "major_name": "卢森堡语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050295T",
+        "major_name": "卢旺达语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050296T",
+        "major_name": "纽埃语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050297T",
+        "major_name": "皮金语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050298T",
+        "major_name": "切瓦语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050299T",
+        "major_name": "塞苏陀语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "050200T",
+        "major_name": "桑戈语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "0502100T",
+        "major_name": "语言学"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "0502101T",
+        "major_name": "塔玛齐格特语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "0502102T",
+        "major_name": "爪哇语"
+      },
+      {
+        "discipline_class": "外国语言文学类",
+        "code": "0502103T",
+        "major_name": "旁遮普语"
+      },
+      {
+        "discipline_class": "新闻传播学类",
+        "code": "050301",
+        "major_name": "新闻学"
+      },
+      {
+        "discipline_class": "新闻传播学类",
+        "code": "050302",
+        "major_name": "广播电视学"
+      },
+      {
+        "discipline_class": "新闻传播学类",
+        "code": "050303",
+        "major_name": "广告学"
+      },
+      {
+        "discipline_class": "新闻传播学类",
+        "code": "050304",
+        "major_name": "传播学"
+      },
+      {
+        "discipline_class": "新闻传播学类",
+        "code": "050305",
+        "major_name": "编辑出版学"
+      },
+      {
+        "discipline_class": "新闻传播学类",
+        "code": "050306T",
+        "major_name": "网络与新媒体"
+      },
+      {
+        "discipline_class": "新闻传播学类",
+        "code": "050307T",
+        "major_name": "数字出版"
+      },
+      {
+        "discipline_class": "新闻传播学类",
+        "code": "050308T",
+        "major_name": "时尚传播"
+      },
+      {
+        "discipline_class": "新闻传播学类",
+        "code": "050309T",
+        "major_name": "国际新闻与传播"
+      },
+      {
+        "discipline_class": "新闻传播学类",
+        "code": "050310T",
+        "major_name": "会展"
+      }
+    ]
+  },
+  "历史学": {
+    "category_name": "历史学",
+    "majors": [
+      {
+        "discipline_class": "历史学类",
+        "code": "060101",
+        "major_name": "历史学"
+      },
+      {
+        "discipline_class": "历史学类",
+        "code": "060102",
+        "major_name": "世界史"
+      },
+      {
+        "discipline_class": "历史学类",
+        "code": "060103",
+        "major_name": "考古学"
+      },
+      {
+        "discipline_class": "历史学类",
+        "code": "060104",
+        "major_name": "文物与博物馆学"
+      },
+      {
+        "discipline_class": "历史学类",
+        "code": "060105T",
+        "major_name": "文物保护技术"
+      },
+      {
+        "discipline_class": "历史学类",
+        "code": "060106T",
+        "major_name": "外国语言与外国历史"
+      },
+      {
+        "discipline_class": "历史学类",
+        "code": "060107T",
+        "major_name": "文化遗产"
+      },
+      {
+        "discipline_class": "历史学类",
+        "code": "060108T",
+        "major_name": "古文字学"
+      },
+      {
+        "discipline_class": "历史学类",
+        "code": "060109T",
+        "major_name": "科学史"
+      }
+    ]
+  },
+  "理学": {
+    "category_name": "理学",
+    "majors": [
+      {
+        "discipline_class": "数学类",
+        "code": "070101",
+        "major_name": "数学与应用数学"
+      },
+      {
+        "discipline_class": "数学类",
+        "code": "070102",
+        "major_name": "信息与计算科学"
+      },
+      {
+        "discipline_class": "数学类",
+        "code": "070103T",
+        "major_name": "数理基础科学"
+      },
+      {
+        "discipline_class": "数学类",
+        "code": "070104T",
+        "major_name": "数据计算及应用"
+      },
+      {
+        "discipline_class": "物理学类",
+        "code": "070201",
+        "major_name": "物理学"
+      },
+      {
+        "discipline_class": "物理学类",
+        "code": "070202",
+        "major_name": "应用物理学"
+      },
+      {
+        "discipline_class": "物理学类",
+        "code": "070203",
+        "major_name": "核物理"
+      },
+      {
+        "discipline_class": "物理学类",
+        "code": "070204T",
+        "major_name": "声学"
+      },
+      {
+        "discipline_class": "物理学类",
+        "code": "070205T",
+        "major_name": "系统科学与工程"
+      },
+      {
+        "discipline_class": "物理学类",
+        "code": "070206T",
+        "major_name": "量子信息科学"
+      },
+      {
+        "discipline_class": "化学类",
+        "code": "070301",
+        "major_name": "化学"
+      },
+      {
+        "discipline_class": "化学类",
+        "code": "070302",
+        "major_name": "应用化学"
+      },
+      {
+        "discipline_class": "化学类",
+        "code": "070303T",
+        "major_name": "化学生物学"
+      },
+      {
+        "discipline_class": "化学类",
+        "code": "070304T",
+        "major_name": "分子科学与工程"
+      },
+      {
+        "discipline_class": "化学类",
+        "code": "070305T",
+        "major_name": "能源化学"
+      },
+      {
+        "discipline_class": "化学类",
+        "code": "070306T",
+        "major_name": "化学测量学与技术"
+      },
+      {
+        "discipline_class": "化学类",
+        "code": "070307T",
+        "major_name": "资源化学"
+      },
+      {
+        "discipline_class": "天文学类",
+        "code": "070401",
+        "major_name": "天文学"
+      },
+      {
+        "discipline_class": "地理科学类",
+        "code": "070501",
+        "major_name": "地理科学"
+      },
+      {
+        "discipline_class": "地理科学类",
+        "code": "070502",
+        "major_name": "自然地理与资源环境"
+      },
+      {
+        "discipline_class": "地理科学类",
+        "code": "070503",
+        "major_name": "人文地理与城乡规划"
+      },
+      {
+        "discipline_class": "地理科学类",
+        "code": "070504",
+        "major_name": "地理信息科学"
+      },
+      {
+        "discipline_class": "大气科学类",
+        "code": "070601",
+        "major_name": "大气科学"
+      },
+      {
+        "discipline_class": "大气科学类",
+        "code": "070602",
+        "major_name": "应用气象学"
+      },
+      {
+        "discipline_class": "大气科学类",
+        "code": "070603T",
+        "major_name": "气象技术与工程"
+      },
+      {
+        "discipline_class": "大气科学类",
+        "code": "070604T",
+        "major_name": "地球系统科学"
+      },
+      {
+        "discipline_class": "海洋科学类",
+        "code": "070701",
+        "major_name": "海洋科学"
+      },
+      {
+        "discipline_class": "海洋科学类",
+        "code": "070702",
+        "major_name": "海洋技术"
+      },
+      {
+        "discipline_class": "海洋科学类",
+        "code": "070703T",
+        "major_name": "海洋资源与环境"
+      },
+      {
+        "discipline_class": "海洋科学类",
+        "code": "070704T",
+        "major_name": "军事海洋学"
+      },
+      {
+        "discipline_class": "地球物理学类",
+        "code": "070801",
+        "major_name": "地球物理学"
+      },
+      {
+        "discipline_class": "地球物理学类",
+        "code": "070802",
+        "major_name": "空间科学与技术"
+      },
+      {
+        "discipline_class": "地球物理学类",
+        "code": "070803T",
+        "major_name": "防灾减灾科学与工程"
+      },
+      {
+        "discipline_class": "地球物理学类",
+        "code": "070804TK",
+        "major_name": "行星科学"
+      },
+      {
+        "discipline_class": "地质学类",
+        "code": "070901",
+        "major_name": "地质学"
+      },
+      {
+        "discipline_class": "地质学类",
+        "code": "070902",
+        "major_name": "地球化学"
+      },
+      {
+        "discipline_class": "地质学类",
+        "code": "070903T",
+        "major_name": "地球信息科学与技术"
+      },
+      {
+        "discipline_class": "地质学类",
+        "code": "070904T",
+        "major_name": "古生物学"
+      },
+      {
+        "discipline_class": "生物科学类",
+        "code": "071001",
+        "major_name": "生物科学"
+      },
+      {
+        "discipline_class": "生物科学类",
+        "code": "071002",
+        "major_name": "生物技术"
+      },
+      {
+        "discipline_class": "生物科学类",
+        "code": "071003",
+        "major_name": "生物信息学"
+      },
+      {
+        "discipline_class": "生物科学类",
+        "code": "071004",
+        "major_name": "生态学"
+      },
+      {
+        "discipline_class": "生物科学类",
+        "code": "071005T",
+        "major_name": "整合科学"
+      },
+      {
+        "discipline_class": "生物科学类",
+        "code": "071006T",
+        "major_name": "神经科学"
+      },
+      {
+        "discipline_class": "心理学类",
+        "code": "071101",
+        "major_name": "心理学"
+      },
+      {
+        "discipline_class": "心理学类",
+        "code": "071102",
+        "major_name": "应用心理学"
+      },
+      {
+        "discipline_class": "统计学类",
+        "code": "071201",
+        "major_name": "统计学"
+      },
+      {
+        "discipline_class": "统计学类",
+        "code": "071202",
+        "major_name": "应用统计学"
+      },
+      {
+        "discipline_class": "统计学类",
+        "code": "071203T",
+        "major_name": "数据科学"
+      },
+      {
+        "discipline_class": "统计学类",
+        "code": "071204T",
+        "major_name": "生物统计学"
+      }
+    ]
+  },
+  "工学": {
+    "category_name": "工学",
+    "majors": [
+      {
+        "discipline_class": "力学类",
+        "code": "080101",
+        "major_name": "理论与应用力学"
+      },
+      {
+        "discipline_class": "力学类",
+        "code": "080102",
+        "major_name": "工程力学"
+      },
+      {
+        "discipline_class": "机械类",
+        "code": "080201",
+        "major_name": "机械工程"
+      },
+      {
+        "discipline_class": "机械类",
+        "code": "080202",
+        "major_name": "机械设计制造及其自动化"
+      },
+      {
+        "discipline_class": "机械类",
+        "code": "080203",
+        "major_name": "材料成型及控制工程"
+      },
+      {
+        "discipline_class": "机械类",
+        "code": "080204",
+        "major_name": "机械电子工程"
+      },
+      {
+        "discipline_class": "机械类",
+        "code": "080205",
+        "major_name": "工业设计"
+      },
+      {
+        "discipline_class": "机械类",
+        "code": "080206",
+        "major_name": "过程装备与控制工程"
+      },
+      {
+        "discipline_class": "机械类",
+        "code": "080207",
+        "major_name": "车辆工程"
+      },
+      {
+        "discipline_class": "机械类",
+        "code": "080208",
+        "major_name": "汽车服务工程"
+      },
+      {
+        "discipline_class": "机械类",
+        "code": "080209T",
+        "major_name": "机械工艺技术"
+      },
+      {
+        "discipline_class": "机械类",
+        "code": "080210T",
+        "major_name": "微机电系统工程"
+      },
+      {
+        "discipline_class": "机械类",
+        "code": "080211T",
+        "major_name": "机电技术教育"
+      },
+      {
+        "discipline_class": "机械类",
+        "code": "080212T",
+        "major_name": "汽车维修工程教育"
+      },
+      {
+        "discipline_class": "机械类",
+        "code": "080213T",
+        "major_name": "智能制造工程"
+      },
+      {
+        "discipline_class": "机械类",
+        "code": "080214T",
+        "major_name": "智能车辆工程"
+      },
+      {
+        "discipline_class": "机械类",
+        "code": "080215T",
+        "major_name": "仿生科学与工程"
+      },
+      {
+        "discipline_class": "机械类",
+        "code": "080216T",
+        "major_name": "新能源汽车工程"
+      },
+      {
+        "discipline_class": "机械类",
+        "code": "080217T",
+        "major_name": "增材制造工程"
+      },
+      {
+        "discipline_class": "机械类",
+        "code": "080218T",
+        "major_name": "智能交互设计"
+      },
+      {
+        "discipline_class": "机械类",
+        "code": "080219T",
+        "major_name": "应急装备技术与工程"
+      },
+      {
+        "discipline_class": "机械类",
+        "code": "080220T",
+        "major_name": "农林智能装备工程"
+      },
+      {
+        "discipline_class": "仪器类",
+        "code": "080301",
+        "major_name": "测控技术与仪器"
+      },
+      {
+        "discipline_class": "仪器类",
+        "code": "080302T",
+        "major_name": "精密仪器"
+      },
+      {
+        "discipline_class": "仪器类",
+        "code": "080303T",
+        "major_name": "智能感知工程"
+      },
+      {
+        "discipline_class": "材料类",
+        "code": "080401",
+        "major_name": "材料科学与工程"
+      },
+      {
+        "discipline_class": "材料类",
+        "code": "080402",
+        "major_name": "材料物理"
+      },
+      {
+        "discipline_class": "材料类",
+        "code": "080403",
+        "major_name": "材料化学"
+      },
+      {
+        "discipline_class": "材料类",
+        "code": "080404",
+        "major_name": "冶金工程"
+      },
+      {
+        "discipline_class": "材料类",
+        "code": "080405",
+        "major_name": "金属材料工程"
+      },
+      {
+        "discipline_class": "材料类",
+        "code": "080406",
+        "major_name": "无机非金属材料工程"
+      },
+      {
+        "discipline_class": "材料类",
+        "code": "080407",
+        "major_name": "高分子材料与工程"
+      },
+      {
+        "discipline_class": "材料类",
+        "code": "080408",
+        "major_name": "复合材料与工程"
+      },
+      {
+        "discipline_class": "材料类",
+        "code": "080409T",
+        "major_name": "粉体材料科学与工程"
+      },
+      {
+        "discipline_class": "材料类",
+        "code": "080410T",
+        "major_name": "宝石及材料工艺学"
+      },
+      {
+        "discipline_class": "材料类",
+        "code": "080411T",
+        "major_name": "焊接技术与工程"
+      },
+      {
+        "discipline_class": "材料类",
+        "code": "080412T",
+        "major_name": "功能材料"
+      },
+      {
+        "discipline_class": "材料类",
+        "code": "080413T",
+        "major_name": "纳米材料与技术"
+      },
+      {
+        "discipline_class": "材料类",
+        "code": "080414T",
+        "major_name": "新能源材料与器件"
+      },
+      {
+        "discipline_class": "材料类",
+        "code": "080415T",
+        "major_name": "材料设计科学与工程"
+      },
+      {
+        "discipline_class": "材料类",
+        "code": "080416T",
+        "major_name": "复合材料成型工程"
+      },
+      {
+        "discipline_class": "材料类",
+        "code": "080417T",
+        "major_name": "智能材料与结构"
+      },
+      {
+        "discipline_class": "材料类",
+        "code": "080418T",
+        "major_name": "光电信息材料与器件"
+      },
+      {
+        "discipline_class": "材料类",
+        "code": "080419T",
+        "major_name": "生物材料"
+      },
+      {
+        "discipline_class": "材料类",
+        "code": "080420T",
+        "major_name": "材料智能技术"
+      },
+      {
+        "discipline_class": "材料类",
+        "code": "080421T",
+        "major_name": "电子信息材料"
+      },
+      {
+        "discipline_class": "材料类",
+        "code": "080422T",
+        "major_name": "软物质科学与工程"
+      },
+      {
+        "discipline_class": "材料类",
+        "code": "080423T",
+        "major_name": "稀土材料科学与工程"
+      },
+      {
+        "discipline_class": "能源动力类",
+        "code": "080501",
+        "major_name": "能源与动力工程"
+      },
+      {
+        "discipline_class": "能源动力类",
+        "code": "080502T",
+        "major_name": "能源与环境系统工程"
+      },
+      {
+        "discipline_class": "能源动力类",
+        "code": "080503T",
+        "major_name": "新能源科学与工程"
+      },
+      {
+        "discipline_class": "能源动力类",
+        "code": "080504T",
+        "major_name": "储能科学与工程"
+      },
+      {
+        "discipline_class": "能源动力类",
+        "code": "080505T",
+        "major_name": "能源服务工程"
+      },
+      {
+        "discipline_class": "能源动力类",
+        "code": "080506TK",
+        "major_name": "氢能科学与工程"
+      },
+      {
+        "discipline_class": "能源动力类",
+        "code": "080507TK",
+        "major_name": "可持续能源"
+      },
+      {
+        "discipline_class": "电气类",
+        "code": "080601",
+        "major_name": "电气工程及其自动化"
+      },
+      {
+        "discipline_class": "电气类",
+        "code": "080602T",
+        "major_name": "智能电网信息工程"
+      },
+      {
+        "discipline_class": "电气类",
+        "code": "080603T",
+        "major_name": "光源与照明"
+      },
+      {
+        "discipline_class": "电气类",
+        "code": "080604T",
+        "major_name": "电气工程与智能控制"
+      },
+      {
+        "discipline_class": "电气类",
+        "code": "080605T",
+        "major_name": "电机电器智能化"
+      },
+      {
+        "discipline_class": "电气类",
+        "code": "080606T",
+        "major_name": "电缆工程"
+      },
+      {
+        "discipline_class": "电气类",
+        "code": "080607T",
+        "major_name": "能源互联网工程"
+      },
+      {
+        "discipline_class": "电气类",
+        "code": "080608TK",
+        "major_name": "智慧能源工程"
+      },
+      {
+        "discipline_class": "电气类",
+        "code": "080609T",
+        "major_name": "电动载运工程"
+      },
+      {
+        "discipline_class": "电气类",
+        "code": "080610TK",
+        "major_name": "大功率半导体科学与工程"
+      },
+      {
+        "discipline_class": "电子信息类",
+        "code": "080701",
+        "major_name": "电子信息工程"
+      },
+      {
+        "discipline_class": "电子信息类",
+        "code": "080702",
+        "major_name": "电子科学与技术"
+      },
+      {
+        "discipline_class": "电子信息类",
+        "code": "080703",
+        "major_name": "通信工程"
+      },
+      {
+        "discipline_class": "电子信息类",
+        "code": "080704",
+        "major_name": "微电子科学与工程"
+      },
+      {
+        "discipline_class": "电子信息类",
+        "code": "080705",
+        "major_name": "光电信息科学与工程"
+      },
+      {
+        "discipline_class": "电子信息类",
+        "code": "080706",
+        "major_name": "信息工程"
+      },
+      {
+        "discipline_class": "电子信息类",
+        "code": "080707T",
+        "major_name": "广播电视工程"
+      },
+      {
+        "discipline_class": "电子信息类",
+        "code": "080708T",
+        "major_name": "水声工程"
+      },
+      {
+        "discipline_class": "电子信息类",
+        "code": "080709T",
+        "major_name": "电子封装技术"
+      },
+      {
+        "discipline_class": "电子信息类",
+        "code": "080710T",
+        "major_name": "集成电路设计与集成系统"
+      },
+      {
+        "discipline_class": "电子信息类",
+        "code": "080711T",
+        "major_name": "医学信息工程"
+      },
+      {
+        "discipline_class": "电子信息类",
+        "code": "080712T",
+        "major_name": "电磁场与无线技术"
+      },
+      {
+        "discipline_class": "电子信息类",
+        "code": "080713T",
+        "major_name": "电波传播与天线"
+      },
+      {
+        "discipline_class": "电子信息类",
+        "code": "080714T",
+        "major_name": "电子信息科学与技术"
+      },
+      {
+        "discipline_class": "电子信息类",
+        "code": "080715T",
+        "major_name": "电信工程及管理"
+      },
+      {
+        "discipline_class": "电子信息类",
+        "code": "080716T",
+        "major_name": "应用电子技术教育"
+      },
+      {
+        "discipline_class": "电子信息类",
+        "code": "080717T",
+        "major_name": "人工智能"
+      },
+      {
+        "discipline_class": "电子信息类",
+        "code": "080718T",
+        "major_name": "海洋信息工程"
+      },
+      {
+        "discipline_class": "电子信息类",
+        "code": "080719T",
+        "major_name": "柔性电子学"
+      },
+      {
+        "discipline_class": "电子信息类",
+        "code": "080720T",
+        "major_name": "智能测控工程"
+      },
+      {
+        "discipline_class": "电子信息类",
+        "code": "080721T",
+        "major_name": "智能视觉工程"
+      },
+      {
+        "discipline_class": "自动化类",
+        "code": "080801",
+        "major_name": "自动化"
+      },
+      {
+        "discipline_class": "自动化类",
+        "code": "080802T",
+        "major_name": "轨道交通信号与控制"
+      },
+      {
+        "discipline_class": "自动化类",
+        "code": "080803T",
+        "major_name": "机器人工程"
+      },
+      {
+        "discipline_class": "自动化类",
+        "code": "080804T",
+        "major_name": "邮政工程"
+      },
+      {
+        "discipline_class": "自动化类",
+        "code": "080805T",
+        "major_name": "核电技术与控制工程"
+      },
+      {
+        "discipline_class": "自动化类",
+        "code": "080806T",
+        "major_name": "智能装备与系统"
+      },
+      {
+        "discipline_class": "自动化类",
+        "code": "080807T",
+        "major_name": "工业智能"
+      },
+      {
+        "discipline_class": "自动化类",
+        "code": "080808T",
+        "major_name": "智能工程与创意设计"
+      },
+      {
+        "discipline_class": "计算机类",
+        "code": "080901",
+        "major_name": "计算机科学与技术"
+      },
+      {
+        "discipline_class": "计算机类",
+        "code": "080902",
+        "major_name": "软件工程"
+      },
+      {
+        "discipline_class": "计算机类",
+        "code": "080903",
+        "major_name": "网络工程"
+      },
+      {
+        "discipline_class": "计算机类",
+        "code": "080904K",
+        "major_name": "信息安全"
+      },
+      {
+        "discipline_class": "计算机类",
+        "code": "080905",
+        "major_name": "物联网工程"
+      },
+      {
+        "discipline_class": "计算机类",
+        "code": "080906",
+        "major_name": "数字媒体技术"
+      },
+      {
+        "discipline_class": "计算机类",
+        "code": "080907T",
+        "major_name": "智能科学与技术"
+      },
+      {
+        "discipline_class": "计算机类",
+        "code": "080908T",
+        "major_name": "空间信息与数字技术"
+      },
+      {
+        "discipline_class": "计算机类",
+        "code": "080909T",
+        "major_name": "电子与计算机工程"
+      },
+      {
+        "discipline_class": "计算机类",
+        "code": "080910T",
+        "major_name": "数据科学与大数据技术"
+      },
+      {
+        "discipline_class": "计算机类",
+        "code": "080911TK",
+        "major_name": "网络空间安全"
+      },
+      {
+        "discipline_class": "计算机类",
+        "code": "080912T",
+        "major_name": "新媒体技术"
+      },
+      {
+        "discipline_class": "计算机类",
+        "code": "080913T",
+        "major_name": "电影制作"
+      },
+      {
+        "discipline_class": "计算机类",
+        "code": "080914TK",
+        "major_name": "保密技术"
+      },
+      {
+        "discipline_class": "计算机类",
+        "code": "080915T",
+        "major_name": "服务科学与工程"
+      },
+      {
+        "discipline_class": "计算机类",
+        "code": "080916T",
+        "major_name": "虚拟现实技术"
+      },
+      {
+        "discipline_class": "计算机类",
+        "code": "080917T",
+        "major_name": "区块链工程"
+      },
+      {
+        "discipline_class": "计算机类",
+        "code": "080918TK",
+        "major_name": "密码科学与技术"
+      },
+      {
+        "discipline_class": "土木类",
+        "code": "081001",
+        "major_name": "土木工程"
+      },
+      {
+        "discipline_class": "土木类",
+        "code": "081002",
+        "major_name": "建筑环境与能源应用工程"
+      },
+      {
+        "discipline_class": "土木类",
+        "code": "081003",
+        "major_name": "给排水科学与工程"
+      },
+      {
+        "discipline_class": "土木类",
+        "code": "081004",
+        "major_name": "建筑电气与智能化"
+      },
+      {
+        "discipline_class": "土木类",
+        "code": "081005T",
+        "major_name": "城市地下空间工程"
+      },
+      {
+        "discipline_class": "土木类",
+        "code": "081006T",
+        "major_name": "道路桥梁与渡河工程"
+      },
+      {
+        "discipline_class": "土木类",
+        "code": "081007T",
+        "major_name": "铁道工程"
+      },
+      {
+        "discipline_class": "土木类",
+        "code": "081008T",
+        "major_name": "智能建造"
+      },
+      {
+        "discipline_class": "土木类",
+        "code": "081009T",
+        "major_name": "土木、水利与海洋工程"
+      },
+      {
+        "discipline_class": "土木类",
+        "code": "081010T",
+        "major_name": "土木、水利与交通工程"
+      },
+      {
+        "discipline_class": "土木类",
+        "code": "081011T",
+        "major_name": "城市水系统工程"
+      },
+      {
+        "discipline_class": "土木类",
+        "code": "081012T",
+        "major_name": "智能建造与智慧交通"
+      },
+      {
+        "discipline_class": "土木类",
+        "code": "081013T",
+        "major_name": "工程软件"
+      },
+      {
+        "discipline_class": "水利类",
+        "code": "081101",
+        "major_name": "水利水电工程"
+      },
+      {
+        "discipline_class": "水利类",
+        "code": "081102",
+        "major_name": "水文与水资源工程"
+      },
+      {
+        "discipline_class": "水利类",
+        "code": "081103",
+        "major_name": "港口航道与海岸工程"
+      },
+      {
+        "discipline_class": "水利类",
+        "code": "081104T",
+        "major_name": "水务工程"
+      },
+      {
+        "discipline_class": "水利类",
+        "code": "081105T",
+        "major_name": "水利科学与工程"
+      },
+      {
+        "discipline_class": "水利类",
+        "code": "081106T",
+        "major_name": "智慧水利"
+      },
+      {
+        "discipline_class": "测绘类",
+        "code": "081201",
+        "major_name": "测绘工程"
+      },
+      {
+        "discipline_class": "测绘类",
+        "code": "081202",
+        "major_name": "遥感科学与技术"
+      },
+      {
+        "discipline_class": "测绘类",
+        "code": "081203T",
+        "major_name": "导航工程"
+      },
+      {
+        "discipline_class": "测绘类",
+        "code": "081204T",
+        "major_name": "地理国情监测"
+      },
+      {
+        "discipline_class": "测绘类",
+        "code": "081205T",
+        "major_name": "地理空间信息工程"
+      },
+      {
+        "discipline_class": "化工与制药类",
+        "code": "081301",
+        "major_name": "化学工程与工艺"
+      },
+      {
+        "discipline_class": "化工与制药类",
+        "code": "081302",
+        "major_name": "制药工程"
+      },
+      {
+        "discipline_class": "化工与制药类",
+        "code": "081303T",
+        "major_name": "资源循环科学与工程"
+      },
+      {
+        "discipline_class": "化工与制药类",
+        "code": "081304T",
+        "major_name": "能源化学工程"
+      },
+      {
+        "discipline_class": "化工与制药类",
+        "code": "081305T",
+        "major_name": "化学工程与工业生物工程"
+      },
+      {
+        "discipline_class": "化工与制药类",
+        "code": "081306T",
+        "major_name": "化工安全工程"
+      },
+      {
+        "discipline_class": "化工与制药类",
+        "code": "081307T",
+        "major_name": "涂料工程"
+      },
+      {
+        "discipline_class": "化工与制药类",
+        "code": "081308T",
+        "major_name": "精细化工"
+      },
+      {
+        "discipline_class": "地质类",
+        "code": "081401",
+        "major_name": "地质工程"
+      },
+      {
+        "discipline_class": "地质类",
+        "code": "081402",
+        "major_name": "勘查技术与工程"
+      },
+      {
+        "discipline_class": "地质类",
+        "code": "081403K",
+        "major_name": "资源勘查工程"
+      },
+      {
+        "discipline_class": "地质类",
+        "code": "081404T",
+        "major_name": "地下水科学与工程"
+      },
+      {
+        "discipline_class": "地质类",
+        "code": "081405T",
+        "major_name": "旅游地学与规划工程"
+      },
+      {
+        "discipline_class": "地质类",
+        "code": "081406T",
+        "major_name": "智能地球探测"
+      },
+      {
+        "discipline_class": "地质类",
+        "code": "081407T",
+        "major_name": "资源环境大数据工程"
+      },
+      {
+        "discipline_class": "矿业类",
+        "code": "081501",
+        "major_name": "采矿工程"
+      },
+      {
+        "discipline_class": "矿业类",
+        "code": "081502",
+        "major_name": "石油工程"
+      },
+      {
+        "discipline_class": "矿业类",
+        "code": "081503",
+        "major_name": "矿物加工工程"
+      },
+      {
+        "discipline_class": "矿业类",
+        "code": "081504",
+        "major_name": "油气储运工程"
+      },
+      {
+        "discipline_class": "矿业类",
+        "code": "081505T",
+        "major_name": "矿物资源工程"
+      },
+      {
+        "discipline_class": "矿业类",
+        "code": "081506T",
+        "major_name": "海洋油气工程"
+      },
+      {
+        "discipline_class": "矿业类",
+        "code": "081507T",
+        "major_name": "智能采矿工程"
+      },
+      {
+        "discipline_class": "矿业类",
+        "code": "081508TK",
+        "major_name": "碳储科学与工程"
+      },
+      {
+        "discipline_class": "纺织类",
+        "code": "081601",
+        "major_name": "纺织工程"
+      },
+      {
+        "discipline_class": "纺织类",
+        "code": "081602",
+        "major_name": "服装设计与工程"
+      },
+      {
+        "discipline_class": "纺织类",
+        "code": "081603T",
+        "major_name": "非织造材料与工程"
+      },
+      {
+        "discipline_class": "纺织类",
+        "code": "081604T",
+        "major_name": "服装设计与工艺教育"
+      },
+      {
+        "discipline_class": "纺织类",
+        "code": "081605T",
+        "major_name": "丝绸设计与工程"
+      },
+      {
+        "discipline_class": "轻工类",
+        "code": "081701",
+        "major_name": "轻化工程"
+      },
+      {
+        "discipline_class": "轻工类",
+        "code": "081702",
+        "major_name": "包装工程"
+      },
+      {
+        "discipline_class": "轻工类",
+        "code": "081703",
+        "major_name": "印刷工程"
+      },
+      {
+        "discipline_class": "轻工类",
+        "code": "081704T",
+        "major_name": "香料香精技术与工程"
+      },
+      {
+        "discipline_class": "轻工类",
+        "code": "081705T",
+        "major_name": "化妆品技术与工程"
+      },
+      {
+        "discipline_class": "轻工类",
+        "code": "081706TK",
+        "major_name": "生物质能源与材料"
+      },
+      {
+        "discipline_class": "交通运输类",
+        "code": "081801",
+        "major_name": "交通运输"
+      },
+      {
+        "discipline_class": "交通运输类",
+        "code": "081802",
+        "major_name": "交通工程"
+      },
+      {
+        "discipline_class": "交通运输类",
+        "code": "081803K",
+        "major_name": "航海技术"
+      },
+      {
+        "discipline_class": "交通运输类",
+        "code": "081804K",
+        "major_name": "轮机工程"
+      },
+      {
+        "discipline_class": "交通运输类",
+        "code": "081805K",
+        "major_name": "飞行技术"
+      },
+      {
+        "discipline_class": "交通运输类",
+        "code": "081806T",
+        "major_name": "交通设备与控制工程"
+      },
+      {
+        "discipline_class": "交通运输类",
+        "code": "081807T",
+        "major_name": "救助与打捞工程"
+      },
+      {
+        "discipline_class": "交通运输类",
+        "code": "081808TK",
+        "major_name": "船舶电子电气工程"
+      },
+      {
+        "discipline_class": "交通运输类",
+        "code": "081809T",
+        "major_name": "轨道交通电气与控制"
+      },
+      {
+        "discipline_class": "交通运输类",
+        "code": "081810T",
+        "major_name": "邮轮工程与管理"
+      },
+      {
+        "discipline_class": "交通运输类",
+        "code": "081811T",
+        "major_name": "智慧交通"
+      },
+      {
+        "discipline_class": "交通运输类",
+        "code": "081812T",
+        "major_name": "智能运输工程"
+      },
+      {
+        "discipline_class": "海洋工程类",
+        "code": "081901",
+        "major_name": "船舶与海洋工程"
+      },
+      {
+        "discipline_class": "海洋工程类",
+        "code": "081902T",
+        "major_name": "海洋工程与技术"
+      },
+      {
+        "discipline_class": "海洋工程类",
+        "code": "081903T",
+        "major_name": "海洋资源开发技术"
+      },
+      {
+        "discipline_class": "海洋工程类",
+        "code": "081904T",
+        "major_name": "海洋机器人"
+      },
+      {
+        "discipline_class": "海洋工程类",
+        "code": "081905T",
+        "major_name": "智慧海洋技术"
+      },
+      {
+        "discipline_class": "海洋工程类",
+        "code": "081906T",
+        "major_name": "智能海洋装备"
+      },
+      {
+        "discipline_class": "航空航天类",
+        "code": "082001",
+        "major_name": "航空航天工程"
+      },
+      {
+        "discipline_class": "航空航天类",
+        "code": "082002",
+        "major_name": "飞行器设计与工程"
+      },
+      {
+        "discipline_class": "航空航天类",
+        "code": "082003",
+        "major_name": "飞行器制造工程"
+      },
+      {
+        "discipline_class": "航空航天类",
+        "code": "082004",
+        "major_name": "飞行器动力工程"
+      },
+      {
+        "discipline_class": "航空航天类",
+        "code": "082005",
+        "major_name": "飞行器环境与生命保障工程"
+      },
+      {
+        "discipline_class": "航空航天类",
+        "code": "082006T",
+        "major_name": "飞行器质量与可靠性"
+      },
+      {
+        "discipline_class": "航空航天类",
+        "code": "082007T",
+        "major_name": "飞行器适航技术"
+      },
+      {
+        "discipline_class": "航空航天类",
+        "code": "082008T",
+        "major_name": "飞行器控制与信息工程"
+      },
+      {
+        "discipline_class": "航空航天类",
+        "code": "082009T",
+        "major_name": "无人驾驶航空器系统工程"
+      },
+      {
+        "discipline_class": "航空航天类",
+        "code": "082010T",
+        "major_name": "智能飞行器技术"
+      },
+      {
+        "discipline_class": "航空航天类",
+        "code": "082011T",
+        "major_name": "空天智能电推进技术"
+      },
+      {
+        "discipline_class": "航空航天类",
+        "code": "082012T",
+        "major_name": "飞行器运维工程"
+      },
+      {
+        "discipline_class": "兵器类",
+        "code": "082101",
+        "major_name": "武器系统与工程"
+      },
+      {
+        "discipline_class": "兵器类",
+        "code": "082102",
+        "major_name": "武器发射工程"
+      },
+      {
+        "discipline_class": "兵器类",
+        "code": "082103",
+        "major_name": "探测制导与控制技术"
+      },
+      {
+        "discipline_class": "兵器类",
+        "code": "082104",
+        "major_name": "弹药工程与爆炸技术"
+      },
+      {
+        "discipline_class": "兵器类",
+        "code": "082105",
+        "major_name": "特种能源技术与工程"
+      },
+      {
+        "discipline_class": "兵器类",
+        "code": "082106",
+        "major_name": "装甲车辆工程"
+      },
+      {
+        "discipline_class": "兵器类",
+        "code": "082107",
+        "major_name": "信息对抗技术"
+      },
+      {
+        "discipline_class": "兵器类",
+        "code": "082108T",
+        "major_name": "智能无人系统技术"
+      },
+      {
+        "discipline_class": "核工程类",
+        "code": "082201",
+        "major_name": "核工程与核技术"
+      },
+      {
+        "discipline_class": "核工程类",
+        "code": "082202",
+        "major_name": "辐射防护与核安全"
+      },
+      {
+        "discipline_class": "核工程类",
+        "code": "082203",
+        "major_name": "工程物理"
+      },
+      {
+        "discipline_class": "核工程类",
+        "code": "082204",
+        "major_name": "核化工与核燃料工程"
+      },
+      {
+        "discipline_class": "农业工程类",
+        "code": "082301",
+        "major_name": "农业工程"
+      },
+      {
+        "discipline_class": "农业工程类",
+        "code": "082302",
+        "major_name": "农业机械化及其自动化"
+      },
+      {
+        "discipline_class": "农业工程类",
+        "code": "082303",
+        "major_name": "农业电气化"
+      },
+      {
+        "discipline_class": "农业工程类",
+        "code": "082304",
+        "major_name": "农业建筑环境与能源工程"
+      },
+      {
+        "discipline_class": "农业工程类",
+        "code": "082305",
+        "major_name": "农业水利工程"
+      },
+      {
+        "discipline_class": "农业工程类",
+        "code": "082306T",
+        "major_name": "土地整治工程"
+      },
+      {
+        "discipline_class": "农业工程类",
+        "code": "082307T",
+        "major_name": "农业智能装备工程"
+      },
+      {
+        "discipline_class": "林业工程类",
+        "code": "082401",
+        "major_name": "森林工程"
+      },
+      {
+        "discipline_class": "林业工程类",
+        "code": "082402",
+        "major_name": "木材科学与工程"
+      },
+      {
+        "discipline_class": "林业工程类",
+        "code": "082403",
+        "major_name": "林产化工"
+      },
+      {
+        "discipline_class": "林业工程类",
+        "code": "082404T",
+        "major_name": "家具设计与工程"
+      },
+      {
+        "discipline_class": "林业工程类",
+        "code": "082405T",
+        "major_name": "木结构建筑与材料"
+      },
+      {
+        "discipline_class": "环境科学与工程类",
+        "code": "082501",
+        "major_name": "环境科学与工程"
+      },
+      {
+        "discipline_class": "环境科学与工程类",
+        "code": "082502",
+        "major_name": "环境工程"
+      },
+      {
+        "discipline_class": "环境科学与工程类",
+        "code": "082503",
+        "major_name": "环境科学"
+      },
+      {
+        "discipline_class": "环境科学与工程类",
+        "code": "082504",
+        "major_name": "环境生态工程"
+      },
+      {
+        "discipline_class": "环境科学与工程类",
+        "code": "082505T",
+        "major_name": "环保设备工程"
+      },
+      {
+        "discipline_class": "环境科学与工程类",
+        "code": "082506T",
+        "major_name": "资源环境科学"
+      },
+      {
+        "discipline_class": "环境科学与工程类",
+        "code": "082507T",
+        "major_name": "水质科学与技术"
+      },
+      {
+        "discipline_class": "生物医学工程类",
+        "code": "082601",
+        "major_name": "生物医学工程"
+      },
+      {
+        "discipline_class": "生物医学工程类",
+        "code": "082602T",
+        "major_name": "假肢矫形工程"
+      },
+      {
+        "discipline_class": "生物医学工程类",
+        "code": "082603T",
+        "major_name": "临床工程技术"
+      },
+      {
+        "discipline_class": "生物医学工程类",
+        "code": "082604T",
+        "major_name": "康复工程"
+      },
+      {
+        "discipline_class": "生物医学工程类",
+        "code": "082605T",
+        "major_name": "健康科学与技术"
+      },
+      {
+        "discipline_class": "食品科学与工程类",
+        "code": "082701",
+        "major_name": "食品科学与工程"
+      },
+      {
+        "discipline_class": "食品科学与工程类",
+        "code": "082702",
+        "major_name": "食品质量与安全"
+      },
+      {
+        "discipline_class": "食品科学与工程类",
+        "code": "082703",
+        "major_name": "粮食工程"
+      },
+      {
+        "discipline_class": "食品科学与工程类",
+        "code": "082704",
+        "major_name": "乳品工程"
+      },
+      {
+        "discipline_class": "食品科学与工程类",
+        "code": "082705",
+        "major_name": "酿酒工程"
+      },
+      {
+        "discipline_class": "食品科学与工程类",
+        "code": "082706T",
+        "major_name": "葡萄与葡萄酒工程"
+      },
+      {
+        "discipline_class": "食品科学与工程类",
+        "code": "082707T",
+        "major_name": "食品营养与检验教育"
+      },
+      {
+        "discipline_class": "食品科学与工程类",
+        "code": "082708T",
+        "major_name": "烹饪与营养教育"
+      },
+      {
+        "discipline_class": "食品科学与工程类",
+        "code": "082709T",
+        "major_name": "食品安全与检测"
+      },
+      {
+        "discipline_class": "食品科学与工程类",
+        "code": "082710T",
+        "major_name": "食品营养与健康"
+      },
+      {
+        "discipline_class": "食品科学与工程类",
+        "code": "082711T",
+        "major_name": "食用菌科学与工程"
+      },
+      {
+        "discipline_class": "食品科学与工程类",
+        "code": "082712T",
+        "major_name": "白酒酿造工程"
+      },
+      {
+        "discipline_class": "食品科学与工程类",
+        "code": "082713T",
+        "major_name": "咖啡科学与工程"
+      },
+      {
+        "discipline_class": "建筑类",
+        "code": "082801",
+        "major_name": "建筑学"
+      },
+      {
+        "discipline_class": "建筑类",
+        "code": "082802",
+        "major_name": "城乡规划"
+      },
+      {
+        "discipline_class": "建筑类",
+        "code": "082803",
+        "major_name": "风景园林"
+      },
+      {
+        "discipline_class": "建筑类",
+        "code": "082804T",
+        "major_name": "历史建筑保护工程"
+      },
+      {
+        "discipline_class": "建筑类",
+        "code": "082805T",
+        "major_name": "人居环境科学与技术"
+      },
+      {
+        "discipline_class": "建筑类",
+        "code": "082806T",
+        "major_name": "城市设计"
+      },
+      {
+        "discipline_class": "建筑类",
+        "code": "082807T",
+        "major_name": "智慧建筑与建造"
+      },
+      {
+        "discipline_class": "安全科学与工程类",
+        "code": "082901",
+        "major_name": "安全工程"
+      },
+      {
+        "discipline_class": "安全科学与工程类",
+        "code": "082902T",
+        "major_name": "应急技术与管理"
+      },
+      {
+        "discipline_class": "安全科学与工程类",
+        "code": "082903T",
+        "major_name": "职业卫生工程"
+      },
+      {
+        "discipline_class": "安全科学与工程类",
+        "code": "082904T",
+        "major_name": "安全生产监管"
+      },
+      {
+        "discipline_class": "生物工程类",
+        "code": "083001",
+        "major_name": "生物工程"
+      },
+      {
+        "discipline_class": "生物工程类",
+        "code": "083002T",
+        "major_name": "生物制药"
+      },
+      {
+        "discipline_class": "生物工程类",
+        "code": "083003T",
+        "major_name": "合成生物学"
+      },
+      {
+        "discipline_class": "公安技术类",
+        "code": "083101K",
+        "major_name": "刑事科学技术"
+      },
+      {
+        "discipline_class": "公安技术类",
+        "code": "083102K",
+        "major_name": "消防工程"
+      },
+      {
+        "discipline_class": "公安技术类",
+        "code": "083103TK",
+        "major_name": "交通管理工程"
+      },
+      {
+        "discipline_class": "公安技术类",
+        "code": "083104TK",
+        "major_name": "安全防范工程"
+      },
+      {
+        "discipline_class": "公安技术类",
+        "code": "083105TK",
+        "major_name": "公安视听技术"
+      },
+      {
+        "discipline_class": "公安技术类",
+        "code": "083106TK",
+        "major_name": "抢险救援指挥与技术"
+      },
+      {
+        "discipline_class": "公安技术类",
+        "code": "083107TK",
+        "major_name": "火灾勘查"
+      },
+      {
+        "discipline_class": "公安技术类",
+        "code": "083108TK",
+        "major_name": "网络安全与执法"
+      },
+      {
+        "discipline_class": "公安技术类",
+        "code": "083109TK",
+        "major_name": "核生化消防"
+      },
+      {
+        "discipline_class": "公安技术类",
+        "code": "083110TK",
+        "major_name": "海警舰艇指挥与技术"
+      },
+      {
+        "discipline_class": "公安技术类",
+        "code": "083111TK",
+        "major_name": "数据警务技术"
+      },
+      {
+        "discipline_class": "公安技术类",
+        "code": "083112TK",
+        "major_name": "食品药品环境犯罪侦查技术"
+      },
+      {
+        "discipline_class": "交叉工程类",
+        "code": "083201TK",
+        "major_name": "未来机器人"
+      },
+      {
+        "discipline_class": "交叉工程类",
+        "code": "083202TK",
+        "major_name": "交叉工程"
+      }
+    ]
+  },
+  "农学": {
+    "category_name": "农学",
+    "majors": [
+      {
+        "discipline_class": "植物生产类",
+        "code": "090101",
+        "major_name": "农学"
+      },
+      {
+        "discipline_class": "植物生产类",
+        "code": "090102",
+        "major_name": "园艺"
+      },
+      {
+        "discipline_class": "植物生产类",
+        "code": "090103",
+        "major_name": "植物保护"
+      },
+      {
+        "discipline_class": "植物生产类",
+        "code": "090104",
+        "major_name": "植物科学与技术"
+      },
+      {
+        "discipline_class": "植物生产类",
+        "code": "090105",
+        "major_name": "种子科学与工程"
+      },
+      {
+        "discipline_class": "植物生产类",
+        "code": "090106",
+        "major_name": "设施农业科学与工程"
+      },
+      {
+        "discipline_class": "植物生产类",
+        "code": "090107T",
+        "major_name": "茶学"
+      },
+      {
+        "discipline_class": "植物生产类",
+        "code": "090108T",
+        "major_name": "烟草"
+      },
+      {
+        "discipline_class": "植物生产类",
+        "code": "090109T",
+        "major_name": "应用生物科学"
+      },
+      {
+        "discipline_class": "植物生产类",
+        "code": "090110T",
+        "major_name": "农艺教育"
+      },
+      {
+        "discipline_class": "植物生产类",
+        "code": "090111T",
+        "major_name": "园艺教育"
+      },
+      {
+        "discipline_class": "植物生产类",
+        "code": "090112T",
+        "major_name": "智慧农业"
+      },
+      {
+        "discipline_class": "植物生产类",
+        "code": "090113T",
+        "major_name": "菌物科学与工程"
+      },
+      {
+        "discipline_class": "植物生产类",
+        "code": "090114T",
+        "major_name": "农药化肥"
+      },
+      {
+        "discipline_class": "植物生产类",
+        "code": "090115T",
+        "major_name": "生物农药科学与工程"
+      },
+      {
+        "discipline_class": "植物生产类",
+        "code": "090116TK",
+        "major_name": "生物育种科学"
+      },
+      {
+        "discipline_class": "植物生产类",
+        "code": "090117TK",
+        "major_name": "生物育种技术"
+      },
+      {
+        "discipline_class": "自然保护与环境生态类",
+        "code": "090201",
+        "major_name": "农业资源与环境"
+      },
+      {
+        "discipline_class": "自然保护与环境生态类",
+        "code": "090202",
+        "major_name": "野生动物与自然保护区管理"
+      },
+      {
+        "discipline_class": "自然保护与环境生态类",
+        "code": "090203",
+        "major_name": "水土保持与荒漠化防治"
+      },
+      {
+        "discipline_class": "自然保护与环境生态类",
+        "code": "090204T",
+        "major_name": "生物质科学与工程"
+      },
+      {
+        "discipline_class": "自然保护与环境生态类",
+        "code": "090205T",
+        "major_name": "土地科学与技术"
+      },
+      {
+        "discipline_class": "自然保护与环境生态类",
+        "code": "090206T",
+        "major_name": "湿地保护与恢复"
+      },
+      {
+        "discipline_class": "自然保护与环境生态类",
+        "code": "090207TK",
+        "major_name": "国家公园建设与管理"
+      },
+      {
+        "discipline_class": "自然保护与环境生态类",
+        "code": "090208TK",
+        "major_name": "生态修复学"
+      },
+      {
+        "discipline_class": "动物生产类",
+        "code": "090301",
+        "major_name": "动物科学"
+      },
+      {
+        "discipline_class": "动物生产类",
+        "code": "090302T",
+        "major_name": "蚕学"
+      },
+      {
+        "discipline_class": "动物生产类",
+        "code": "090303T",
+        "major_name": "蜂学"
+      },
+      {
+        "discipline_class": "动物生产类",
+        "code": "090304T",
+        "major_name": "经济动物学"
+      },
+      {
+        "discipline_class": "动物生产类",
+        "code": "090305T",
+        "major_name": "马业科学"
+      },
+      {
+        "discipline_class": "动物生产类",
+        "code": "090306T",
+        "major_name": "饲料工程"
+      },
+      {
+        "discipline_class": "动物生产类",
+        "code": "090307T",
+        "major_name": "智慧牧业科学与工程"
+      },
+      {
+        "discipline_class": "动物医学类",
+        "code": "090401",
+        "major_name": "动物医学"
+      },
+      {
+        "discipline_class": "动物医学类",
+        "code": "090402",
+        "major_name": "动物药学"
+      },
+      {
+        "discipline_class": "动物医学类",
+        "code": "090403T",
+        "major_name": "动植物检疫"
+      },
+      {
+        "discipline_class": "动物医学类",
+        "code": "090404T",
+        "major_name": "实验动物学"
+      },
+      {
+        "discipline_class": "动物医学类",
+        "code": "090405T",
+        "major_name": "中兽医学"
+      },
+      {
+        "discipline_class": "动物医学类",
+        "code": "090406TK",
+        "major_name": "兽医公共卫生"
+      },
+      {
+        "discipline_class": "林学类",
+        "code": "090501",
+        "major_name": "林学"
+      },
+      {
+        "discipline_class": "林学类",
+        "code": "090502",
+        "major_name": "园林"
+      },
+      {
+        "discipline_class": "林学类",
+        "code": "090503",
+        "major_name": "森林保护"
+      },
+      {
+        "discipline_class": "林学类",
+        "code": "090504T",
+        "major_name": "经济林"
+      },
+      {
+        "discipline_class": "林学类",
+        "code": "090505T",
+        "major_name": "智慧林业"
+      },
+      {
+        "discipline_class": "水产类",
+        "code": "090601",
+        "major_name": "水产养殖学"
+      },
+      {
+        "discipline_class": "水产类",
+        "code": "090602",
+        "major_name": "海洋渔业科学与技术"
+      },
+      {
+        "discipline_class": "水产类",
+        "code": "090603T",
+        "major_name": "水族科学与技术"
+      },
+      {
+        "discipline_class": "水产类",
+        "code": "090604TK",
+        "major_name": "水生动物医学"
+      },
+      {
+        "discipline_class": "草学类",
+        "code": "090701",
+        "major_name": "草业科学"
+      },
+      {
+        "discipline_class": "草学类",
+        "code": "090702T",
+        "major_name": "草坪科学与工程"
+      }
+    ]
+  },
+  "医学": {
+    "category_name": "医学",
+    "majors": [
+      {
+        "discipline_class": "基础医学类",
+        "code": "100101K",
+        "major_name": "基础医学"
+      },
+      {
+        "discipline_class": "基础医学类",
+        "code": "100102TK",
+        "major_name": "生物医学"
+      },
+      {
+        "discipline_class": "基础医学类",
+        "code": "100103T",
+        "major_name": "生物医学科学"
+      },
+      {
+        "discipline_class": "临床医学类",
+        "code": "100201K",
+        "major_name": "临床医学"
+      },
+      {
+        "discipline_class": "临床医学类",
+        "code": "100202TK",
+        "major_name": "麻醉学"
+      },
+      {
+        "discipline_class": "临床医学类",
+        "code": "100203TK",
+        "major_name": "医学影像学"
+      },
+      {
+        "discipline_class": "临床医学类",
+        "code": "100204TK",
+        "major_name": "眼视光医学"
+      },
+      {
+        "discipline_class": "临床医学类",
+        "code": "100205TK",
+        "major_name": "精神医学"
+      },
+      {
+        "discipline_class": "临床医学类",
+        "code": "100206TK",
+        "major_name": "放射医学"
+      },
+      {
+        "discipline_class": "临床医学类",
+        "code": "100207TK",
+        "major_name": "儿科学"
+      },
+      {
+        "discipline_class": "口腔医学类",
+        "code": "100301K",
+        "major_name": "口腔医学"
+      },
+      {
+        "discipline_class": "公共卫生与预防医学类",
+        "code": "100401K",
+        "major_name": "预防医学"
+      },
+      {
+        "discipline_class": "公共卫生与预防医学类",
+        "code": "100402",
+        "major_name": "食品卫生与营养学"
+      },
+      {
+        "discipline_class": "公共卫生与预防医学类",
+        "code": "100403TK",
+        "major_name": "妇幼保健医学"
+      },
+      {
+        "discipline_class": "公共卫生与预防医学类",
+        "code": "100404TK",
+        "major_name": "卫生监督"
+      },
+      {
+        "discipline_class": "公共卫生与预防医学类",
+        "code": "100405TK",
+        "major_name": "全球健康学"
+      },
+      {
+        "discipline_class": "公共卫生与预防医学类",
+        "code": "100406T",
+        "major_name": "运动与公共健康"
+      },
+      {
+        "discipline_class": "中医学类",
+        "code": "100501K",
+        "major_name": "中医学"
+      },
+      {
+        "discipline_class": "中医学类",
+        "code": "100502K",
+        "major_name": "针灸推拿学"
+      },
+      {
+        "discipline_class": "中医学类",
+        "code": "100503K",
+        "major_name": "藏医学"
+      },
+      {
+        "discipline_class": "中医学类",
+        "code": "100504K",
+        "major_name": "蒙医学"
+      },
+      {
+        "discipline_class": "中医学类",
+        "code": "100505K",
+        "major_name": "维医学"
+      },
+      {
+        "discipline_class": "中医学类",
+        "code": "100506K",
+        "major_name": "壮医学"
+      },
+      {
+        "discipline_class": "中医学类",
+        "code": "100507K",
+        "major_name": "哈医学"
+      },
+      {
+        "discipline_class": "中医学类",
+        "code": "100508TK",
+        "major_name": "傣医学"
+      },
+      {
+        "discipline_class": "中医学类",
+        "code": "100509TK",
+        "major_name": "回医学"
+      },
+      {
+        "discipline_class": "中医学类",
+        "code": "100510TK",
+        "major_name": "中医康复学"
+      },
+      {
+        "discipline_class": "中医学类",
+        "code": "100511TK",
+        "major_name": "中医养生学"
+      },
+      {
+        "discipline_class": "中医学类",
+        "code": "100512TK",
+        "major_name": "中医儿科学"
+      },
+      {
+        "discipline_class": "中医学类",
+        "code": "100513TK",
+        "major_name": "中医骨伤科学"
+      },
+      {
+        "discipline_class": "中西医结合类",
+        "code": "100601K",
+        "major_name": "中西医临床医学"
+      },
+      {
+        "discipline_class": "药学类",
+        "code": "100701",
+        "major_name": "药学"
+      },
+      {
+        "discipline_class": "药学类",
+        "code": "100702",
+        "major_name": "药物制剂"
+      },
+      {
+        "discipline_class": "药学类",
+        "code": "100703TK",
+        "major_name": "临床药学"
+      },
+      {
+        "discipline_class": "药学类",
+        "code": "100704T",
+        "major_name": "药事管理"
+      },
+      {
+        "discipline_class": "药学类",
+        "code": "100705T",
+        "major_name": "药物分析"
+      },
+      {
+        "discipline_class": "药学类",
+        "code": "100706T",
+        "major_name": "药物化学"
+      },
+      {
+        "discipline_class": "药学类",
+        "code": "100707T",
+        "major_name": "海洋药学"
+      },
+      {
+        "discipline_class": "药学类",
+        "code": "100708T",
+        "major_name": "化妆品科学与技术"
+      },
+      {
+        "discipline_class": "中药学类",
+        "code": "100801",
+        "major_name": "中药学"
+      },
+      {
+        "discipline_class": "中药学类",
+        "code": "100802",
+        "major_name": "中药资源与开发"
+      },
+      {
+        "discipline_class": "中药学类",
+        "code": "100803T",
+        "major_name": "藏药学"
+      },
+      {
+        "discipline_class": "中药学类",
+        "code": "100804T",
+        "major_name": "蒙药学"
+      },
+      {
+        "discipline_class": "中药学类",
+        "code": "100805T",
+        "major_name": "中药制药"
+      },
+      {
+        "discipline_class": "中药学类",
+        "code": "100806T",
+        "major_name": "中草药栽培与鉴定"
+      },
+      {
+        "discipline_class": "法医学类",
+        "code": "100901K",
+        "major_name": "法医学"
+      },
+      {
+        "discipline_class": "医学技术类",
+        "code": "101001",
+        "major_name": "医学检验技术"
+      },
+      {
+        "discipline_class": "医学技术类",
+        "code": "101002",
+        "major_name": "医学实验技术"
+      },
+      {
+        "discipline_class": "医学技术类",
+        "code": "101003",
+        "major_name": "医学影像技术"
+      },
+      {
+        "discipline_class": "医学技术类",
+        "code": "101004",
+        "major_name": "眼视光学"
+      },
+      {
+        "discipline_class": "医学技术类",
+        "code": "101005",
+        "major_name": "康复治疗学"
+      },
+      {
+        "discipline_class": "医学技术类",
+        "code": "101006",
+        "major_name": "口腔医学技术"
+      },
+      {
+        "discipline_class": "医学技术类",
+        "code": "101007",
+        "major_name": "卫生检验与检疫"
+      },
+      {
+        "discipline_class": "医学技术类",
+        "code": "101008T",
+        "major_name": "听力与言语康复学"
+      },
+      {
+        "discipline_class": "医学技术类",
+        "code": "101009T",
+        "major_name": "康复物理治疗"
+      },
+      {
+        "discipline_class": "医学技术类",
+        "code": "101010T",
+        "major_name": "康复作业治疗"
+      },
+      {
+        "discipline_class": "医学技术类",
+        "code": "101011T",
+        "major_name": "智能医学工程"
+      },
+      {
+        "discipline_class": "医学技术类",
+        "code": "101012T",
+        "major_name": "生物医药数据科学"
+      },
+      {
+        "discipline_class": "医学技术类",
+        "code": "101013T",
+        "major_name": "智能影像工程"
+      },
+      {
+        "discipline_class": "医学技术类",
+        "code": "101014TK",
+        "major_name": "医工学"
+      },
+      {
+        "discipline_class": "护理学类",
+        "code": "101101K",
+        "major_name": "护理学"
+      },
+      {
+        "discipline_class": "护理学类",
+        "code": "101102TK",
+        "major_name": "助产学"
+      }
+    ]
+  },
+  "管理学": {
+    "category_name": "管理学",
+    "majors": [
+      {
+        "discipline_class": "管理科学与工程类",
+        "code": "120101",
+        "major_name": "管理科学"
+      },
+      {
+        "discipline_class": "管理科学与工程类",
+        "code": "120103",
+        "major_name": "工程管理"
+      },
+      {
+        "discipline_class": "管理科学与工程类",
+        "code": "120104",
+        "major_name": "房地产开发与管理"
+      },
+      {
+        "discipline_class": "管理科学与工程类",
+        "code": "120105",
+        "major_name": "工程造价"
+      },
+      {
+        "discipline_class": "管理科学与工程类",
+        "code": "120106TK",
+        "major_name": "保密管理"
+      },
+      {
+        "discipline_class": "管理科学与工程类",
+        "code": "120107T",
+        "major_name": "邮政管理"
+      },
+      {
+        "discipline_class": "管理科学与工程类",
+        "code": "120108T",
+        "major_name": "大数据管理与应用"
+      },
+      {
+        "discipline_class": "管理科学与工程类",
+        "code": "120109T",
+        "major_name": "工程审计"
+      },
+      {
+        "discipline_class": "管理科学与工程类",
+        "code": "120110T",
+        "major_name": "计算金融"
+      },
+      {
+        "discipline_class": "管理科学与工程类",
+        "code": "120111T",
+        "major_name": "应急管理"
+      },
+      {
+        "discipline_class": "工商管理类",
+        "code": "120201K",
+        "major_name": "工商管理"
+      },
+      {
+        "discipline_class": "工商管理类",
+        "code": "120202",
+        "major_name": "市场营销"
+      },
+      {
+        "discipline_class": "工商管理类",
+        "code": "120203K",
+        "major_name": "会计学"
+      },
+      {
+        "discipline_class": "工商管理类",
+        "code": "120204",
+        "major_name": "财务管理"
+      },
+      {
+        "discipline_class": "工商管理类",
+        "code": "120205",
+        "major_name": "国际商务"
+      },
+      {
+        "discipline_class": "工商管理类",
+        "code": "120206",
+        "major_name": "人力资源管理"
+      },
+      {
+        "discipline_class": "工商管理类",
+        "code": "120207",
+        "major_name": "审计学"
+      },
+      {
+        "discipline_class": "工商管理类",
+        "code": "120208",
+        "major_name": "资产评估"
+      },
+      {
+        "discipline_class": "工商管理类",
+        "code": "120209",
+        "major_name": "物业管理"
+      },
+      {
+        "discipline_class": "工商管理类",
+        "code": "120210",
+        "major_name": "文化产业管理"
+      },
+      {
+        "discipline_class": "工商管理类",
+        "code": "120211T",
+        "major_name": "劳动关系"
+      },
+      {
+        "discipline_class": "工商管理类",
+        "code": "120212T",
+        "major_name": "体育经济与管理"
+      },
+      {
+        "discipline_class": "工商管理类",
+        "code": "120213T",
+        "major_name": "财务会计教育"
+      },
+      {
+        "discipline_class": "工商管理类",
+        "code": "120214T",
+        "major_name": "市场营销教育"
+      },
+      {
+        "discipline_class": "工商管理类",
+        "code": "120215T",
+        "major_name": "零售业管理"
+      },
+      {
+        "discipline_class": "工商管理类",
+        "code": "120216T",
+        "major_name": "创业管理"
+      },
+      {
+        "discipline_class": "工商管理类",
+        "code": "120217TK",
+        "major_name": "海关稽查"
+      },
+      {
+        "discipline_class": "工商管理类",
+        "code": "120218T",
+        "major_name": "内部审计"
+      },
+      {
+        "discipline_class": "农业经济管理类",
+        "code": "120301",
+        "major_name": "农林经济管理"
+      },
+      {
+        "discipline_class": "农业经济管理类",
+        "code": "120302",
+        "major_name": "农村区域发展"
+      },
+      {
+        "discipline_class": "农业经济管理类",
+        "code": "120303TK",
+        "major_name": "乡村治理"
+      },
+      {
+        "discipline_class": "公共管理类",
+        "code": "120401",
+        "major_name": "公共事业管理"
+      },
+      {
+        "discipline_class": "公共管理类",
+        "code": "120402",
+        "major_name": "行政管理"
+      },
+      {
+        "discipline_class": "公共管理类",
+        "code": "120403",
+        "major_name": "劳动与社会保障"
+      },
+      {
+        "discipline_class": "公共管理类",
+        "code": "120404",
+        "major_name": "土地资源管理"
+      },
+      {
+        "discipline_class": "公共管理类",
+        "code": "120405",
+        "major_name": "城市管理"
+      },
+      {
+        "discipline_class": "公共管理类",
+        "code": "120406TK",
+        "major_name": "海关管理"
+      },
+      {
+        "discipline_class": "公共管理类",
+        "code": "120407T",
+        "major_name": "交通管理"
+      },
+      {
+        "discipline_class": "公共管理类",
+        "code": "120408T",
+        "major_name": "海事管理"
+      },
+      {
+        "discipline_class": "公共管理类",
+        "code": "120409T",
+        "major_name": "公共关系学"
+      },
+      {
+        "discipline_class": "公共管理类",
+        "code": "120410T",
+        "major_name": "健康服务与管理"
+      },
+      {
+        "discipline_class": "公共管理类",
+        "code": "120411TK",
+        "major_name": "海警后勤管理"
+      },
+      {
+        "discipline_class": "公共管理类",
+        "code": "120412T",
+        "major_name": "医疗产品管理"
+      },
+      {
+        "discipline_class": "公共管理类",
+        "code": "120413T",
+        "major_name": "医疗保险"
+      },
+      {
+        "discipline_class": "公共管理类",
+        "code": "120414T",
+        "major_name": "养老服务管理"
+      },
+      {
+        "discipline_class": "公共管理类",
+        "code": "120415TK",
+        "major_name": "海关检验检疫安全"
+      },
+      {
+        "discipline_class": "公共管理类",
+        "code": "120416TK",
+        "major_name": "海外安全管理"
+      },
+      {
+        "discipline_class": "公共管理类",
+        "code": "120417T",
+        "major_name": "自然资源登记与管理"
+      },
+      {
+        "discipline_class": "公共管理类",
+        "code": "120418T",
+        "major_name": "慈善管理"
+      },
+      {
+        "discipline_class": "公共管理类",
+        "code": "120419TK",
+        "major_name": "航空安防管理"
+      },
+      {
+        "discipline_class": "公共管理类",
+        "code": "120420TK",
+        "major_name": "无障碍管理"
+      },
+      {
+        "discipline_class": "图书情报与档案管理类",
+        "code": "120501",
+        "major_name": "图书馆学"
+      },
+      {
+        "discipline_class": "图书情报与档案管理类",
+        "code": "120502",
+        "major_name": "档案学"
+      },
+      {
+        "discipline_class": "图书情报与档案管理类",
+        "code": "120503",
+        "major_name": "信息资源管理"
+      },
+      {
+        "discipline_class": "物流管理与工程类",
+        "code": "120601",
+        "major_name": "物流管理"
+      },
+      {
+        "discipline_class": "物流管理与工程类",
+        "code": "120602",
+        "major_name": "物流工程"
+      },
+      {
+        "discipline_class": "物流管理与工程类",
+        "code": "120603T",
+        "major_name": "采购管理"
+      },
+      {
+        "discipline_class": "物流管理与工程类",
+        "code": "120604T",
+        "major_name": "供应链管理"
+      },
+      {
+        "discipline_class": "工业工程类",
+        "code": "120701",
+        "major_name": "工业工程"
+      },
+      {
+        "discipline_class": "工业工程类",
+        "code": "120702T",
+        "major_name": "标准化工程"
+      },
+      {
+        "discipline_class": "工业工程类",
+        "code": "120703T",
+        "major_name": "质量管理工程"
+      },
+      {
+        "discipline_class": "电子商务类",
+        "code": "120801",
+        "major_name": "电子商务"
+      },
+      {
+        "discipline_class": "电子商务类",
+        "code": "120802T",
+        "major_name": "电子商务及法律"
+      },
+      {
+        "discipline_class": "电子商务类",
+        "code": "120803T",
+        "major_name": "跨境电子商务"
+      },
+      {
+        "discipline_class": "旅游管理类",
+        "code": "120901K",
+        "major_name": "旅游管理"
+      },
+      {
+        "discipline_class": "旅游管理类",
+        "code": "120902",
+        "major_name": "酒店管理"
+      },
+      {
+        "discipline_class": "旅游管理类",
+        "code": "120903",
+        "major_name": "会展经济与管理"
+      },
+      {
+        "discipline_class": "旅游管理类",
+        "code": "120904T",
+        "major_name": "旅游管理与服务教育"
+      }
+    ]
+  },
+  "艺术学": {
+    "category_name": "艺术学",
+    "majors": [
+      {
+        "discipline_class": "艺术学理论类",
+        "code": "130101",
+        "major_name": "艺术史论"
+      },
+      {
+        "discipline_class": "艺术学理论类",
+        "code": "130102T",
+        "major_name": "艺术管理"
+      },
+      {
+        "discipline_class": "艺术学理论类",
+        "code": "130103T",
+        "major_name": "非物质文化遗产保护"
+      },
+      {
+        "discipline_class": "音乐与舞蹈学类",
+        "code": "130201",
+        "major_name": "音乐表演"
+      },
+      {
+        "discipline_class": "音乐与舞蹈学类",
+        "code": "130202",
+        "major_name": "音乐学"
+      },
+      {
+        "discipline_class": "音乐与舞蹈学类",
+        "code": "130203",
+        "major_name": "作曲与作曲技术理论"
+      },
+      {
+        "discipline_class": "音乐与舞蹈学类",
+        "code": "130204",
+        "major_name": "舞蹈表演"
+      },
+      {
+        "discipline_class": "音乐与舞蹈学类",
+        "code": "130205",
+        "major_name": "舞蹈学"
+      },
+      {
+        "discipline_class": "音乐与舞蹈学类",
+        "code": "130206",
+        "major_name": "舞蹈编导"
+      },
+      {
+        "discipline_class": "音乐与舞蹈学类",
+        "code": "130207T",
+        "major_name": "舞蹈教育"
+      },
+      {
+        "discipline_class": "音乐与舞蹈学类",
+        "code": "130208TK",
+        "major_name": "航空服务艺术与管理"
+      },
+      {
+        "discipline_class": "音乐与舞蹈学类",
+        "code": "130209T",
+        "major_name": "流行音乐"
+      },
+      {
+        "discipline_class": "音乐与舞蹈学类",
+        "code": "130210T",
+        "major_name": "音乐治疗"
+      },
+      {
+        "discipline_class": "音乐与舞蹈学类",
+        "code": "130211T",
+        "major_name": "流行舞蹈"
+      },
+      {
+        "discipline_class": "音乐与舞蹈学类",
+        "code": "130212T",
+        "major_name": "音乐教育"
+      },
+      {
+        "discipline_class": "音乐与舞蹈学类",
+        "code": "130213TK",
+        "major_name": "冰雪舞蹈表演"
+      },
+      {
+        "discipline_class": "戏剧与影视学类",
+        "code": "130301",
+        "major_name": "表演"
+      },
+      {
+        "discipline_class": "戏剧与影视学类",
+        "code": "130302",
+        "major_name": "戏剧学"
+      },
+      {
+        "discipline_class": "戏剧与影视学类",
+        "code": "130303",
+        "major_name": "电影学"
+      },
+      {
+        "discipline_class": "戏剧与影视学类",
+        "code": "130304",
+        "major_name": "戏剧影视文学"
+      },
+      {
+        "discipline_class": "戏剧与影视学类",
+        "code": "130305",
+        "major_name": "广播电视编导"
+      },
+      {
+        "discipline_class": "戏剧与影视学类",
+        "code": "130306",
+        "major_name": "戏剧影视导演"
+      },
+      {
+        "discipline_class": "戏剧与影视学类",
+        "code": "130307",
+        "major_name": "戏剧影视美术设计"
+      },
+      {
+        "discipline_class": "戏剧与影视学类",
+        "code": "130308",
+        "major_name": "录音艺术"
+      },
+      {
+        "discipline_class": "戏剧与影视学类",
+        "code": "130309",
+        "major_name": "播音与主持艺术"
+      },
+      {
+        "discipline_class": "戏剧与影视学类",
+        "code": "130310",
+        "major_name": "动画"
+      },
+      {
+        "discipline_class": "戏剧与影视学类",
+        "code": "130311T",
+        "major_name": "影视摄影与制作"
+      },
+      {
+        "discipline_class": "戏剧与影视学类",
+        "code": "130312T",
+        "major_name": "影视技术"
+      },
+      {
+        "discipline_class": "戏剧与影视学类",
+        "code": "130313T",
+        "major_name": "戏剧教育"
+      },
+      {
+        "discipline_class": "戏剧与影视学类",
+        "code": "130314TK",
+        "major_name": "曲艺"
+      },
+      {
+        "discipline_class": "戏剧与影视学类",
+        "code": "130315TK",
+        "major_name": "音乐剧"
+      },
+      {
+        "discipline_class": "美术学类",
+        "code": "130401",
+        "major_name": "美术学"
+      },
+      {
+        "discipline_class": "美术学类",
+        "code": "130402",
+        "major_name": "绘画"
+      },
+      {
+        "discipline_class": "美术学类",
+        "code": "130403",
+        "major_name": "雕塑"
+      },
+      {
+        "discipline_class": "美术学类",
+        "code": "130404",
+        "major_name": "摄影"
+      },
+      {
+        "discipline_class": "美术学类",
+        "code": "130405T",
+        "major_name": "书法学"
+      },
+      {
+        "discipline_class": "美术学类",
+        "code": "130406T",
+        "major_name": "中国画"
+      },
+      {
+        "discipline_class": "美术学类",
+        "code": "130407TK",
+        "major_name": "实验艺术"
+      },
+      {
+        "discipline_class": "美术学类",
+        "code": "130408TK",
+        "major_name": "跨媒体艺术"
+      },
+      {
+        "discipline_class": "美术学类",
+        "code": "130409T",
+        "major_name": "文物保护与修复"
+      },
+      {
+        "discipline_class": "美术学类",
+        "code": "130410T",
+        "major_name": "漫画"
+      },
+      {
+        "discipline_class": "美术学类",
+        "code": "130411T",
+        "major_name": "纤维艺术"
+      },
+      {
+        "discipline_class": "美术学类",
+        "code": "130412TK",
+        "major_name": "科技艺术"
+      },
+      {
+        "discipline_class": "美术学类",
+        "code": "130413TK",
+        "major_name": "美术教育"
+      },
+      {
+        "discipline_class": "设计学类",
+        "code": "130501",
+        "major_name": "艺术设计学"
+      },
+      {
+        "discipline_class": "设计学类",
+        "code": "130502",
+        "major_name": "视觉传达设计"
+      },
+      {
+        "discipline_class": "设计学类",
+        "code": "130503",
+        "major_name": "环境设计"
+      },
+      {
+        "discipline_class": "设计学类",
+        "code": "130504",
+        "major_name": "产品设计"
+      },
+      {
+        "discipline_class": "设计学类",
+        "code": "130505",
+        "major_name": "服装与服饰设计"
+      },
+      {
+        "discipline_class": "设计学类",
+        "code": "130506",
+        "major_name": "公共艺术"
+      },
+      {
+        "discipline_class": "设计学类",
+        "code": "130507",
+        "major_name": "工艺美术"
+      },
+      {
+        "discipline_class": "设计学类",
+        "code": "130508",
+        "major_name": "数字媒体艺术"
+      },
+      {
+        "discipline_class": "设计学类",
+        "code": "130509T",
+        "major_name": "艺术与科技"
+      },
+      {
+        "discipline_class": "设计学类",
+        "code": "130510TK",
+        "major_name": "陶瓷艺术设计"
+      },
+      {
+        "discipline_class": "设计学类",
+        "code": "130511T",
+        "major_name": "新媒体艺术"
+      },
+      {
+        "discipline_class": "设计学类",
+        "code": "130512T",
+        "major_name": "包装设计"
+      },
+      {
+        "discipline_class": "设计学类",
+        "code": "130513TK",
+        "major_name": "珠宝首饰设计与工艺"
+      }
+    ]
+  }
+}
