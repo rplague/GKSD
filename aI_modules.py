@@ -7,47 +7,47 @@ import basic_program
 
 def text_vectorization(text, normalize_embeddings = True):
 	"""
-    文本向量化函数 BGE-large-zh
-    
-    使用预训练的BGE-large-zh模型将输入文本转换为高维向量表示，支持单个文本或文本批量处理。
-    该函数适用于文本相似度计算、语义搜索、聚类分析等自然语言处理任务。
-    
-    参数:
-        text (str or list): 输入文本，可以是单个字符串或字符串列表
-        normalize_embeddings (bool): 是否对向量进行归一化，默认为True
-            - True: 输出向量将进行L2归一化，模长为1
-            - False: 输出原始向量
-    
-    返回:
-        numpy.ndarray: 文本向量表示
-            - 单个文本输入: 返回1维数组，形状为(embedding_dim,)
-            - 多个文本输入: 返回2维数组，形状为(batch_size, embedding_dim)
-            - 处理失败时: 返回None
-    
-    异常:
-        会捕获处理过程中的异常并通过日志记录，返回None
-    
-    示例:
-        >>> # 单个文本向量化
-        >>> vector = text_vectorization("今天天气很好")
-        >>> print(vector.shape)  # (1024,)
-        
-        >>> # 批量文本向量化
-        >>> texts = ["文本1", "文本2", "文本3"]
-        >>> vectors = text_vectorization(texts)
-        >>> print(vectors.shape)  # (3, 1024)
-        
-        >>> # 禁用归一化
-        >>> vector = text_vectorization("测试文本", normalize_embeddings=False)
-    
-    依赖:
-        - 需要本地模型文件: ./module/bge-large-zh-v1.5
-        - 依赖FlagEmbedding库的SentenceTransformer
-        - 需要basic_program模块用于日志记录
-    
-    注意:
-        - 模型路径为硬编码，需确保目录存在且包含完整模型文件
-    """
+	文本向量化函数 BGE-large-zh
+	
+	使用预训练的BGE-large-zh模型将输入文本转换为高维向量表示，支持单个文本或文本批量处理。
+	该函数适用于文本相似度计算、语义搜索、聚类分析等自然语言处理任务。
+	
+	参数:
+		text (str or list): 输入文本，可以是单个字符串或字符串列表
+		normalize_embeddings (bool): 是否对向量进行归一化，默认为True
+			- True: 输出向量将进行L2归一化，模长为1
+			- False: 输出原始向量
+	
+	返回:
+		numpy.ndarray: 文本向量表示
+			- 单个文本输入: 返回1维数组，形状为(embedding_dim,)
+			- 多个文本输入: 返回2维数组，形状为(batch_size, embedding_dim)
+			- 处理失败时: 返回None
+	
+	异常:
+		会捕获处理过程中的异常并通过日志记录，返回None
+	
+	示例:
+		>>> # 单个文本向量化
+		>>> vector = text_vectorization("今天天气很好")
+		>>> print(vector.shape)  # (1024,)
+		
+		>>> # 批量文本向量化
+		>>> texts = ["文本1", "文本2", "文本3"]
+		>>> vectors = text_vectorization(texts)
+		>>> print(vectors.shape)  # (3, 1024)
+		
+		>>> # 禁用归一化
+		>>> vector = text_vectorization("测试文本", normalize_embeddings=False)
+	
+	依赖:
+		- 需要本地模型文件: ./module/bge-large-zh-v1.5
+		- 依赖FlagEmbedding库的SentenceTransformer
+		- 需要basic_program模块用于日志记录
+	
+	注意:
+		- 模型路径为硬编码，需确保目录存在且包含完整模型文件
+	"""
 
 	# 设置本地模型路径debug
 	config_data = config_operator.get_config_data()
@@ -55,18 +55,18 @@ def text_vectorization(text, normalize_embeddings = True):
 	# 检查模型是否存在，如果不存在则报错
 	if not os.path.exists(local_model_path):
 		basic_program.log_message(f"{local_model_path} 读取失败！", 50)
-        return None
+		return None
 	try:
-        # 生成文本向量
-        embeddings = model.encode(
-            text,
-            normalize_embeddings=normalize_embeddings,
-            show_progress_bar=False
-        )
-        return embeddings
-    except Exception as e:
-        basic_program.log_message(f"{e}", 40)
-        return None
+		# 生成文本向量
+		embeddings = model.encode(
+			text,
+			normalize_embeddings=normalize_embeddings,
+			show_progress_bar=False
+		)
+		return embeddings
+	except Exception as e:
+		basic_program.log_message(f"{e}", 40)
+		return None
 
 
 
@@ -103,9 +103,11 @@ def unified_explain(word, explain):
 		- 函数会返回AI生成的格式化结果
 	"""
 	text = word + " " + explain
+	config_data = config_operator.get_config_data()
+	llm_config = config_data["llm_api"]
 	client = OpenAI(
-		api_key="",
-		base_url="https://api.deepseek.com/v1",
+		api_key=llm_config["api_key"],
+		base_url=llm_config["base_url"],
 	)
 	try:
 		setting_text = """

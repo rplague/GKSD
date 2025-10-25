@@ -139,7 +139,7 @@ def _check_and_create_config():
 			"module_path": "./module/",
 			"llm_api": {
 				"api_key": "none",
-				"base_url": "none",
+				"base_url": "https://api.deepseek.com/v1",
 			}
 		}
 		
