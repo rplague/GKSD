@@ -74,38 +74,80 @@ def init_program():
 	"""
 	检查并确定系统的各个运行文件
 	
-	该函数用于验证程序运行所需的环境配置
-	
 	Returns:
 		bool: 如果所有基本运行条件满足或可修复则返回True，否则返回False
 	"""
 	try:
-		# 确定单位存储文件
-		if not os.path.exists("config.json"):
-			log_message(f"设置系统错误", 30)
-			answer = input("    是否开始重建？[Y/n]")
-			if answer == "n":
-				log_message(f"设置系统取消重建")
-				log_message(f"系统关机", 0)
-				return False
-			with open("config.json", 'w', encoding='utf-8') as file:
-				config_data = {
-								"database_data": {
-									"host": "localhost",
-									"user": "your_username",
-									"password": "your_password",
-									"database": "test_db"
-								},
-								"target_dict": None,
-								"start_index": 0,
-								"module_path": "./module/"
-								}
-				json.dump(config_data, file, ensure_ascii=False, indent=4)
-				print("    config.json重建.....完成")
+		if not _check_and_create_config():
+			return False
+			
+		# 可以添加其他初始化检查
+		# if not _check_module_directory():
+		# 	return False
+			
 		log_message("初始化全部完成")
 		return True
 	except Exception as e:
-		log_message(f"初始化错误 {str(e)}", 50)
+		log_message(f"初始化错误: {str(e)}", 50)
 		return False
 
+
+def _check_and_create_config():
+	"""检查并创建配置文件"""
+	config_file = "config.json"
 	
+	# 如果配置文件存在，验证其完整性
+	if os.path.exists(config_file):
+		try:
+			with open(config_file, 'r', encoding='utf-8') as file:
+				config = json.load(file)
+			
+			# 检查必需字段
+			required_fields = ["database_data", "target_dict", "module_path", "llm_api"]
+			for field in required_fields:
+				if field not in config:
+					log_message(f"配置文件缺少必需字段: {field}", 40)
+					break
+			else:  # 所有字段都存在
+				return True
+				
+		except json.JSONDecodeError:
+			log_message("配置文件格式错误", 40)
+		except Exception as e:
+			log_message(f"读取配置文件失败: {str(e)}", 40)
+	
+	# 配置文件不存在或验证失败，询问用户是否重建
+	log_message("配置文件不存在或格式错误", 30)
+	answer = input("是否开始重建？[Y/n] ").strip().lower()
+	
+	if answer == 'n':
+		log_message("配置文件取消重建")
+		log_message("系统关机", 0)
+		return False
+	
+	# 创建默认配置文件
+	try:
+		default_config = {
+			"database_data": {
+				"host": "localhost",
+				"user": "your_username",
+				"password": "your_password",
+				"database": "test_db",
+			},
+			"target_dict": "target.txt",
+			"start_index": 0,
+			"module_path": "./module/",
+			"llm_api": {
+				"api_key": "none",
+				"base_url": "none",
+			}
+		}
+		
+		with open(config_file, 'w', encoding='utf-8') as file:
+			json.dump(default_config, file, ensure_ascii=False, indent=4)
+		
+		log_message("config.json 重建完成")
+		return True
+	except Exception as e:
+		log_message(f"创建配置文件失败: {str(e)}", 50)
+		return False
