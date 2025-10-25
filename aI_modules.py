@@ -68,10 +68,6 @@ def text_vectorization(text, normalize_embeddings = True):
 		basic_program.log_message(f"{e}", 40)
 		return None
 
-
-
-# 从本地路径加载模型
-model = SentenceTransformer(local_model_path)
 def unified_explain(word, explain):
 	"""
 	AI词语含义格式化工具 模型代号 Initial_Thaw_DS
@@ -154,4 +150,6 @@ def unified_explain(word, explain):
 	except Exception as e:
 		basic_program.log_message(f"{e}", 40)
 
-unified_explain("牛顿", "国际单位制中表示力的单位")
+# 测试
+if __name__ == "__main__":
+	unified_explain("牛顿", "国际单位制中表示力的单位")
