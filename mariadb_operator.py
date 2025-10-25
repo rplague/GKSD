@@ -3,7 +3,7 @@ import mariadb
 import config_operator
 
 
-class Db_operater(object):
+class Db_operator(object):
 	def __init__(self):
 		config_data = config_operator.get_config_data()
 		self.config = config_data["database_data"]
