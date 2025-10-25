@@ -148,7 +148,7 @@ def unified_explain(word, explain):
 		basic_program.log_message(f"{word} 解释格式化已完成")
 		return response.choices[0].message.content
 	except Exception as e:
-		basic_program.log_message(f"{e}", 40)
+		basic_program.log_message(f"Initial_Thaw_DS 出现错误\n    {e}", 50)
 
 # 测试
 if __name__ == "__main__":
