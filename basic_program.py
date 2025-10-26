@@ -103,7 +103,7 @@ def _check_and_create_config():
 				config = json.load(file)
 			
 			# 检查必需字段
-			required_fields = ["database_data", "target_dict", "module_path", "llm_api"]
+			required_fields = ["database_data", "target_dict", "module_path", "start_index", "llm_api"]
 			for field in required_fields:
 				if field not in config:
 					log_message(f"配置文件缺少必需字段: {field}", 40)
@@ -139,7 +139,7 @@ def _check_and_create_config():
 			"module_path": "./module/",
 			"llm_api": {
 				"api_key": "none",
-				"base_url": "https://api.deepseek.com/v1",
+				"base_url": "https://api.deepseek.com/v1"
 			}
 		}
 		
