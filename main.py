@@ -41,15 +41,16 @@ def process_main(id_word_xml_data_tup):
 		- 结合格式化的释义生成新的有效xml并存储到数据库"""
 	id_num, word, xml = id_word_xml_data_tup
 
-	xml = xml_operator.test_operation_001(xml)
-
-	data_text = xml_operator.test_operation_002_0(xml)
-
-	explain_text = unified_explain(word, data_text)
-
-	new_xml = xml_operator.test_operation_002_1(xml, "Initial_Thaw_DS", explain_text)
-
 	try:
+		xml = xml_operator.test_operation_001(xml)
+
+		data_text = xml_operator.test_operation_002_0(xml)
+
+		explain_text = unified_explain(word, data_text)
+
+		new_xml = xml_operator.test_operation_002_1(xml, "Initial_Thaw_DS", explain_text)
+
+	
 		mariadb = Db_operater()
 		result = mariadb.safe_db_operation(
 				"UPDATE chn_wordlist SET XML含义 = ? WHERE id = ?", 
