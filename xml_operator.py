@@ -140,7 +140,7 @@ def test_operation_002_1(input_xml, source_input, data_input):
 	data_elem = ET.SubElement(new_wm, 'data')
 	data_elem.text = data_input
 	# 转换为格式化的XML
-	rough_string = ET.tostring(new_root, encoding='utf-8')
+	rough_string = ET.tostring(root, encoding='utf-8')
 	reparsed = minidom.parseString(rough_string)
 
 	return reparsed.toprettyxml(indent=" ", encoding="utf-8").decode('utf-8')
