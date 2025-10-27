@@ -1,8 +1,9 @@
 import mariadb
 from mariadb import ConnectionPool
 from typing import List, Tuple, Any, Optional, Union
-import config_operator
 
+import basic_program
+import config_operator
 
 class Db_operator(object):
 	def __init__(self):
@@ -13,7 +14,7 @@ class Db_operator(object):
 						  fetch: bool = False) -> Optional[Any]:
 		"""
 		安全的数据库操作
-		
+
 		Args:
 			operation: SQL语句
 			params: SQL参数（防止SQL注入）
@@ -102,33 +103,56 @@ class DbOperator_pool(object):
 			except mariadb.Error as e:
 				raise
 	
-	def safe_db_operation(self, operation: str, params: Optional[Union[tuple, dict]] = None, 
-						 fetch: bool = False) -> Optional[Any]:
+	def safe_db_operation(self,
+		operation: str,
+		params: Optional[Union[tuple, dict]] = None,
+		fetch: bool = False) -> Optional[Any]:
 		"""
 		安全的数据库操作
 		
-		Args:
-			operation: SQL语句
-			params: SQL参数（防止SQL注入）
-			fetch: 是否获取查询结果
+		通用性较强的数据库指令操作模块
+
+		参数:
+			operation (str): SQL语句
+			params (Optional[Union[tuple, dict]]): SQL参数（防止SQL注入）
+			fetch (bool): 是否获取查询结果
+
+		返回:
+			查询操作返回结果列表，非查询操作返回影响行数
+
+		报错:
+			ValueError: operation 指令未能获取
+			ProgrammingError: 编程错误
+			IntegrityError: 完整性错误
+			OperationalError: 操作错误
+			Error: 基础错误类（非以上错误）
 			
-		Returns:
-			查询操作返回结果列表，非查询操作返回影响行数，错误返回None
+		注意:
+			- 数据库操作出现报错后程序会自动回滚
 		"""
-		conn = None
+		# 输入验证
+		if not operation:
+			raise ValueError("operation 不能为空")
+
+		# 记录函数调用
+		basic_program.log_message(f"函数 safe_db_operation 开始运行\n    目标指令为 {operation}\n    参数元组为 {params}",
+			printing = False)
+
+		conn   = None
 		cursor = None
-		
+
 		try:
 			# 从连接池获取连接
 			conn = self._pool.get_connection()
 			cursor = conn.cursor()
-			
+
 			# 执行数据库操作
 			if params:
 				cursor.execute(operation, params)
 			else:
 				cursor.execute(operation)
-			
+			basic_program.log_message(f"函数 safe_db_operation 运行完成\n    执行指令为 {operation}\n    参数元组为 {params}",
+				printing = False)
 			# 如果是查询操作，返回结果
 			if fetch:
 				result = cursor.fetchall()
@@ -137,30 +161,46 @@ class DbOperator_pool(object):
 				# 非查询操作需要提交事务
 				conn.commit()
 				return cursor.rowcount
-				
+
 		except mariadb.ProgrammingError as e:
 			if conn:
 				conn.rollback()
-			return None
+			basic_program.log_message(f"函数 safe_db_operation 运行错误\n    执行指令为 {operation}\n    参数元组为 {params}\n    {e}",
+				40,
+				False)
+			raise ProgrammingError(f"编程错误\n{e}")
 		except mariadb.IntegrityError as e:
 			if conn:
 				conn.rollback()
-			return None
+			basic_program.log_message(f"函数 safe_db_operation 运行错误\n    执行指令为 {operation}\n    参数元组为 {params}\n    {e}",
+				40,
+				False)
+			raise IntegrityError(f"完整性错误\n{e}")
 		except mariadb.OperationalError as e:
 			if conn:
 				conn.rollback()
-			return None
+			basic_program.log_message(f"函数 safe_db_operation 运行错误\n    执行指令为 {operation}\n    参数元组为 {params}\n    {e}",
+				40,
+				False)
+			raise OperationalError(f"操作错误\n{e}")
 		except mariadb.Error as e:
 			if conn:
 				conn.rollback()
-			return None
+			basic_program.log_message(f"函数 safe_db_operation 运行错误\n    执行指令为 {operation}\n    参数元组为 {params}\n    {e}",
+				40,
+				False)
+			raise Error(f"基础错误类\n{e}")
 		finally:
 			# 关闭游标，连接返回到连接池
 			if cursor:
 				cursor.close()
 			if conn:
-				conn.close()  # 在连接池中，这会将连接返回到池中
-	
+			    try:
+			        if conn.open:
+			            conn.close() 
+			    except:
+			        pass
+
 	def execute_many(self, operation: str, params_list: List[Union[tuple, dict]]) -> Optional[int]:
 		"""
 		批量执行操作
