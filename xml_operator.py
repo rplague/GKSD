@@ -16,7 +16,7 @@ def test_operation_001(input_xml):
 	返回:
 		str: 转换后的格式化XML字符串，使用UTF-8编码
 
-	返回:
+	示例:
 		>>> input_xml = '<?xml version="1.0"?><word_definition>...</word_definition>'
 		>>> result = test_operation_001(input_xml)
 		>>> print(result)
@@ -78,7 +78,7 @@ def test_operation_002_0(input_xml):
 		str or None: 如果找到匹配来源的词义数据，返回对应的data文本内容；
 					 如果未找到匹配项或XML结构不符合预期，返回None
 		
-	返回:
+	示例:
 		>>> xml_data = '<?xml version="1.0"?><word_definition>...</word_definition>'
 		>>> result = test_operation_002_0(xml_data)
 		>>> print(result)  # 输出：一种通用的过程式编程语言。
