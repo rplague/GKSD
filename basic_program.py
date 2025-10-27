@@ -1,32 +1,42 @@
 import os
 import datetime
 import json
-def log_message(content, level = 20, printing = True):
+def log_message(
+	content,
+	level = 20,
+	printing = True):
 	"""
+	日志记录函数
+
 	记录日志信息到终端和文件
 	
 	参数:
-	level (int): 日志等级
-		0   重要信息
-		10  调试信息
-		20  程序运行信息（默认级别）
-		30  警告信息
-		40  错误，但程序仍可运行
-		50  严重错误，程序可能无法继续运行
+		content (str): 日志内容
+		level (int): 日志等级
+			0   重要信息
+			10  调试信息
+			20  程序运行信息（默认级别）
+			30  警告信息
+			40  错误，但程序仍可运行
+			50  严重错误，程序可能无法继续运行
+		printing (bool): 是否打印到终端
 
-	content (str): 日志内容
+	报错:
+		ContentNotFound: 日志内容未能获取
 	"""
-	
+	# 输入验证
+	if not content:
+		raise ValueError("日志内容不能为空")
 	# 获取当前时间
 	current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 	
 	# 转换日志等级
-	if level ==  0: level = "IMPORTANT"
-	if level == 10: level = "+"
-	if level == 20: level = "-"
-	if level == 30: level = "*"
-	if level == 40: level = "!"
-	if level == 50: level = " CRITICAL"
+	if    level ==  0: level = "IMPORTANT"
+	elif  level <= 10: level = "+"
+	elif  level <= 20: level = "-"
+	elif  level <= 30: level = "*"
+	elif  level <= 40: level = "!"
+	else             : level = " CRITICAL"
 
 	# 格式化终端输出并输出到终端
 	terminal_output = f"[{level}] {content}"
