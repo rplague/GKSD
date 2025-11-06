@@ -5,7 +5,7 @@ from tqdm import tqdm
 
 import config_operator
 import basic_program
-from mariadb_operator import Db_operater
+from mariadb_operator import Db_operator
 from ai_modules import unified_explain
 import xml_operator
 
