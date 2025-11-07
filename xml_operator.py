@@ -145,6 +145,42 @@ def test_operation_002_1(input_xml, source_input, data_input):
 
 	return reparsed.toprettyxml(indent=" ", encoding="utf-8").decode('utf-8')
 
+def test_operation_002_1_1(input_xml):
+	"""
+	根据指定来源查询词义数据
+	
+	该函数在XML文档中查找特定来源（Initial_Thaw_DS）的词义定义，
+	并返回对应的词义解释数据。
+	
+	参数:
+		input_xml (str): XML字符串或XML文件路径。如果是字符串，必须以'<?xml'开头
+		
+	返回:
+		str or None: 如果找到匹配来源的词义数据，返回对应的data文本内容；
+					 如果未找到匹配项或XML结构不符合预期，返回None
+		
+	示例:
+		>>> xml_data = '<?xml version="1.0"?><word_definition>...</word_definition>'
+		>>> result = test_operation_002_0(xml_data)
+		>>> print(result)  # 输出：一种通用的过程式编程语言。
+	"""
+	if isinstance(input_xml, str) and input_xml.strip().startswith('<?xml'):
+		root = ET.fromstring(input_xml)
+	else:
+		tree = ET.parse(input_xml)
+		root = tree.getroot()
+
+	word_meanings = root.findall('./traditional_meaning/word_meaning')
+	if word_meanings:
+		for wm in word_meanings:
+			source_elem = wm.find('source')
+			source_text = source_elem.text
+			if source_text == "Initial_Thaw_DS":
+				data_elem = wm.find('data')
+				data_text = data_elem.text
+				return data_text
+	raise "test_operation_002_1_1 未找到初融数据"
+
 def test_operation_002_2(input_xml, model_input, data_input):
 	"""
 	向XML模型定义部分添加新的坐标数据
