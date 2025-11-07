@@ -1,44 +1,43 @@
 from sentence_transformers import SentenceTransformer
 from openai import OpenAI
 import os
+import json
 
 import config_operator
 import basic_program
 
-def text_vectorization(text, normalize_embeddings = True):
+def text_vectorization(text, normalize_embeddings=False):
 	"""
 	文本向量化函数 BGE-large-zh
 	
 	使用预训练的BGE-large-zh模型将输入文本转换为高维向量表示，支持单个文本或文本批量处理。
-	该函数适用于文本相似度计算、语义搜索、聚类分析等自然语言处理任务。
+	该函数直接返回JSON字符串格式的向量，便于数据库存储。
 	
 	参数:
 		text (str or list): 输入文本，可以是单个字符串或字符串列表
-		normalize_embeddings (bool): 是否对向量进行归一化，默认为True
+		normalize_embeddings (bool): 是否对向量进行归一化，默认为False
 			- True: 输出向量将进行L2归一化，模长为1
 			- False: 输出原始向量
 	
 	返回:
-		numpy.ndarray: 文本向量表示
-			- 单个文本输入: 返回1维数组，形状为(embedding_dim,)
-			- 多个文本输入: 返回2维数组，形状为(batch_size, embedding_dim)
-			- 处理失败时: 返回None
+		str or list: 文本向量表示的JSON字符串
+			- 单个文本输入: 返回JSON字符串
+			- 多个文本输入: 返回JSON字符串列表
 	
 	异常:
-		会捕获处理过程中的异常并通过日志记录，返回None
+		会捕获处理过程中的异常并通过日志记录
 	
 	示例:
 		>>> # 单个文本向量化
-		>>> vector = text_vectorization("今天天气很好")
-		>>> print(vector.shape)  # (1024,)
+		>>> vector_json = text_vectorization("今天天气很好")
+		>>> print(type(vector_json))  # <class 'str'>
+		>>> print(vector_json[:50])   # "[-0.023, 0.156, 0.789, ...]"
 		
-		>>> # 批量文本向量化
+		>>> # 批量文本向量化  
 		>>> texts = ["文本1", "文本2", "文本3"]
-		>>> vectors = text_vectorization(texts)
-		>>> print(vectors.shape)  # (3, 1024)
-		
-		>>> # 禁用归一化
-		>>> vector = text_vectorization("测试文本", normalize_embeddings=False)
+		>>> vectors_json = text_vectorization(texts)
+		>>> print(type(vectors_json))  # <class 'list'>
+		>>> print(type(vectors_json[0]))  # <class 'str'>
 	
 	依赖:
 		- 需要本地模型文件: ./module/bge-large-zh-v1.5
@@ -51,11 +50,13 @@ def text_vectorization(text, normalize_embeddings = True):
 
 	# 设置本地模型路径debug
 	config_data = config_operator.get_config_data()
-	local_model_path = f"{config_data["module_path"]}bge-large-zh-v1.5"  # 替换为你的实际路径
+	local_model_path = f"{config_data['module_path']}bge-large-zh-v1.5"  # 替换为你的实际路径
+	
 	# 检查模型是否存在，如果不存在则报错
 	if not os.path.exists(local_model_path):
 		basic_program.log_message(f"{local_model_path} 读取失败！", 50)
-		return None
+		raise f"{local_model_path} 读取失败！"
+	
 	try:
 		# 生成文本向量
 		embeddings = model.encode(
@@ -63,10 +64,31 @@ def text_vectorization(text, normalize_embeddings = True):
 			normalize_embeddings=normalize_embeddings,
 			show_progress_bar=False
 		)
-		return embeddings
+		
+		# 将numpy数组转换为JSON字符串
+		def convert_to_json(embedding):
+			if isinstance(embedding, np.ndarray):
+				# 转换为Python列表，然后转为JSON字符串
+				return json.dumps(embedding.tolist(), ensure_ascii=False)
+			else:
+				# 如果已经是列表或其他格式，直接转换
+				return json.dumps(embedding, ensure_ascii=False)
+		
+		# 处理单个文本和批量文本的情况
+		if isinstance(embeddings, np.ndarray):
+			if embeddings.ndim == 1:
+				# 单个文本：返回单个JSON字符串
+				return convert_to_json(embeddings)
+			else:
+				# 批量文本：返回JSON字符串列表
+				return [convert_to_json(embedding) for embedding in embeddings]
+		else:
+			# 其他情况，直接转换
+			return convert_to_json(embeddings)
+
 	except Exception as e:
 		basic_program.log_message(f"{e}", 40)
-		return None
+		raise e
 
 def unified_explain(word, explain):
 	"""
