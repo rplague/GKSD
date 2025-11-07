@@ -6,7 +6,7 @@ from tqdm import tqdm
 import config_operator
 import basic_program
 from mariadb_operator import Db_operator
-from ai_modules import unified_explain
+from ai_modules import text_vectorization
 import xml_operator
 
 # 初始化
@@ -23,7 +23,7 @@ basic_program.log_message("成功获取 config 信息")
 
 basic_program.log_message("正在获取 标准词汇表-中文 信息")
 try:
-	mariadb = Db_operater()
+	mariadb = Db_operator()
 	result = mariadb.safe_db_operation(
 		"SELECT id, 词语, XML含义 FROM chn_wordlist WHERE id > ?", 
 		params=(start_index,), 
@@ -36,22 +36,17 @@ basic_program.log_message("成功获取 标准词汇表-中文 信息")
 
 def process_main(id_word_xml_data_tup):
 	"""任务：
-		- 将xml标准化为新的格式
-		- 从标准的xml读取来自百科的释义并通过初融格式化
-		- 结合格式化的释义生成新的有效xml并存储到数据库"""
+		- 从标准的xml读取来自初融的释义
+		- 结合释义生成新的向量坐标并统合信息生成新的xml
+		- 存储到数据库"""
 	id_num, word, xml = id_word_xml_data_tup
 
 	try:
-		xml = xml_operator.test_operation_001(xml)
+		data_text = xml_operator.test_operation_002_1_1(xml)
+		vectorization_text = text_vectorization(data_text)
+		new_xml = xml_operator.test_operation_002_2(xml, "BGE_large_zh_configT01", vectorization_text)
 
-		data_text = xml_operator.test_operation_002_0(xml)
-
-		explain_text = unified_explain(word, data_text)
-
-		new_xml = xml_operator.test_operation_002_1(xml, "Initial_Thaw_DS", explain_text)
-
-	
-		mariadb = Db_operater()
+		mariadb = Db_operator()
 		result = mariadb.safe_db_operation(
 				"UPDATE chn_wordlist SET XML含义 = ? WHERE id = ?", 
 				params=(new_xml, id_num)
