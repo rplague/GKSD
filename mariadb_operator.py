@@ -46,22 +46,22 @@ class Db_operator(object):
 			print(f"SQL语法错误: {e}")
 			if conn:
 				conn.rollback()
-			return None
+			raise e
 		except mariadb.IntegrityError as e:
 			print(f"数据完整性错误: {e}")
 			if conn:
 				conn.rollback()
-			return None
+			raise e
 		except mariadb.OperationalError as e:
 			print(f"操作错误: {e}")
 			if conn:
 				conn.rollback()
-			return None
+			raise e
 		except mariadb.Error as e:
 			print(f"数据库错误: {e}")
 			if conn:
 				conn.rollback()
-			return None
+			raise e
 		finally:
 			# 使用更安全的关闭方式
 			if cursor:
