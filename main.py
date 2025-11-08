@@ -55,7 +55,7 @@ def process_main(id_word_xml_data_tup):
 		return True
 	except Exception as e:
 		basic_program.log_message(f"无法写入数据库信息\n    在处理id为{id_num}的条目时，发生了以下错误：\n{e}", 50)
-		sys.exit(1)
+		return False
 basic_program.log_message("开始主任务并行……")
 with multiprocessing.Pool(14) as pool:
 	results = list(tqdm(pool.imap(process_main, result), total=len(result)))
