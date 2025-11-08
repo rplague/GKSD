@@ -1,7 +1,9 @@
 from sentence_transformers import SentenceTransformer
 from openai import OpenAI
+import numpy as np
 import os
 import json
+import traceback
 
 import config_operator
 import basic_program
@@ -58,6 +60,7 @@ def text_vectorization(text, normalize_embeddings=False):
 		raise f"{local_model_path} 读取失败！"
 	
 	try:
+		model = SentenceTransformer(local_model_path)
 		# 生成文本向量
 		embeddings = model.encode(
 			text,
@@ -87,7 +90,8 @@ def text_vectorization(text, normalize_embeddings=False):
 			return convert_to_json(embeddings)
 
 	except Exception as e:
-		basic_program.log_message(f"{e}", 40)
+		error_traceback = traceback.format_exc()
+		basic_program.log_message(f"\n    {error_traceback}", 40)
 		raise e
 
 def unified_explain(word, explain):
