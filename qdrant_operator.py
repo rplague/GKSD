@@ -14,7 +14,7 @@ class Db_operator(object):
 
 	def safe_qdrant_operation(self, 
 							  operation: str,
-							  collection_name: str, 
+							  collection_name: str = None, 
 							  data: Optional[Any] = None,
 							  filters: Optional[Filter] = None,
 							  **kwargs) -> Optional[Any]:
@@ -60,7 +60,7 @@ class Db_operator(object):
 				raise ValueError(f"不支持的操作类型: {operation}")
 				
 		except Exception as e:
-			raise DbOperatorError(f"Qdrant操作错误 [{operation}]: \n    {e}")
+			raise e
 
 	# 集合管理方法
 	def _create_collection(self,
@@ -93,13 +93,13 @@ class Db_operator(object):
 			- 向量维度应与后续插入的向量数据维度一致
 			- 支持的距离度量包括：EUCLID（欧几里得）、COSINE（余弦）、DOT（点积）
 		"""
-		vector_size = kwargs.get("vector_size", 768)
+		vector_size = kwargs.get("vector_size", 1024)
 		distance = kwargs.get("distance", Distance.EUCLID)
-		client.create_collection(
+		self.client.create_collection(
 			collection_name=collection_name,
 			vectors_config=VectorParams(
-				size=768, 
-				distance=Distance.EUCLID)
+				size=vector_size, 
+				distance=distance)
 		)
 		return True
 
@@ -201,7 +201,7 @@ class Db_operator(object):
 
 	def _list_collections(self) -> List:
 		"""列出所有集合"""
-		return self.client.get_collections()
+		return self.client.get_collections().collections
 
 	# 数据操作方法
 	def _upsert_points(self,
@@ -228,6 +228,7 @@ class Db_operator(object):
 		    - 建议批量操作时控制单次数据量，避免内存溢出
 		    - 点ID应为唯一标识，重复ID将触发更新操作
 		"""
+		basic_program.log_message(f"此项目运行代表进入点数据插入函数", 10)
 		self.client.upsert(
 			collection_name=collection_name,
 			points=points
@@ -376,9 +377,9 @@ class Db_operator(object):
 
 	# 便捷方法
 	def create_point_struct(self,
-							id: Union[str, int],
-							vector: List[float],
-							payload: Optional[Dict] = None) -> PointStruct:
+							id,
+							vector,
+							payload = None) -> PointStruct:
 		"""创建点结构"""
 		return PointStruct(
 			id=id,

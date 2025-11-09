@@ -1,13 +1,12 @@
 import multiprocessing
 import sys
 from tqdm import tqdm
-
+import traceback
 
 import config_operator
 import basic_program
 import mariadb_operator
 import qdrant_operator
-from ai_modules import text_vectorization
 import xml_operator
 
 # 初始化
@@ -42,17 +41,24 @@ except Exception as e:
 	sys.exit(1)
 basic_program.log_message("成功获取 标准词汇表-中文 信息")
 
-basic_program.log_message(f"正在检测 {target_collection} 集合")
 target_collection = "chn_wordlist"
+basic_program.log_message(f"正在检测 {target_collection} 集合", printing = False)
 qdrant = qdrant_operator.Db_operator()
-if target_collection in qdrant.safe_qdrant_operation("list_collections"):
-	basic_program.log_message(f"正在创建 {target_collection} 集合")
+collections_list = qdrant.safe_qdrant_operation("list_collections")
+basic_program.log_message(f"检测到 {collections_list} 集合", printing = False)
+if not any(col.name == target_collection for col in collections_list):
+	basic_program.log_message(f"正在创建 {target_collection} 集合", printing = False)
 	try:
 		qdrant.safe_qdrant_operation("create_collection", target_collection, )
 	except Exception as e:
-		basic_program.log_message(f"无法创建 {target_collection} 集合\n    {e}", 50)
-		sys.exit(1)
-	basic_program.log_message(f"成功创建 {target_collection} 集合")
+		error_traceback = traceback.format_exc()
+		basic_program.log_message(f"无法创建 {target_collection} 集合\n    {e}"
+								  f"    错误类型: {type(e).__name__}\n"
+								  f"    错误信息: {str(e)}\n"
+								  f"    完整栈追踪:\n{error_traceback}", 
+								  50
+		)
+	basic_program.log_message(f"成功创建 {target_collection} 集合", printing = False)
 basic_program.log_message(f"{target_collection} 集合已准备就绪")
 
 def process_main(id_word_xml_data_tup):
@@ -67,12 +73,19 @@ def process_main(id_word_xml_data_tup):
 		vector_partial = xml_operator.xml_vector_partial_retrieval(xml, "BGE_large_zh_configT01").tolist()
 		
 		qdrant = qdrant_operator.Db_operator()
-		qdrant.create_point_struct(id_num, vector_partial)
-		qdrant.safe_qdrant_operation("upsert_points", target_collection, [qdrant.create_point_struct(id_num, vector_partial)])
+		qdrant.safe_qdrant_operation("upsert_points", target_collection, [qdrant.create_point_struct(int(id_num), vector_partial)])
 		basic_program.log_message(f"id 为 {id_num} 的条目已完成既定操作", printing = False)
 		return True
 	except Exception as e:
-		basic_program.log_message(f"无法写入数据库信息\n    在处理id为{id_num}的条目时，发生了以下错误：\n{e}", 50)
+		error_traceback = traceback.format_exc()
+		basic_program.log_message(
+			f"无法写入数据库信息\n"
+			f"    在处理id为{id_num}的条目时，发生了以下错误：\n"
+			f"    错误类型: {type(e).__name__}\n"
+			f"    错误信息: {str(e)}\n"
+			f"    完整栈追踪:\n{error_traceback}", 
+			50
+		)
 		return False
 basic_program.log_message("开始主任务并行……")
 with multiprocessing.Pool(14) as pool:

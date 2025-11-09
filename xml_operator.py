@@ -19,12 +19,6 @@ def xml_semantic_partial_adding(input_xml, source_input, data_input):
 		
 	返回:
 		str: 添加新条目后的格式化XML字符串，使用UTF-8编码
-		
-	示例:
-		>>> xml_data = '<?xml version="1.0"?><word_definition>...</word_definition>'
-		>>> 新词义 = "这是新的词义解释"
-		>>> 结果 = test_operation_002_1(xml_data, 新词义)
-		>>> print(结果)
 	"""
 	# 解析输入XML
 	if isinstance(input_xml, str) and input_xml.strip().startswith('<?xml'):
@@ -147,13 +141,10 @@ def xml_vector_partial_retrieval(input_xml, source_data):
 			source_text = source_elem.text
 			if source_text == source_data:
 				data_elem = wm.find('data')
-				json_str = data_elem.text
-
-				if isinstance(json_str, str):
-					data_dict = json.loads(json_str)
-				else:
-					data_dict = json_data
-				arr = np.array(data_dict['data'], dtype=data_dict['dtype'])
+				data_dict = data_elem.text
+				
+				
+				arr = np.array(json.loads(data_dict))
 				return arr
 	return None
 # 测试
