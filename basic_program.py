@@ -113,7 +113,7 @@ def _check_and_create_config():
 				config = json.load(file)
 			
 			# 检查必需字段
-			required_fields = ["database_data", "target_dict", "module_path", "start_index", "llm_api"]
+			required_fields = ["database_data", "database_data_v", "target_dict", "module_path", "start_index", "llm_api"]
 			for field in required_fields:
 				if field not in config:
 					log_message(f"配置文件缺少必需字段: {field}", 40)
@@ -141,6 +141,12 @@ def _check_and_create_config():
 			"database_data": {
 				"host": "localhost",
 				"user": "your_username",
+				"password": "your_password",
+				"database": "test_db",
+			},
+			"database_data_v": {
+				"host": "localhost",
+				"port": "6333",
 				"password": "your_password",
 				"database": "test_db",
 			},
