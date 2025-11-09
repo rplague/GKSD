@@ -63,13 +63,6 @@ def xml_vector_partial_adding(input_xml, model_input, data_input):
 		
 	返回:
 		str: 添加新坐标数据后的格式化XML字符串，使用UTF-8编码
-
-	示例:
-		>>> xml数据 = '<?xml version="1.0"?><word_definition>...</word_definition>'
-		>>> 模型信息 = "BERT模型"
-		>>> 坐标数据 = "向量坐标信息"
-		>>> 结果 = test_operation_002_2(xml数据, 模型信息, 坐标数据)
-		>>> print(结果)
 	"""
 	# 解析输入XML
 	if isinstance(input_xml, str) and input_xml.strip().startswith('<?xml'):
