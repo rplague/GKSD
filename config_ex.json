@@ -5,6 +5,12 @@
         "password": "your_password",
         "database": "test_db"
     },
+    "database_data_v": {
+        "host": "localhost",
+        "port": "6333",
+        "password": "your_password",
+        "database": "test_db"
+    },
     "target_dict": "target.txt",
     "start_index": 0,
     "module_path": "./module/",
