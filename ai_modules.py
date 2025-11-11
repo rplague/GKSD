@@ -22,9 +22,9 @@ def text_vectorization(text, normalize_embeddings=False):
 			- False: 输出原始向量
 	
 	返回:
-		str or list: 文本向量表示的JSON字符串
-			- 单个文本输入: 返回JSON字符串
-			- 多个文本输入: 返回JSON字符串列表
+		str or list: 文本向量表示的numpy
+			- 单个文本输入: 返回numpy
+			- 多个文本输入: 返回numpy列表
 	
 	异常:
 		会捕获处理过程中的异常并通过日志记录
@@ -68,26 +68,8 @@ def text_vectorization(text, normalize_embeddings=False):
 			show_progress_bar=False
 		)
 		
-		# 将numpy数组转换为JSON字符串
-		def convert_to_json(embedding):
-			if isinstance(embedding, np.ndarray):
-				# 转换为Python列表，然后转为JSON字符串
-				return json.dumps(embedding.tolist(), ensure_ascii=False)
-			else:
-				# 如果已经是列表或其他格式，直接转换
-				return json.dumps(embedding, ensure_ascii=False)
-		
-		# 处理单个文本和批量文本的情况
-		if isinstance(embeddings, np.ndarray):
-			if embeddings.ndim == 1:
-				# 单个文本：返回单个JSON字符串
-				return convert_to_json(embeddings)
-			else:
-				# 批量文本：返回JSON字符串列表
-				return [convert_to_json(embedding) for embedding in embeddings]
-		else:
-			# 其他情况，直接转换
-			return convert_to_json(embeddings)
+
+		return embeddings
 
 	except Exception as e:
 		error_traceback = traceback.format_exc()

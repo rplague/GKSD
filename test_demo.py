@@ -63,11 +63,11 @@ try:
 	end_answer_list = []
 	for answer in answer_list:
 		result = mariadb.safe_db_operation(
-			"SELECT 词语, XML含义 FROM chn_wordlist WHERE id = ?", 
+			"SELECT XML含义 FROM chn_wordlist WHERE id = ?", 
 			params=(answer.id,), 
 			fetch=True
 		)
-		result[1] = xml_semantic_partial_retrieval(result[1], "Initial_Thaw_DS")
+		result = xml_operator.xml_semantic_partial_retrieval(result[0][0], "Initial_Thaw_DS")
 		end_answer_list.append(result)
 except Exception as e:
 	error_traceback = traceback.format_exc()
@@ -81,7 +81,6 @@ except Exception as e:
 	sys.exit(1)
 
 basic_program.log_message(f"查询完成")
-for answer in answer_list:
-	print(answer)
-for answer in end_answer_list:
-	print(answer)
+index = 0
+for index in range(10):
+	print(answer_list[index],"\n",end_answer_list[index])
