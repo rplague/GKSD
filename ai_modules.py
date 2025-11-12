@@ -157,6 +157,68 @@ def unified_explain(word, explain):
 		return response.choices[0].message.content
 	except Exception as e:
 		basic_program.log_message(f"Initial_Thaw_DS 出现错误\n    {e}", 50)
+		raise e
+
+def logic_PartOf(word):
+	"""
+	AI词语父类判断工具 模型代号 Initial_Thaw_DS
+
+	该函数使用DeepSeek AI API将简短的实体名称转化为其可能的父类，
+	适用于向量数据库的实体表示生成。
+
+	函数参数:
+		word (str): 需要分析的实体名称
+
+	函数功能:
+		- 根据实体类型自动选择合适的父类
+		- 生成简洁准确的父类关系
+
+	API配置:
+		- 提供商: DeepSeek AI
+		- 模型: deepseek-chat
+		- 基础URL: https://api.deepseek.com/v1
+
+	使用示例:
+		>>> logic_PartOf("苹果")
+		"水果"
+		>>> logic_PartOf("牛顿")  
+		"科学家"
+
+	注意:
+		- 需要有效的DeepSeek API密钥
+		- 函数会返回AI生成的父类结果
+	"""
+	text = word
+	config_data = config_operator.get_config_data()
+	llm_config = config_data["llm_api"]
+	client = OpenAI(
+		api_key=llm_config["api_key"],
+		base_url=llm_config["base_url"],
+	)
+	try:
+		setting_text = """
+		返回给出对象的父类，两者成包含关系，不要有多余内容
+		示例：
+		输入：苹果
+		返回：水果
+
+		输入：水果
+		返回：食物
+		"""
+		ask_text = f"{text}"
+		response = client.chat.completions.create(
+			model="deepseek-chat",
+			messages=[
+					{"role": "system", "content": f"{setting_text}"},
+					{"role": "user", "content": f"{ask_text}"},
+					],
+			stream=False,
+		)
+		basic_program.log_message(f"{word} 判断: {response.choices[0].message.content}", printing = False)
+		return response.choices[0].message.content
+	except Exception as e:
+		basic_program.log_message(f"Initial_Thaw_DS 出现错误\n    {e}", 50)
+		raise e
 
 # 测试
 if __name__ == "__main__":
