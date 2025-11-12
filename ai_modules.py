@@ -220,6 +220,73 @@ def logic_PartOf(word):
 		basic_program.log_message(f"Initial_Thaw_DS 出现错误\n    {e}", 50)
 		raise e
 
+def logic_Antonym(word):
+	"""
+    AI词语反义词判断工具 模型代号 Initial_Thaw_DS
+
+    该函数使用DeepSeek AI API将简短的实体名称转化为其可能的反义词，
+    适用于向量数据库的实体表示生成。
+
+    函数参数:
+        word (str): 需要分析的实体名称
+
+    函数功能:
+        - 判断实体的反义词
+        - 生成简洁的反义关系
+
+	API配置:
+		- 提供商: DeepSeek AI
+		- 模型: deepseek-chat
+		- 基础URL: https://api.deepseek.com/v1
+
+    使用示例:
+        >>> logic_Antonym("红色")
+        "蓝色"
+        >>> logic_Antonym("东方")  
+        "西方"
+        >>> logic_Antonym("红酒")
+        ">无结果<"
+
+    注意:
+        - 需要有效的AI API密钥
+        - 函数会返回AI生成的反义词结果
+    """
+	text = word
+	config_data = config_operator.get_config_data()
+	llm_config = config_data["llm_api"]
+	client = OpenAI(
+		api_key=llm_config["api_key"],
+		base_url=llm_config["base_url"],
+	)
+	try:
+		setting_text = """
+		返回给出对象的反意，两者成对立关系，不要有多余内容
+		若没有，返回“>无结果<”
+		示例：
+		输入：红色
+		返回：蓝色
+
+		输入：东方
+		返回：西方
+
+		输入：红酒
+		返回：>无结果<
+		"""
+		ask_text = f"{text}"
+		response = client.chat.completions.create(
+			model="deepseek-chat",
+			messages=[
+					{"role": "system", "content": f"{setting_text}"},
+					{"role": "user", "content": f"{ask_text}"},
+					],
+			stream=False,
+		)
+		basic_program.log_message(f"{word} 判断: {response.choices[0].message.content}", printing = False)
+		return response.choices[0].message.content
+	except Exception as e:
+		basic_program.log_message(f"Initial_Thaw_DS 出现错误\n    {e}", 50)
+		raise e
+
 # 测试
 if __name__ == "__main__":
 	unified_explain("牛顿", "国际单位制中表示力的单位")
