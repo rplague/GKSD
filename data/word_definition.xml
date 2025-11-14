@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<word_definition>
+    <traditional_meaning>
+        <word_meaning>
+            <source>
+                <!-- 来源信息 -->
+            </source>
+            <data>
+                <!-- 词义数据 -->
+            </data>
+        </word_meaning>
+    </traditional_meaning>
+
+    <model_meaning>
+        <coordinate>
+            <model>
+                <!-- 模型信息 -->
+            </model>
+            <data>
+                <!-- 坐标数据 -->
+            </data>
+        </coordinate>
+    </model_meaning>
+
+</word_definition>
