@@ -1,6 +1,32 @@
 import os
 import datetime
 import json
+
+
+class Colors:
+	"""颜色常量类 - 用于终端文字颜色设置"""
+	
+	# 前景色（文字颜色）
+	RED = '\033[91m'        # 红色
+	GREEN = '\033[92m'      # 绿色
+	YELLOW = '\033[93m'     # 黄色
+	BLUE = '\033[94m'       # 蓝色
+	MAGENTA = '\033[95m'    # 洋红色/紫色
+	CYAN = '\033[96m'       # 青色/蓝绿色
+	WHITE = '\033[97m'      # 白色
+	RESET = '\033[0m'       # 重置所有颜色和样式（恢复默认）
+	
+	# 背景色
+	BG_BLACK = '\033[40m'   # 黑色背景
+	BG_RED = '\033[41m'     # 红色背景
+	BG_GREEN = '\033[42m'   # 绿色背景
+	BG_YELLOW = '\033[43m'  # 黄色背景
+	BG_BLUE = '\033[44m'    # 蓝色背景
+	BG_MAGENTA = '\033[45m' # 洋红色背景
+	BG_CYAN = '\033[46m'    # 青色背景
+	BG_WHITE = '\033[47m'   # 白色背景
+	BG_RESET = '\033[49m'   # 重置背景色（恢复默认背景）
+
 def log_message(
 	content,
 	level = 20,
@@ -31,15 +57,33 @@ def log_message(
 	current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 	
 	# 转换日志等级
-	if    level ==  0: level = "IMPORTANT"
-	elif  level <= 10: level = "+"
-	elif  level <= 20: level = "-"
-	elif  level <= 30: level = "*"
-	elif  level <= 40: level = "!"
-	else             : level = " CRITICAL"
+	if    level ==  0:
+		level = "IMPORTANT"
+		color = Colors.RESET
+		bg_color = Colors.BG_GREEN
+	elif  level <= 10:
+		level = "+"
+		color = Colors.CYAN
+		bg_color = Colors.BG_RESET
+	elif  level <= 20:
+		level = "-"
+		color = Colors.RESET
+		bg_color = Colors.BG_RESET
+	elif  level <= 30:
+		level = "*"
+		color = Colors.YELLOW
+		bg_color = Colors.BG_RESET
+	elif  level <= 40:
+		level = "!"
+		color = Colors.RED
+		bg_color = Colors.BG_RESET
+	else             :
+		level = " CRITICAL"
+		color = Colors.RESET
+		bg_color = Colors.BG_RED
 
 	# 格式化终端输出并输出到终端
-	terminal_output = f"[{level}] {content}"
+	terminal_output = f"{color}{bg_color}[{level}]{Colors.RESET} {content}"
 	if printing: print(terminal_output)
 	
 	# 格式化文件输出（包含时间戳）
