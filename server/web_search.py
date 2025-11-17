@@ -6,7 +6,7 @@ def search_from_zgbk(target):
 	"""基于https://www.zgbk.com/的词典系统 - 使用Playwright获取完整HTML"""
 	base_url = "https://www.zgbk.com"
 	search_url = f"{base_url}/ecph/search/result?SiteID=1&Alias=all&Query={target}"
-	
+
 	try:
 		with sync_playwright() as p:
 			link = None
@@ -56,7 +56,7 @@ def search_from_zgbk(target):
 		if not link:
 			return None
 	except Exception as e:
-		return None
+		raise e
 	search_url = link
 	try:
 		with sync_playwright() as p:
@@ -99,7 +99,7 @@ def search_from_zgbk(target):
 		result_parent = soup.find("p", style="text-indent: 2em;").get_text(strip=True)
 		return result_parent
 	except Exception as e:
-		return None
+		raise e
 
 if __name__ == "__main__":
 	print(search_from_zgbk("器械体操"))
