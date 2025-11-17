@@ -6,6 +6,7 @@ import ai_modules
 import mariadb_operator
 import qdrant_operator
 import xml_operator
+from server import web_search
 
 class GKSD_operator(object):
 	def __init__(self):
@@ -28,11 +29,27 @@ class GKSD_operator(object):
 
 	def safe_db_operation(self,
 						  operation: str,
-						  auto = True,
 						  **kwargs) -> Optional[Any]:
 
-		if operation == "search":
+		if operation == "upsert":
+			return self._upsert(**kwargs)
+		elif operation == "search":
 			return self._search(**kwargs)
+		else:
+			raise ValueError(f"operation参数错误 无 {operation} 操作")
+
+	def _upsert(self,
+				name: str,
+				auto: bool = True,
+				**kwargs) -> bool:
+		if auto == True:
+			level = 20
+			log = f"GKSD_operator 受理自动添加词条\n    添加内容 {name}\n    "
+			search_list = self._search(**kwargs)
+			word_list = [word for word, meaning in search_list]
+			if name in word_list:
+				raise ValueError("词条已存在 添加失败")
+			return False
 
 	def _search(self,
 				name: str,
