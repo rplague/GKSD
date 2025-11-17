@@ -8,6 +8,25 @@ import traceback
 import config_operator
 import basic_program
 
+# 文本向量化函数全局模型实例
+_vectorization_model_instance = None
+
+def get_model():
+	"""获取全局模型实例（单例模式）"""
+	global _vectorization_model_instance
+	if _vectorization_model_instance is None:
+		config_data = config_operator.get_config_data()
+		local_model_path = f"{config_data['module_path']}bge-large-zh-v1.5"
+		
+		if not os.path.exists(local_model_path):
+			basic_program.log_message(f"{local_model_path} 读取失败！", 50)
+			raise FileNotFoundError(f"{local_model_path} 读取失败！")
+		
+		_vectorization_model_instance = SentenceTransformer(local_model_path)
+		basic_program.log_message("文本向量化全局模型实例加载完成")
+	
+	return _vectorization_model_instance
+
 def text_vectorization(text, normalize_embeddings=False):
 	"""
 	文本向量化函数 BGE-large-zh
@@ -49,18 +68,8 @@ def text_vectorization(text, normalize_embeddings=False):
 	注意:
 		- 模型路径为硬编码，需确保目录存在且包含完整模型文件
 	"""
-
-	# 设置本地模型路径debug
-	config_data = config_operator.get_config_data()
-	local_model_path = f"{config_data['module_path']}bge-large-zh-v1.5"  # 替换为你的实际路径
-	
-	# 检查模型是否存在，如果不存在则报错
-	if not os.path.exists(local_model_path):
-		basic_program.log_message(f"{local_model_path} 读取失败！", 50)
-		raise f"{local_model_path} 读取失败！"
-	
 	try:
-		model = SentenceTransformer(local_model_path)
+		model = get_model()
 		# 生成文本向量
 		embeddings = model.encode(
 			text,
@@ -222,35 +231,35 @@ def logic_PartOf(word):
 
 def logic_Antonym(word):
 	"""
-    AI词语反义词判断工具 模型代号 Initial_Thaw_DS
+	AI词语反义词判断工具 模型代号 Initial_Thaw_DS
 
-    该函数使用DeepSeek AI API将简短的实体名称转化为其可能的反义词，
-    适用于向量数据库的实体表示生成。
+	该函数使用DeepSeek AI API将简短的实体名称转化为其可能的反义词，
+	适用于向量数据库的实体表示生成。
 
-    函数参数:
-        word (str): 需要分析的实体名称
+	函数参数:
+		word (str): 需要分析的实体名称
 
-    函数功能:
-        - 判断实体的反义词
-        - 生成简洁的反义关系
+	函数功能:
+		- 判断实体的反义词
+		- 生成简洁的反义关系
 
 	API配置:
 		- 提供商: DeepSeek AI
 		- 模型: deepseek-chat
 		- 基础URL: https://api.deepseek.com/v1
 
-    使用示例:
-        >>> logic_Antonym("红色")
-        "蓝色"
-        >>> logic_Antonym("东方")  
-        "西方"
-        >>> logic_Antonym("红酒")
-        ">无结果<"
+	使用示例:
+		>>> logic_Antonym("红色")
+		"蓝色"
+		>>> logic_Antonym("东方")  
+		"西方"
+		>>> logic_Antonym("红酒")
+		">无结果<"
 
-    注意:
-        - 需要有效的AI API密钥
-        - 函数会返回AI生成的反义词结果
-    """
+	注意:
+		- 需要有效的AI API密钥
+		- 函数会返回AI生成的反义词结果
+	"""
 	text = word
 	config_data = config_operator.get_config_data()
 	llm_config = config_data["llm_api"]
