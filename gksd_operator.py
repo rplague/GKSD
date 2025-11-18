@@ -17,6 +17,8 @@ class GKSD_operator(object):
 			log = log + "mariadb_operator\t初始化完成\n    "
 			self.qdrant_operator = qdrant_operator.Db_operator()
 			log = log + "qdrant_operator\t初始化完成\n    "
+			self.zgbk_searcher = web_search.ZgbkSearcher()
+			log = log + "zgbk_searcher\t初始化完成\n    "
 			log = log + "GKSD_operator\t初始化完成"
 
 		except Exception as e:
@@ -42,14 +44,66 @@ class GKSD_operator(object):
 				name: str,
 				auto: bool = True,
 				**kwargs) -> bool:
-		if auto == True:
-			level = 20
-			log = f"GKSD_operator 受理自动添加词条\n    添加内容 {name}\n    "
-			search_list = self._search(**kwargs)
-			word_list = [word for word, meaning in search_list]
-			if name in word_list:
-				raise ValueError("词条已存在 添加失败")
-			return False
+		level = 20
+		log = f"GKSD_operator 受理添加词条\n    添加内容 {name}\n    添加模式 {auto}\n    "
+		try:
+			if auto == True:
+				search_list = self._search(**kwargs)
+				word_list = [word for word, meaning in search_list]
+				if name in word_list:
+					raise ValueError("词条已存在 添加失败")
+				log = log + f"确认唯一性......完成\n    "
+				# 搜索来自中国网络百科全书的释义
+				word_meaning = self.zgbk_searcher.search(name)
+				log = log + f"搜索释义........完成\n    "
+				# 获取结构化释义
+				word_meaning_ITDS = ai_modules.unified_explain(word_meaning)
+				log = log + f"结构化释义......完成\n    "
+				# 获取向量坐标
+				word_meaning_BGE_large_zh_configT01 = ai_modules.text_vectorization(word_meaning_ITDS)
+				log = log + f"生成坐标........完成\n    "
+				# xml字符操作
+				xml_data = xml_semantic_partial_adding(xml_operator.generate_empty_word_definition_xml(),
+													   "www.zgbk.com",
+													   word_meaning)
+				xml_data = xml_semantic_partial_adding(xml_data,
+													   "Initial_Thaw_DS",
+													   word_meaning_ITDS)
+				xml_data = xml_vector_partial_adding(xml_data,
+													 "BGE_large_zh_configT01",
+													 word_meaning_BGE_large_zh_configT01)
+				log = log + f"xml生成.........完成\n    "
+				# mariadb插入
+				self.mariadb_operator.safe_db_operation(
+					"INSERT INTO chn_wordlist (词语, XML含义) VALUES (?, ?)",
+					params=(name, xml_data,)
+				)
+				log = log + f"mariadb操作.....完成\n    "
+				# qdrant插入
+				id_list = self.mariadb_operator.safe_db_operation(
+					"SELECT id FROM chn_wordlist WHERE 词语 = ?",
+					params=(name,),
+					fetch=True
+				)
+				id_num = id_list[0]
+				target_collection = "chn_wordlist"
+
+				self.qdrant_operator.safe_qdrant_operation(
+					"upsert_points",
+					target_collection,
+					[self.qdrant_operator.create_point_struct(int(id_num),
+														 	 word_meaning_BGE_large_zh_configT01.tolist())]
+				)
+				log = log + f"qdrant操作......完成\n    "
+
+			else:
+				raise Exception("半自动添加方法未构建")
+		except Exception as e:
+			level = 30
+			log = log + f"GKSD_operator\t添加词条失败\n详细信息：\n\n{e}"
+		finally:
+			basic_program.log_message(log, level)
+			return level == 20
 
 	def _search(self,
 				name: str,
