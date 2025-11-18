@@ -10,7 +10,9 @@ class Db_operator(object):
 		config_data = config_operator.get_config_data()
 		self.config = config_data["database_data"]
 
-	def safe_db_operation(self, operation: str, params: Optional[Union[tuple, dict]] = None,
+	def safe_db_operation(self,
+						  operation: str,
+						  params: Optional[Union[tuple, dict]] = None,
 						  fetch: bool = False) -> Optional[Any]:
 		"""
 		安全的数据库操作
