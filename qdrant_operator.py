@@ -228,7 +228,6 @@ class Db_operator(object):
 		    - 建议批量操作时控制单次数据量，避免内存溢出
 		    - 点ID应为唯一标识，重复ID将触发更新操作
 		"""
-		basic_program.log_message(f"此项目运行代表进入点数据插入函数", 10)
 		self.client.upsert(
 			collection_name=collection_name,
 			points=points

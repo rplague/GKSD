@@ -3,6 +3,24 @@ from xml.dom import minidom
 import numpy as np
 import json
 
+def generate_empty_word_definition_xml():
+	"""
+	生成空内容的格式化XML字符串
+	
+	返回:
+		str: 格式化的XML字符串
+	"""
+	xml_string = '''<?xml version="1.0" encoding="UTF-8"?>
+<word_definition>
+	<traditional_meaning>
+	</traditional_meaning>
+
+	<model_meaning>
+	</model_meaning>
+
+</word_definition>'''
+	
+	return xml_string
 
 def xml_semantic_partial_adding(input_xml, source_input, data_input):
 	"""
