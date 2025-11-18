@@ -2,7 +2,7 @@ import sys
 import traceback
 
 import basic_program
-
+import gksd_operator
 '''
 脚本任务：
 - 测试新的log程序
@@ -18,10 +18,13 @@ situation = basic_program.init_program()
 if not situation:
 	sys.exit(1)
 
+GKSD_operator = gksd_operator.GKSD_operator()
 
-basic_program.log_message("重要信息测试",0)
-basic_program.log_message("debug信息测试",10)
-basic_program.log_message("普通信息测试",20)
-basic_program.log_message("警告信息测试",30)
-basic_program.log_message("错误信息测试",40)
-basic_program.log_message("严重错误信息测试",50)
+# answer_list = GKSD_operator.safe_db_operation("search", name = "人工智能")
+
+# print("搜索结果")
+# for answer in answer_list:
+# 	print(answer[0], "\t", answer[1], "\n")
+
+
+GKSD_operator.safe_db_operation("upsert", name = "地铁")

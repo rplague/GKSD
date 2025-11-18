@@ -70,7 +70,10 @@ class ZgbkSearcher:
 			soup = BeautifulSoup(html_content, 'html.parser')
 			result_element = soup.find("p", style="text-indent: 2em;")
 			
-			return result_element.get_text(strip=True) if result_element else None
+			if result_element:
+				return result_element.get_text(strip=True) 
+			else:
+				raise Exception("搜索失败 目标释义获取失败")
 			
 		except Exception as e:
 			raise e

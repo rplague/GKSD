@@ -63,15 +63,15 @@ class GKSD_operator(object):
 				word_meaning_BGE_large_zh_configT01 = ai_modules.text_vectorization(word_meaning_ITDS)
 				log = log + f"生成坐标........完成\n    "
 				# xml字符操作
-				xml_data = xml_semantic_partial_adding(xml_operator.generate_empty_word_definition_xml(),
-													   "www.zgbk.com",
-													   word_meaning)
-				xml_data = xml_semantic_partial_adding(xml_data,
-													   "Initial_Thaw_DS",
-													   word_meaning_ITDS)
-				xml_data = xml_vector_partial_adding(xml_data,
-													 "BGE_large_zh_configT01",
-													 word_meaning_BGE_large_zh_configT01)
+				xml_data = xml_operator.xml_semantic_partial_adding(xml_operator.generate_empty_word_definition_xml(),
+																	"www.zgbk.com",
+																	word_meaning)
+				xml_data = xml_operator.xml_semantic_partial_adding(xml_data,
+																    "Initial_Thaw_DS",
+																    word_meaning_ITDS)
+				xml_data = xml_operator.xml_vector_partial_adding(xml_data,
+																  "BGE_large_zh_configT01",
+																  str(word_meaning_BGE_large_zh_configT01.tolist()))
 				log = log + f"xml生成.........完成\n    "
 				# mariadb插入
 				self.mariadb_operator.safe_db_operation(
@@ -85,7 +85,7 @@ class GKSD_operator(object):
 					params=(name,),
 					fetch=True
 				)
-				id_num = id_list[0]
+				id_num = id_list[0][0]
 				target_collection = "chn_wordlist"
 
 				self.qdrant_operator.safe_qdrant_operation(
@@ -100,7 +100,9 @@ class GKSD_operator(object):
 				raise Exception("半自动添加方法未构建")
 		except Exception as e:
 			level = 30
-			log = log + f"GKSD_operator\t添加词条失败\n详细信息：\n\n{e}"
+			error_traceback = traceback.format_exc()
+			err_log = f"错误类型\t{type(e).__name__}\n    错误信息\t{str(e)}\n    完整栈追踪:\n{error_traceback}"
+			log = log + err_log
 		finally:
 			basic_program.log_message(log, level)
 			return level == 20
