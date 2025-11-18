@@ -57,7 +57,7 @@ class GKSD_operator(object):
 				word_meaning = self.zgbk_searcher.search(name)
 				log = log + f"搜索释义........完成\n    "
 				# 获取结构化释义
-				word_meaning_ITDS = ai_modules.unified_explain(word_meaning)
+				word_meaning_ITDS = ai_modules.unified_explain(name, word_meaning)
 				log = log + f"结构化释义......完成\n    "
 				# 获取向量坐标
 				word_meaning_BGE_large_zh_configT01 = ai_modules.text_vectorization(word_meaning_ITDS)

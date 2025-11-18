@@ -54,8 +54,6 @@ class ZgbkSearcher:
 			if not link:
 				raise Exception("搜索失败 未找到目标链接")
 			
-			# 访问详情页面
-			print(f"正在访问: {link}")
 			self.page.goto(link, wait_until="networkidle")
 			
 			try:
