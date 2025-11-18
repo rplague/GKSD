@@ -48,7 +48,7 @@ class GKSD_operator(object):
 		log = f"GKSD_operator 受理添加词条\n    添加内容 {name}\n    添加模式 {auto}\n    "
 		try:
 			if auto == True:
-				search_list = self._search(**kwargs)
+				search_list = self._search(name=name, **kwargs)
 				word_list = [word for word, meaning in search_list]
 				if name in word_list:
 					raise ValueError("词条已存在 添加失败")
