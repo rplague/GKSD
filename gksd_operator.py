@@ -67,8 +67,8 @@ class GKSD_operator(object):
 																	"www.zgbk.com",
 																	word_meaning)
 				xml_data = xml_operator.xml_semantic_partial_adding(xml_data,
-																    "Initial_Thaw_DS",
-																    word_meaning_ITDS)
+																	"Initial_Thaw_DS",
+																	word_meaning_ITDS)
 				xml_data = xml_operator.xml_vector_partial_adding(xml_data,
 																  "BGE_large_zh_configT01",
 																  str(word_meaning_BGE_large_zh_configT01.tolist()))
@@ -92,7 +92,7 @@ class GKSD_operator(object):
 					"upsert_points",
 					target_collection,
 					[self.qdrant_operator.create_point_struct(int(id_num),
-														 	 word_meaning_BGE_large_zh_configT01.tolist())]
+															 word_meaning_BGE_large_zh_configT01.tolist())]
 				)
 				log = log + f"qdrant操作......完成\n    "
 
@@ -111,37 +111,37 @@ class GKSD_operator(object):
 				name: str,
 				id_num: int = None,
 				**kwargs) -> List:
-	    """
-	    汉语词典查询功能
+		"""
+		汉语词典查询功能
 
-	    支持两种查询模式：
-	    1. 语义查询：当仅提供name参数时，使用BGE向量模型将查询文本转换为向量表示，
-	       在Qdrant向量数据库中进行相似度搜索，返回语义相关的词语列表
-	    2. 精确查询：当提供id_num参数时，直接在MySQL数据库中按ID查询特定词条
+		支持两种查询模式：
+		1. 语义查询：当仅提供name参数时，使用BGE向量模型将查询文本转换为向量表示，
+		   在Qdrant向量数据库中进行相似度搜索，返回语义相关的词语列表
+		2. 精确查询：当提供id_num参数时，直接在MySQL数据库中按ID查询特定词条
 
-	    参数:
-	        name (str): 查询文本，支持任意长度的中文文本（语义查询模式使用）
-	        id_num (int, optional): 词条ID，用于精确查询特定词条
-	        **kwargs: Qdrant搜索的可选参数，用于自定义搜索行为（仅语义查询模式有效）
+		参数:
+			name (str): 查询文本，支持任意长度的中文文本（语义查询模式使用）
+			id_num (int, optional): 词条ID，用于精确查询特定词条
+			**kwargs: Qdrant搜索的可选参数，用于自定义搜索行为（仅语义查询模式有效）
 
-	    返回:
-	        list: 包含(词语, 含义)元组的列表
-	            - 词语 (str): 词典中的标准词语
-	            - 含义 (str): 从XML中解析出的语义解释
+		返回:
+			list: 包含(词语, 含义)元组的列表
+				- 词语 (str): 词典中的标准词语
+				- 含义 (str): 从XML中解析出的语义解释
 
-	    报错:
-	        FileNotFoundError: BGE模型文件不存在
-	        ConnectionError: 数据库连接失败
-	        ValueError: 输入参数格式错误
-	        Exception: 其他处理过程中的异常
+		报错:
+			FileNotFoundError: BGE模型文件不存在
+			ConnectionError: 数据库连接失败
+			ValueError: 输入参数格式错误
+			Exception: 其他处理过程中的异常
 
-	    注意:
-	        - 当id_num为None时，执行语义查询，返回语义相关而非精确匹配的结果
-	        - 当id_num提供时，执行精确查询，忽略name参数的语义内容
-	        - 查询过程涉及多个系统组件，性能受网络和硬件资源影响
-	        - 语义查询返回结果数量受Qdrant配置和score_threshold参数限制
-	        - XML解析依赖特定的语义标签结构"Initial_Thaw_DS"
-	    """
+		注意:
+			- 当id_num为None时，执行语义查询，返回语义相关而非精确匹配的结果
+			- 当id_num提供时，执行精确查询，忽略name参数的语义内容
+			- 查询过程涉及多个系统组件，性能受网络和硬件资源影响
+			- 语义查询返回结果数量受Qdrant配置和score_threshold参数限制
+			- XML解析依赖特定的语义标签结构"Initial_Thaw_DS"
+		"""
 		try:
 			level = 20
 			if id_num == None:
