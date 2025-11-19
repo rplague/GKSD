@@ -111,11 +111,6 @@ class GKSD_operator(object):
 				name: str,
 				id_num: int = None,
 				**kwargs) -> List:
-python
-def _search(self,
-            name: str,
-            id_num: int = None,
-            **kwargs) -> List:
 	    """
 	    汉语词典查询功能
 
