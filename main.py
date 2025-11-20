@@ -27,63 +27,71 @@ if not situation:
 - 反向验证有效性。
 '''
 
-basic_program.log_message("正在获取 config 信息")
+
 config_data = config_operator.get_config_data()
-start_index = config_data["start_index"]
-basic_program.log_message("成功获取 config 信息")
+index = config_data["index"]
 
-basic_program.log_message("正在获取 标准词汇表-中文 信息")
-try:
-	mariadb = mariadb_operator.Db_operator()
-	result = mariadb.safe_db_operation(
-		"SELECT id, 词语, XML含义 FROM chn_wordlist WHERE id > ?", 
-		params=(start_index,), 
-		fetch=True
-	)
-except Exception as e:
-	basic_program.log_message(f"无法读取数据库信息\n{e}", 50)
-	sys.exit(1)
-basic_program.log_message("成功获取 标准词汇表-中文 信息")
-
-target_collection = "chn_wordlist"
-basic_program.log_message(f"正在检测 {target_collection} 集合", printing = False)
-qdrant = qdrant_operator.Db_operator()
-collections_list = qdrant.safe_qdrant_operation("list_collections")
-basic_program.log_message(f"检测到 {collections_list} 集合", printing = False)
-if not any(col.name == target_collection for col in collections_list):
-	basic_program.log_message(f"正在创建 {target_collection} 集合", printing = False)
-	try:
-		qdrant.safe_qdrant_operation("create_collection", target_collection, )
-	except Exception as e:
-		error_traceback = traceback.format_exc()
-		basic_program.log_message(f"无法创建 {target_collection} 集合\n    {e}"
-								  f"    错误类型: {type(e).__name__}\n"
-								  f"    错误信息: {str(e)}\n"
-								  f"    完整栈追踪:\n{error_traceback}", 
-								  50
-		)
-	basic_program.log_message(f"成功创建 {target_collection} 集合", printing = False)
-basic_program.log_message(f"{target_collection} 集合已准备就绪")
-
-def process_main(id_word_xml_data_tup):
+def process_main(index_for_now):
 	"""
 	任务：
-	- 从标准的xml读取向量数据
-	- 组合信息创建数据点并导入数据库
+	- 对于特定索引的条目半自动判断其对应父类名称
+	- 查询父类名称，若词汇表中缺失则自动添加
+	- 在此基础上将差值计算和三元组一同统计
 	"""
-	id_num, word, xml = id_word_xml_data_tup
 	target_collection = "chn_wordlist"
 	try:
-		vector_partial = xml_operator.xml_vector_partial_retrieval(xml, "BGE_large_zh_configT01").tolist()
-		
-		qdrant = qdrant_operator.Db_operator()
-		qdrant.safe_qdrant_operation("upsert_points", target_collection, [qdrant.create_point_struct(int(id_num), vector_partial)])
-		basic_program.log_message(f"id 为 {id_num} 的条目已完成既定操作", printing = False)
+		GKSD_operator = gksd_operator.GKSD_operator()
+		word = GKSD_operator.safe_db_operation("search", id_num = index_for_now)[0][0]
+		master_word = ai_modules.logic_PartOf(word)
+		search_list = GKSD_operator.safe_db_operation("search", name = master_word)
+		search_list = [answer[0] for answer in search_list]
+		if master_word not in search_list:
+			if not GKSD_operator.safe_db_operation("upsert", name = master_word):
+				return False
+
+		id_list = GKSD_operator.mariadb_operator.safe_db_operation(
+			"SELECT id FROM chn_wordlist WHERE 词语 = ?",
+			params = (word,),
+			fetch = True
+		)
+		master_id_list = GKSD_operator.mariadb_operator.safe_db_operation(
+			"SELECT id FROM chn_wordlist WHERE 词语 = ?",
+			params = (master_word,),
+			fetch = True
+		)
+
+		vector = GKSD_operator.qdrant_operator.safe_qdrant_operation(
+			"retrieve_points",
+			target_collection,
+			ids = id_list,
+			with_payload = False,
+			with_vectors = True
+		)[0][0]
+		master_vector = GKSD_operator.qdrant_operator.safe_qdrant_operation(
+			"retrieve_points",
+			target_collection,
+			ids = master_id_list,
+			with_payload = False,
+			with_vectors = True
+		)[0][0]
+
+		PartOf_vector = master_vector - vector
+		if isinstance(PartOf_vector, np.ndarray):
+			PartOf_vector = PartOf_vector.tolist()
+
+		data = {
+			"word_id": id_list[0] if id_list else None,
+			"master_id": master_id_list[0] if master_id_list else None,
+			"vector": PartOf_vector
+		}
+
+		with open('PartOf.json', 'a', encoding='utf-8') as file:
+			file.write(json.dumps(data) + '\n')  # 每行一个JSON对象
+
 		return True
 	except Exception as e:
 		error_traceback = traceback.format_exc()
 		basic_program.log_message(
-			f"无法写入数据库信息\n"
 			f"    在处理id为{id_num}的条目时，发生了以下错误：\n"
 			f"    错误类型: {type(e).__name__}\n"
 			f"    错误信息: {str(e)}\n"
@@ -92,6 +100,6 @@ def process_main(id_word_xml_data_tup):
 		)
 		return False
 basic_program.log_message("开始主任务并行……")
-with multiprocessing.Pool(14) as pool:
-	results = list(tqdm(pool.imap(process_main, result), total=len(result)))
+with multiprocessing.Pool(4) as pool:
+	results = list(tqdm(pool.imap(process_main, range(1, index + 1)), total = index))
 basic_program.log_message("主任务已完成")
