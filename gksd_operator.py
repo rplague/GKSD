@@ -108,7 +108,7 @@ class GKSD_operator(object):
 			return level == 20
 
 	def _search(self,
-				name: str,
+				name: str = None,
 				id_num: int = None,
 				**kwargs) -> List:
 		"""

@@ -207,12 +207,16 @@ def logic_PartOf(word):
 	try:
 		setting_text = """
 		返回给出对象的父类，两者成包含关系，不要有多余内容
+		若无明显父类，则返回“>无结果<”
 		示例：
 		输入：苹果
 		返回：水果
 
 		输入：水果
 		返回：食物
+
+		输入：一
+		返回：>无结果<
 		"""
 		ask_text = f"{text}"
 		response = client.chat.completions.create(
