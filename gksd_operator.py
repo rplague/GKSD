@@ -14,11 +14,13 @@ class GKSD_operator(object):
 		try:
 			level = 20
 			self.mariadb_operator = mariadb_operator.Db_operator()
-			log = log + "mariadb_operator\t初始化完成\n    "
+			# log = log + "mariadb_operator\t初始化完成\n    "
 			self.qdrant_operator = qdrant_operator.Db_operator()
-			log = log + "qdrant_operator\t初始化完成\n    "
+			# log = log + "qdrant_operator\t初始化完成\n    "
+			log = log + "下游数据库\t初始化完成\n    "
 			self.zgbk_searcher = web_search.ZgbkSearcher()
-			log = log + "zgbk_searcher\t初始化完成\n    "
+			# log = log + "zgbk_searcher\t初始化完成\n    "
+			log = log + "联网搜索浏览器\t初始化完成\n    "
 			log = log + "GKSD_operator\t初始化完成"
 
 		except Exception as e:
@@ -44,24 +46,24 @@ class GKSD_operator(object):
 				name: str,
 				auto: bool = True,
 				**kwargs) -> bool:
-		level = 20
-		log = f"GKSD_operator 受理添加词条\n    添加内容 {name}\n    添加模式 {auto}\n    "
+		log = f"GKSD_operator 受理添加词条\n    添加内容 {name}\t添加模式 {auto}\n    "
 		try:
 			if auto == True:
-				search_list = self._search(name=name, **kwargs)
+				search_list = self._search(name=name, log_printing=False, **kwargs)
 				word_list = [word for word, meaning in search_list]
 				if name in word_list:
 					raise ValueError("词条已存在 添加失败")
 				log = log + f"确认唯一性......完成\n    "
 				# 搜索来自中国网络百科全书的释义
 				word_meaning = self.zgbk_searcher.search(name)
-				log = log + f"搜索释义........完成\n    "
+				# log = log + f"搜索释义........完成\n    "
 				# 获取结构化释义
 				word_meaning_ITDS = ai_modules.unified_explain(name, word_meaning)
-				log = log + f"结构化释义......完成\n    "
+				# log = log + f"结构化释义......完成\n    "
 				# 获取向量坐标
 				word_meaning_BGE_large_zh_configT01 = ai_modules.text_vectorization(word_meaning_ITDS)
-				log = log + f"生成坐标........完成\n    "
+				# log = log + f"生成坐标........完成\n    "
+				log = log + f"词语释义数据生成完成\n    "
 				# xml字符操作
 				xml_data = xml_operator.xml_semantic_partial_adding(xml_operator.generate_empty_word_definition_xml(),
 																	"www.zgbk.com",
@@ -72,13 +74,13 @@ class GKSD_operator(object):
 				xml_data = xml_operator.xml_vector_partial_adding(xml_data,
 																  "BGE_large_zh_configT01",
 																  str(word_meaning_BGE_large_zh_configT01.tolist()))
-				log = log + f"xml生成.........完成\n    "
+				# log = log + f"xml生成.........完成\n    "
 				# mariadb插入
 				self.mariadb_operator.safe_db_operation(
 					"INSERT INTO chn_wordlist (词语, XML含义) VALUES (?, ?)",
 					params=(name, xml_data,)
 				)
-				log = log + f"mariadb操作.....完成\n    "
+				# log = log + f"mariadb操作.....完成\n    "
 				# qdrant插入
 				id_list = self.mariadb_operator.safe_db_operation(
 					"SELECT id FROM chn_wordlist WHERE 词语 = ?",
@@ -94,18 +96,21 @@ class GKSD_operator(object):
 					[self.qdrant_operator.create_point_struct(int(id_num),
 															 word_meaning_BGE_large_zh_configT01.tolist())]
 				)
-				log = log + f"qdrant操作......完成\n    "
+				# log = log + f"qdrant操作......完成\n    "
+				log = log + f"数据库操作......完成\n    "
 
 			else:
 				raise Exception("半自动添加方法未构建")
 		except Exception as e:
-			level = 30
+			level = 40
 			error_traceback = traceback.format_exc()
 			err_log = f"错误类型\t{type(e).__name__}\n    错误信息\t{str(e)}\n    完整栈追踪:\n{error_traceback}"
 			log = log + err_log
+			basic_program.log_message(log, 40, kwargs.get("log_printing", True))
+			raise e
 		finally:
-			basic_program.log_message(log, level)
-			return level == 20
+			basic_program.log_message(log, 20, kwargs.get("log_printing", True))
+			return True
 
 	def _search(self,
 				name: str = None,
@@ -122,7 +127,9 @@ class GKSD_operator(object):
 		参数:
 			name (str): 查询文本，支持任意长度的中文文本（语义查询模式使用）
 			id_num (int, optional): 词条ID，用于精确查询特定词条
-			**kwargs: Qdrant搜索的可选参数，用于自定义搜索行为（仅语义查询模式有效）
+			**kwargs: 
+				Qdrant搜索的可选参数 	用于自定义搜索行为（仅语义查询模式有效）
+				log_printing 			log系统输出控制
 
 		返回:
 			list: 包含(词语, 含义)元组的列表
@@ -143,7 +150,6 @@ class GKSD_operator(object):
 			- XML解析依赖特定的语义标签结构"Initial_Thaw_DS"
 		"""
 		try:
-			level = 20
 			if id_num == None:
 				log = f"GKSD_operator 受理查询\n    查询内容 {name}\n    "
 				vector_partial = ai_modules.text_vectorization(name).tolist()
@@ -164,7 +170,7 @@ class GKSD_operator(object):
 					word, xml_meaning = result[0]
 					meaning = xml_operator.xml_semantic_partial_retrieval(xml_meaning, "Initial_Thaw_DS")
 					answer_list[index] = (word, meaning)
-				log = log + "词条查询........完成"
+
 			else:
 				log = f"GKSD_operator 受理查询\n    查询条目ID {id_num}\n    "
 				result = self.mariadb_operator.safe_db_operation(
@@ -173,14 +179,14 @@ class GKSD_operator(object):
 					fetch=True
 				)
 				answer_list = result
-				log = log + "词条查询........完成"
+			log = log + "词条查询........完成"
 		except Exception as e:
-			level = 40
 			error_traceback = traceback.format_exc()
 			err_log = f"    错误类型\t{type(e).__name__}\n    错误信息\t{str(e)}\n    完整栈追踪:\n{error_traceback}"
 			log = log + "GKSD_operator\n查询任务失败\n详细信息：\n" + err_log
+			basic_program.log_message(log, 40, kwargs.get("log_printing", True))
 			raise e
 		finally:
-			basic_program.log_message(log, level)
+			basic_program.log_message(log, 20, kwargs.get("log_printing", True))
 			return answer_list
 
