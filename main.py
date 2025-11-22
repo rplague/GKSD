@@ -19,9 +19,9 @@ if not situation:
 
 '''
 脚本任务：
-- 遍历标准词汇表，并半自动判断其对应父类名称。
-- 查询父类名称，若词汇表中缺失则自动添加。
-- 若成功查询父类则计算子类和父类的向量相对位置，并将差值计算并统计。
+- 遍历标准词汇表，并半自动判断其对应partof名称。
+- 查询partof名称，若词汇表中缺失则自动添加。
+- 若成功查询partof则计算partof的向量相对位置，并将差值计算并统计。
 - 求出所有有效三元组的向量平均差距。
 - 反向验证有效性。
 '''
@@ -46,14 +46,14 @@ def process_main(index_for_now):
 		master_word = ai_modules.logic_PartOf(word)
 		if master_word == ">无结果<" :
 			level = 20
-			raise Exception("未找到有效父类结果")
+			raise Exception("未找到有效partof结果")
 		search_list = GKSD_operator.safe_db_operation("search", name = master_word)
 		search_list = [answer[0] for answer in search_list]
 		if master_word not in search_list:
 			answer = GKSD_operator.safe_db_operation("upsert", name = master_word)
 			if not answer:
 				level = 30
-				raise Exception("未能成功添加父类")
+				raise Exception("未能成功添加partof")
 
 		id_list = GKSD_operator.mariadb_operator.safe_db_operation(
 			"SELECT id FROM chn_wordlist WHERE 词语 = ?",
