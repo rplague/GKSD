@@ -1,6 +1,6 @@
 # GKSD
 
-![GKSD LOGO](http://www.oahd.cn/gksd/photo/logo.svg "GKSD Logo")
+![GKSD LOGO](./data/logo.svg "GKSD Logo")
 
 GKSD 是一个革命性的智能百科系统，它将知识从符号转化为几何结构，构建了一个能够真正"理解"和"推理"的知识大脑。这使得系统能像人脑一样进行联想和推理，实现远超传统关键词搜索的智能问答与知识发现。
 
