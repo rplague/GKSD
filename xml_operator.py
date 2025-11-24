@@ -31,19 +31,13 @@ def xml_semantic_partial_adding(input_xml, source_input, data_input):
 	
 	参数:
 		input_xml (str): XML字符串或XML文件路径。如果是字符串，必须以'<?xml'开头
-		source_input (numpy): 要添加的新词义解释来源
+		source_input (str): 要添加的新词义解释来源
 		data_input (str): 要添加的新词义解释内容
 
 		
 	返回:
 		str: 添加新条目后的格式化XML字符串，使用UTF-8编码
 	"""
-	if isinstance(source_input, np.ndarray):
-		# 转换为Python列表，然后转为JSON字符串
-		source_input = json.dumps(source_input.tolist(), ensure_ascii=False)
-	else:
-		# 如果已经是列表或其他格式，直接转换
-		source_input = json.dumps(source_input, ensure_ascii=False)
 
 	# 解析输入XML
 	if isinstance(input_xml, str) and input_xml.strip().startswith('<?xml'):
