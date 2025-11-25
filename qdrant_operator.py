@@ -261,7 +261,7 @@ class Db_operator(object):
 				- score: 相似度分数（距离分数）
 				- payload: 点的附加数据（如果with_payload为True）
 				- vector: 点的向量数据（如果with_vectors为True）
-		
+
 		报错:
 			ValueError: 当查询向量维度与集合向量维度不匹配时
 		

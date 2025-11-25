@@ -17,7 +17,7 @@ class GKSD_operator(object):
 			# log = log + "mariadb_operator\t初始化完成\n    "
 			self.qdrant_operator = qdrant_operator.Db_operator()
 			# log = log + "qdrant_operator\t初始化完成\n    "
-			log = log + "下游数据库\t初始化完成\n    "
+			log = log + "下游数据库\t\t初始化完成\n    "
 			self.zgbk_searcher = web_search.ZgbkSearcher()
 			# log = log + "zgbk_searcher\t初始化完成\n    "
 			log = log + "联网搜索浏览器\t初始化完成\n    "
@@ -50,19 +50,16 @@ class GKSD_operator(object):
 		try:
 			if auto == True:
 				search_list = self._search(name=name, log_printing=False, **kwargs)
-				word_list = [word for word, meaning in search_list]
+				word_list = [item["word"] for item in search_list]
 				if name in word_list:
 					raise ValueError("词条已存在 添加失败")
 				log = log + f"确认唯一性......完成\n    "
 				# 搜索来自中国网络百科全书的释义
 				word_meaning = self.zgbk_searcher.search(name)
-				# log = log + f"搜索释义........完成\n    "
 				# 获取结构化释义
 				word_meaning_ITDS = ai_modules.unified_explain(name, word_meaning)
-				# log = log + f"结构化释义......完成\n    "
 				# 获取向量坐标
 				word_meaning_BGE_large_zh_configT01 = ai_modules.text_vectorization(word_meaning_ITDS)
-				# log = log + f"生成坐标........完成\n    "
 				log = log + f"词语释义数据生成完成\n    "
 				# xml字符操作
 				xml_data = xml_operator.xml_semantic_partial_adding(xml_operator.generate_empty_word_definition_xml(),
@@ -94,47 +91,93 @@ class GKSD_operator(object):
 					"upsert_points",
 					target_collection,
 					[self.qdrant_operator.create_point_struct(int(id_num),
-															 word_meaning_BGE_large_zh_configT01.tolist())]
+					 word_meaning_BGE_large_zh_configT01.tolist())]
 				)
-				# log = log + f"qdrant操作......完成\n    "
 				log = log + f"数据库操作......完成\n    "
 
 			else:
-				raise Exception("半自动添加方法未构建")
+				search_list = self._search(name=name, log_printing=False, **kwargs)
+				word_list = [item["word"] for item in search_list]
+				if name in word_list: raise ValueError("词条已存在 添加失败")
+				log = log + f"确认唯一性......完成\n    "
+
+				word_meaning = kwargs.get("word_meaning")
+				if word_meaning == None: raise ValueError("参数缺失 未输入定位释义")
+				word_meaning_ITDS = ai_modules.unified_explain(name, word_meaning)
+				word_meaning_BGE_large_zh_configT01 = ai_modules.text_vectorization(word_meaning_ITDS)
+				log = log + f"词语释义数据生成完成\n    "
+
+				# xml字符操作
+				word_meaning_source = kwargs.get("word_meaning_source", "admin_input")
+				xml_data = xml_operator.xml_semantic_partial_adding(xml_operator.generate_empty_word_definition_xml(),
+																	word_meaning_source,
+																	word_meaning)
+				xml_data = xml_operator.xml_semantic_partial_adding(xml_data,
+																	"Initial_Thaw_DS",
+																	word_meaning_ITDS)
+				xml_data = xml_operator.xml_vector_partial_adding(xml_data,
+																  "BGE_large_zh_configT01",
+																  str(word_meaning_BGE_large_zh_configT01.tolist()))
+				# mariadb插入
+				self.mariadb_operator.safe_db_operation(
+					"INSERT INTO chn_wordlist (词语, XML含义) VALUES (?, ?)",
+					params=(name, xml_data,)
+				)
+				# qdrant插入
+				id_list = self.mariadb_operator.safe_db_operation(
+					"SELECT id FROM chn_wordlist WHERE XML含义 = ?",
+					params=(xml_data,),
+					fetch=True
+				)
+				id_num = id_list[0][0]
+				target_collection = "chn_wordlist"
+				self.qdrant_operator.safe_qdrant_operation(
+					"upsert_points",
+					target_collection,
+					[self.qdrant_operator.create_point_struct(int(id_num),
+					 word_meaning_BGE_large_zh_configT01.tolist())]
+				)
+				log = log + f"数据库操作......完成\n    "
 		except Exception as e:
 			level = 40
 			error_traceback = traceback.format_exc()
 			err_log = f"错误类型\t{type(e).__name__}\n    错误信息\t{str(e)}\n    完整栈追踪:\n{error_traceback}"
 			log = log + err_log
-			basic_program.log_message(log, 40, kwargs.get("log_printing", True))
-			raise e
-		finally:
-			basic_program.log_message(log, 20, kwargs.get("log_printing", True))
-			return True
+			basic_program.log_message(log, 30, kwargs.get("log_printing", True))
+			raise
+		log = f"GKSD_operator 受理添加词条\n    添加内容 {name}\t定位释义 {word_meaning_ITDS}"
+		basic_program.log_message(log, 20, kwargs.get("log_printing", True))
+		return True
 
 	def _search(self,
 				name: str = None,
 				id_num: int = None,
+				vector: int = None,
 				**kwargs) -> List:
 		"""
 		汉语词典查询功能
 
 		支持两种查询模式：
 		1. 语义查询：当仅提供name参数时，使用BGE向量模型将查询文本转换为向量表示，
-		   在Qdrant向量数据库中进行相似度搜索，返回语义相关的词语列表
+			在Qdrant向量数据库中进行相似度搜索，返回语义相关的词语列表
 		2. 精确查询：当提供id_num参数时，直接在MySQL数据库中按ID查询特定词条
 
 		参数:
 			name (str): 查询文本，支持任意长度的中文文本（语义查询模式使用）
-			id_num (int, optional): 词条ID，用于精确查询特定词条
+			vector
+			id_num (int): 词条ID，用于精确查询特定词条
 			**kwargs: 
-				Qdrant搜索的可选参数 	用于自定义搜索行为（仅语义查询模式有效）
-				log_printing 			log系统输出控制
+				Qdrant搜索的可选参数	用于自定义搜索行为（仅语义查询模式有效）
+				log_printing			log系统输出控制
 
 		返回:
-			list: 包含(词语, 含义)元组的列表
-				- 词语 (str): 词典中的标准词语
-				- 含义 (str): 从XML中解析出的语义解释
+			list: 包含查询结果的字典列表，每个字典包含：
+				- id: 词条ID
+				- word: 词语
+				- meaning: 含义
+				- score: 相似度分数（仅语义查询）
+				- payload: 向量数据库中的payload
+				- vector: 向量表示
 
 		报错:
 			FileNotFoundError: BGE模型文件不存在
@@ -150,15 +193,17 @@ class GKSD_operator(object):
 			- XML解析依赖特定的语义标签结构"Initial_Thaw_DS"
 		"""
 		try:
-			if id_num == None:
-				log = f"GKSD_operator 受理查询\n    查询内容 {name}\n    "
+			target_collection = "chn_wordlist"
+			log = f"GKSD_operator 受理查询\n    "
+			if name != None:
+				log = log + f"查询内容 {name}\n    "
+
 				vector_partial = ai_modules.text_vectorization(name).tolist()
-				log = log + "向量化..........完成\n    "
-				target_collection = "chn_wordlist"
 				answer_list = self.qdrant_operator.safe_qdrant_operation("search_points",
 																		 target_collection,
 																		 vector_partial,
-																		 with_payload = False,
+																		 with_payload = True,
+																		 with_vectors = True,
 																		 **kwargs)
 				log = log + "向量查询........完成\n    "
 				for index, answer in enumerate(answer_list):
@@ -167,26 +212,77 @@ class GKSD_operator(object):
 						params=(answer.id,),
 						fetch=True
 					)
-					word, xml_meaning = result[0]
-					meaning = xml_operator.xml_semantic_partial_retrieval(xml_meaning, "Initial_Thaw_DS")
-					answer_list[index] = (word, meaning)
-
-			else:
-				log = f"GKSD_operator 受理查询\n    查询条目ID {id_num}\n    "
+					result = result[0]
+					meaning = xml_operator.xml_semantic_partial_retrieval(result[1], "Initial_Thaw_DS")
+					answer = {
+						"id": answer.id,
+						"word": result[0],
+						"meaning": meaning,
+						"score": answer.score,
+						"payload": answer.payload,
+						"vector": answer.vector
+					}
+					answer_list[index] = answer
+				log = log + "词条查询........完成"
+			elif vector != None:
+				log = log + f"查询vector {id_num}\n    "
+				answer_list = self.qdrant_operator.safe_qdrant_operation("search_points",
+																		 target_collection,
+																		 vector,
+																		 with_payload = True,
+																		 with_vectors = True,
+																		 **kwargs)
+				log = log + "向量查询........完成\n    "
+				for index, answer in enumerate(answer_list):
+					result = self.mariadb_operator.safe_db_operation(
+						"SELECT 词语, XML含义 FROM chn_wordlist WHERE id = ?", 
+						params=(answer.id,),
+						fetch=True
+					)
+					result = result[0]
+					meaning = xml_operator.xml_semantic_partial_retrieval(result[1], "Initial_Thaw_DS")
+					answer = {
+						"id": answer.id,
+						"word": result[0],
+						"meaning": meaning,
+						"score": answer.score,
+						"payload": answer.payload,
+						"vector": answer.vector
+					}
+					answer_list[index] = answer
+				log = log + "词条查询........完成"
+			elif id_num != None:
+				log = log + f"查询条目ID {id_num}\n    "
 				result = self.mariadb_operator.safe_db_operation(
-					"SELECT 词语, XML含义 FROM chn_wordlist WHERE id = ?", 
+					"SELECT id, 词语, XML含义 FROM chn_wordlist WHERE id = ?", 
 					params=(id_num,),
 					fetch=True
 				)
-				answer_list = result
-			log = log + "词条查询........完成"
+				result = result[0]
+				meaning = xml_operator.xml_semantic_partial_retrieval(result[-1], "Initial_Thaw_DS")
+				answer_list = self.qdrant_operator.safe_qdrant_operation("retrieve_points",
+																		 target_collection,
+																		 [result[0]],
+																		 with_payload = True,
+																		 with_vectors = True)
+				answer = answer_list[0]
+				answer = {
+					"id": answer.id,
+					"word": result[1],
+					"meaning": meaning,
+					"score": None,
+					"payload": answer.payload,
+					"vector": answer.vector
+				}
+				answer_list = [answer]
+				log = log + "词条查询........完成"
 		except Exception as e:
 			error_traceback = traceback.format_exc()
 			err_log = f"    错误类型\t{type(e).__name__}\n    错误信息\t{str(e)}\n    完整栈追踪:\n{error_traceback}"
-			log = log + "GKSD_operator\n查询任务失败\n详细信息：\n" + err_log
-			basic_program.log_message(log, 40, kwargs.get("log_printing", True))
-			raise e
-		finally:
-			basic_program.log_message(log, 20, kwargs.get("log_printing", True))
-			return answer_list
+			log = log + "查询任务失败\n详细信息：\n" + err_log
+			basic_program.log_message(log, 30, kwargs.get("log_printing", True))
+			raise
 
+		log = f"GKSD_operator 受理查询\n    返回 {len(answer_list)} 条结果"
+		basic_program.log_message(log, 20, kwargs.get("log_printing", True))
+		return answer_list
