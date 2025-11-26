@@ -130,7 +130,7 @@ GKSD 是一个雄心勃勃的开源项目，我们亟需各路英才的加入：
 
 ## 联系我们
 
-- 参与工程：请前往[GKSD官网](www.oahd.cn/gksd)联系我们（仅支持IPV6）
+- 参与工程：请前往[GKSD官网](http://www.oahd.cn/gksd)联系我们（仅支持IPV6）
 
 - 项目讨论：GitHub Discussions
 
