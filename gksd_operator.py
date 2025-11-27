@@ -1,11 +1,13 @@
 from typing import List, Tuple, Any, Optional, Union, Dict
 import traceback
+import numpy as np
 
 import basic_program
 import ai_modules
 import mariadb_operator
 import qdrant_operator
 import xml_operator
+import logicfile_operator
 from server import web_search
 
 class GKSD_operator(object):
@@ -14,13 +16,17 @@ class GKSD_operator(object):
 		try:
 			level = 20
 			self.mariadb_operator = mariadb_operator.Db_operator()
-			# log = log + "mariadb_operator\t初始化完成\n    "
 			self.qdrant_operator = qdrant_operator.Db_operator()
-			# log = log + "qdrant_operator\t初始化完成\n    "
 			log = log + "下游数据库\t\t初始化完成\n    "
 			self.zgbk_searcher = web_search.ZgbkSearcher()
-			# log = log + "zgbk_searcher\t初始化完成\n    "
 			log = log + "联网搜索浏览器\t初始化完成\n    "
+			logicfile = logicfile_operator.LogicfileIndex("data/PartOf_data_statistics_summary.json")
+			self.PartOf_logic_add_vector = []
+			for div in range(len(logicfile)):
+				self.PartOf_logic_add_vector.append(logicfile[div]["mean"])
+			log = log +"预制逻辑向量\t初始化完成\n    "
+			ai_modules.text_vectorization("测试")
+			log = log +"本地模型预加载\t初始化完成\n    "
 			log = log + "GKSD_operator\t初始化完成"
 
 		except Exception as e:
@@ -225,7 +231,15 @@ class GKSD_operator(object):
 					answer_list[index] = answer
 				log = log + "词条查询........完成"
 			elif vector != None:
-				log = log + f"查询vector {id_num}\n    "
+				logic_add = kwargs.get("logic_add", None)
+				if logic_add:
+					if logic_add == "PartOf":
+						logic_add_vector = self.PartOf_logic_add_vector
+					vector_np = np.array(vector)
+					logic_add_vector_np = np.array(logic_add_vector)
+					vector = (vector_np + logic_add_vector_np).tolist()
+					log = log + f"检测到并完成逻辑添加 {logic_add}\n    "
+				log = log + f"查询vector {vector[:3]}\n    "
 				answer_list = self.qdrant_operator.safe_qdrant_operation("search_points",
 																		 target_collection,
 																		 vector,
@@ -270,7 +284,7 @@ class GKSD_operator(object):
 					"id": answer.id,
 					"word": result[1],
 					"meaning": meaning,
-					"score": None,
+					"score": 1.0,
 					"payload": answer.payload,
 					"vector": answer.vector
 				}
