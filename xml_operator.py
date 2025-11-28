@@ -250,6 +250,7 @@ def xml_unsure_relational_partial_adding(input_xml, source_input, type, id_num, 
 	if type not in ["IsA", "PartOf"]:
 		raise ValueError("type不支持")
 	id_num = str(id_num)
+	confidence = str(confidence)
 	# 解析输入XML
 	if isinstance(input_xml, str) and input_xml.strip().startswith('<?xml'):
 		root = ET.fromstring(input_xml)
@@ -278,6 +279,45 @@ def xml_unsure_relational_partial_adding(input_xml, source_input, type, id_num, 
 	rough_string = ET.tostring(root, encoding='utf-8')
 	reparsed = minidom.parseString(rough_string)
 	return reparsed.toprettyxml(indent="    ", encoding="utf-8").decode('utf-8')
+
+def xml_unsure_relational_partial_retrieval(input_xml):
+	"""
+    从XML文档中检索所有不确定关系数据
+    
+    该函数在XML文档中查找所有不确定关系数据，
+    并返回完整的关系数据列表。
+
+    参数:
+        input_xml (str): XML字符串或XML文件路径。如果是字符串，必须以'<?xml'开头
+
+    返回:
+        list or None: 如果找到关系数据，返回包含所有关系字典的列表；
+                      如果未找到关系数据或XML结构不符合预期，返回None
+    """
+	if isinstance(input_xml, str) and input_xml.strip().startswith('<?xml'):
+		root = ET.fromstring(input_xml)
+	else:
+		tree = ET.parse(input_xml)
+		root = tree.getroot()
+
+	relations = root.findall('./unsure_relational_meaning/relation')
+	answer_list = []
+	if relations:
+		for relation in relations:
+			type = relation.get('type')
+			confidence = relation.get('confidence')
+			source = relation.get('source')
+			text = relation.text
+			_relation = {
+				'type':  relation.get('type'),
+				'confidence': int(relation.get('confidence')),
+				'source': relation.get('source'),
+				'target': int(relation.find('target').text)
+			}
+			answer_list.append(_relation)
+		return answer_list
+	return None
+
 # 测试
 if __name__ == "__main__":
 	input_xml = '''<?xml version="1.0" encoding="utf-8"?>
@@ -295,5 +335,9 @@ if __name__ == "__main__":
 </word_definition>'''
 
 	print(input_xml)
-	print(xml_vector_partial_adding(input_xml,"www123", [1231, 1325124]))
-
+	xml2 = xml_vector_partial_adding(input_xml,"www123", [1231, 1325124])
+	print(xml2)
+	xml3 = xml_unsure_relational_partial_adding(xml2, "source_data", "IsA", "7")
+	print(xml3)
+	answer = xml_unsure_relational_partial_retrieval(xml3)
+	print(answer)
