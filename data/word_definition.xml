@@ -10,7 +10,6 @@
 			</data>
 		</word_meaning>
 	</traditional_meaning>
-
 	<model_meaning>
 		<coordinate>
 			<model>
@@ -21,67 +20,62 @@
 			</data>
 		</coordinate>
 	</model_meaning>
-
+	<unsure_relational_meaning>
+		<relation type="IsA" confidence="0">
+			<target>
+				<!-- ID -->
+			</target>
+		</relation>
+	</unsure_relational_meaning>
+	<relational_meaning>
+		<relation type="IsA">
+			<target>
+				<!-- ID -->
+			</target>
+			<evidence source="">
+				<!-- 来源证明说明 -->
+			</evidence>
+		</relation>
+	</relational_meaning>
+	<Template_Data_Architecture>
+	</Template_Data_Architecture>
 </word_definition>
 
-
-
+当前实际：
 <?xml version="1.0" encoding="utf-8"?>
-<word_definition>
-	<traditional_meaning>
-		<word_meaning>
-			<source>
-				www.zgbk.com
-			</source>
-			<data>
-				一种通用的过程式编程语言。
-			</data>
-		</word_meaning>
-		<word_meaning>
-			<source>
-				Initial_Thaw_DS
-			</source>
-			<data>
-				C语言是一种通用的过程式计算机编程语言，具有高效性、灵活性和跨平台特性。它主要用于系统软件开发、嵌入式编程和应用程序开发，与数据结构、操作系统内核以及C++面向对象编程密切相关。
-			</data>
-		</word_meaning>
-	</traditional_meaning>
-	<model_meaning>
-		<coordinate>
-			<model>
-				
-			</model>
-			<data>
-				
-			</data>
-		</coordinate>
-		<coordinate>
-			<model>
-				BGE_large_zh_configT01
-			</model>
-			<data>
-				[-0.013197525404393673, -0.02411259524524212]
-			</data>
-		</coordinate>
-	</model_meaning>
+<word_definition version="1.0.0">
+    <traditional_meaning>
+        <word_meaning source="www.zgbk.com">唇形科鼠尾草属多年生草本或亚灌木植物。常作一年生栽培。</word_meaning>
+        <word_meaning source="Initial_Thaw_DS">一串红是一种唇形科鼠尾草属的多年生观赏植物，常被作为一年生花卉栽培。其最显著特征是鲜艳的红色穗状花序和唇形花冠，具有较长的观赏期。它主要用于园林绿化、花坛布置和节日装饰，与万寿菊、矮 牵牛等常见园艺植物共同构成城市景观色彩，是典型的观赏性草本植物。</word_meaning>
+    </traditional_meaning>
+    <model_meaning>
+        <coordinate model="BGE_large_zh_configT01">[0.01646905019879341, 0.012344327755272388]</coordinate>
+    </model_meaning>
+    <unsure_relational_meaning/>
+    <relational_meaning/>
+    <Template_Data_Architecture/>
 </word_definition>
 
+下一代：
 <?xml version="1.0" encoding="utf-8"?>
-<word_definition>
+<word_definition version="1.0.0">
 	<traditional_meaning>
-		<word_meaning>
-			<source>&quot;admin_input&quot;</source>
-			<data>大气层又称大气圈，是因重力关系而围绕着地球的一层混合气体，是地球最外部的气体圈层，包围着海洋和陆地，大气圈没有确切的上界，在离地表2000~16000公里高空仍有稀薄的气体和基本粒子，在地下，土壤和某些岩石中也会有少量气体，它们也可认为是大气圈的一个组成部分，地球大气的主要成分为氮、氧、氩、二氧化碳和不到0.04%比例的微量气体，这些混合气体被称为空气。</data>
-		</word_meaning>
-		<word_meaning>
-			<source>&quot;Initial_Thaw_DS&quot;</source>
-			<data>大气层是围绕地球的一层混合气体圈层，其主要成分包括氮气、氧气和二氧化碳等。它通过温室效应维持地表温度，保护生物免受宇宙辐射伤害，并与气候变化和臭氧层保护密切相关。</data>
-		</word_meaning>
+		<word_meaning source=""><!-- source来源信息 --><!-- 词义数据 --></word_meaning>
 	</traditional_meaning>
 	<model_meaning>
-		<coordinate>
-			<model>BGE_large_zh_configT01</model>
-			<data>[-0.02041182853281498, -0.04963265359401703]</data>
-		</coordinate>
+		<coordinate model=""><!-- model模型信息 --><!-- 坐标数据 --></coordinate>
 	</model_meaning>
+	<unsure_relational_meaning>
+		<relation type="IsA" confidence="0" source=""><!-- source来源信息 -->
+			<target><!-- ID --></target>
+		</relation>
+	</unsure_relational_meaning>
+	<relational_meaning>
+		<relation type="IsA">
+			<target><!-- ID --></target>
+			<evidence source=""><!-- source来源信息 --><!-- 来源证明说明 --></evidence>
+		</relation>
+	</relational_meaning>
+	<Template_Data_Architecture>
+	</Template_Data_Architecture>
 </word_definition>
