@@ -18,7 +18,6 @@ def generate_empty_word_definition_xml():
     <relational_meaning/>
     <Template_Data_Architecture/>
 </word_definition>'''
-	
 	return xml_string
 
 def xml_update(input_xml):
@@ -232,6 +231,53 @@ def xml_vector_partial_retrieval(input_xml, source_data):
 				arr = json.loads(wm.text)
 				return arr
 	return None
+
+def xml_unsure_relational_partial_adding(input_xml, source_input, type, id_num, confidence=0):
+	"""
+	向XML词义定义中添加新的不确定关系词义条目
+
+	参数:
+		input_xml (str): XML字符串或XML文件路径。如果是字符串，必须以'<?xml'开头
+		source_input (str): 要添加的新词义解释来源
+		type (str): 关系类型，支持 "IsA" 或 "PartOf"
+		id_num (str/int): 目标ID编号
+		confidence (float): 置信度，默认为0
+
+	返回:
+		str: 添加新条目后的格式化XML字符串，使用UTF-8编码
+	"""
+	# 参数检查
+	if type not in ["IsA", "PartOf"]:
+		raise ValueError("type不支持")
+	id_num = str(id_num)
+	# 解析输入XML
+	if isinstance(input_xml, str) and input_xml.strip().startswith('<?xml'):
+		root = ET.fromstring(input_xml)
+	else:
+		tree = ET.parse(input_xml)
+		root = tree.getroot()
+	# 找到unsure_relational_meaning元素
+	unsure_relational_meaning = root.find('./unsure_relational_meaning')
+	# 创建新的relation
+	relation = ET.SubElement(unsure_relational_meaning, 'relation')
+	# 添加参数并设置内容
+	relation.set('type', type)
+	relation.set('confidence', confidence)
+	relation.set('source', source_input)
+	# 创建新的target
+	target = ET.SubElement(relation, 'target')
+	target.text = id_num
+	# 转换为格式化的XML
+	def remove_whitespace(element):
+		for elem in element.iter():
+			if elem.text and elem.text.isspace():
+				elem.text = None
+			if elem.tail and elem.tail.isspace():
+				elem.tail = None
+	remove_whitespace(root)
+	rough_string = ET.tostring(root, encoding='utf-8')
+	reparsed = minidom.parseString(rough_string)
+	return reparsed.toprettyxml(indent=" ", encoding="utf-8").decode('utf-8')
 # 测试
 if __name__ == "__main__":
 	input_xml = '''<?xml version="1.0" encoding="utf-8"?>
