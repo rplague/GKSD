@@ -88,7 +88,7 @@ def xml_update(input_xml):
 	reparsed = minidom.parseString(rough_string)
 	return reparsed.toprettyxml(indent="    ", encoding="utf-8").decode('utf-8')
 
-def xml_semantic_partial_adding(input_xml, source_input, data_input):
+def xml_semantic_partial_adding(input_xml, source, data_input):
 	"""
 	向XML词义定义中添加新的词义条目
 
@@ -97,7 +97,7 @@ def xml_semantic_partial_adding(input_xml, source_input, data_input):
 
 	参数:
 		input_xml (str): XML字符串或XML文件路径。如果是字符串，必须以'<?xml'开头
-		source_input (str): 要添加的新词义解释来源
+		source (str): 要添加的新词义解释来源
 		data_input (str): 要添加的新词义解释内容
 
 	返回:
@@ -115,7 +115,7 @@ def xml_semantic_partial_adding(input_xml, source_input, data_input):
 	# 创建新的word_meaning
 	word_meaning = ET.SubElement(traditional_meaning, 'word_meaning')
 	# 添加source并设置内容
-	word_meaning.set('source', source_input)
+	word_meaning.set('source', source)
 	
 	# 设置内容
 	word_meaning.text = data_input
@@ -131,7 +131,7 @@ def xml_semantic_partial_adding(input_xml, source_input, data_input):
 	reparsed = minidom.parseString(rough_string)
 	return reparsed.toprettyxml(indent="    ", encoding="utf-8").decode('utf-8')
 
-def xml_vector_partial_adding(input_xml, model_input, data_input):
+def xml_vector_partial_adding(input_xml, source, data_input):
 	"""
 	向XML模型定义部分添加新的坐标数据
 
@@ -140,7 +140,7 @@ def xml_vector_partial_adding(input_xml, model_input, data_input):
 
 	参数:
 		input_xml (str): XML字符串或XML文件路径。如果是字符串，必须以'<?xml'开头
-		model_input (str): 要添加的模型信息内容
+		source (str): 要添加的模型信息内容
 		data_input (str/list): 要添加的坐标数据内容
 		
 	返回:
@@ -157,7 +157,7 @@ def xml_vector_partial_adding(input_xml, model_input, data_input):
 	# 创建新的word_meaning
 	coordinate = ET.SubElement(model_meaning, 'coordinate')
 	# 添加model子元素并设置内容
-	coordinate.set('model', model_input)
+	coordinate.set('model', source)
 
 	# 设置内容
 	coordinate.text = str(data_input)
@@ -173,16 +173,16 @@ def xml_vector_partial_adding(input_xml, model_input, data_input):
 	reparsed = minidom.parseString(rough_string)
 	return reparsed.toprettyxml(indent="    ", encoding="utf-8").decode('utf-8')
 
-def xml_semantic_partial_retrieval(input_xml, source_data):
+def xml_semantic_partial_retrieval(input_xml, source):
 	"""
 	xml复合数据词义部分检索
 	
-	该函数在XML文档中查找特定来源（source_data）的词义定义，
+	该函数在XML文档中查找特定来源（source）的词义定义，
 	并返回对应的词义解释数据。
 	
 	参数:
 		input_xml (str): XML字符串或XML文件路径。如果是字符串，必须以'<?xml'开头
-		source_data: 字符串
+		source: 字符串
 		
 	返回:
 		str or None: 如果找到匹配来源的词义数据，返回对应的data文本内容；
@@ -198,20 +198,20 @@ def xml_semantic_partial_retrieval(input_xml, source_data):
 	if word_meanings:
 		for wm in word_meanings:
 			source_text = wm.get('source')
-			if source_text == source_data:
+			if source_text == source:
 				return wm.text
 	return None
 
-def xml_vector_partial_retrieval(input_xml, source_data):
+def xml_vector_partial_retrieval(input_xml, source):
 	"""
 	xml复合数据向量部分检索
 
-	该函数在XML文档中查找特定来源（source_data）的向量数据，
+	该函数在XML文档中查找特定来源（source）的向量数据，
 	并返回对应的向量数据。
 
 	参数:
 		input_xml (str): XML字符串或XML文件路径。如果是字符串，必须以'<?xml'开头
-		source_data: 字符串
+		source: 字符串
 
 	返回:
 		str or None: 如果找到匹配来源的词义数据，返回对应的list内容；
@@ -227,18 +227,18 @@ def xml_vector_partial_retrieval(input_xml, source_data):
 	if word_meanings:
 		for wm in word_meanings:
 			source_text = wm.get('model')
-			if source_text == source_data:
+			if source_text == source:
 				arr = json.loads(wm.text)
 				return arr
 	return None
 
-def xml_unsure_relational_partial_adding(input_xml, source_input, type, id_num, confidence=0):
+def xml_unsure_relational_partial_adding(input_xml, source, type, id_num, confidence=0):
 	"""
 	向XML词义定义中添加新的不确定关系词义条目
 
 	参数:
 		input_xml (str): XML字符串或XML文件路径。如果是字符串，必须以'<?xml'开头
-		source_input (str): 要添加的新词义解释来源
+		source (str): 要添加的新词义解释来源
 		type (str): 关系类型，支持 "IsA" 或 "PartOf"
 		id_num (str/int): 目标ID编号
 		confidence (float): 置信度，默认为0
@@ -264,7 +264,7 @@ def xml_unsure_relational_partial_adding(input_xml, source_input, type, id_num, 
 	# 添加参数并设置内容
 	relation.set('type', type)
 	relation.set('confidence', confidence)
-	relation.set('source', source_input)
+	relation.set('source', source)
 	# 创建新的target
 	target = ET.SubElement(relation, 'target')
 	target.text = id_num
@@ -318,6 +318,55 @@ def xml_unsure_relational_partial_retrieval(input_xml):
 		return answer_list
 	return None
 
+def xml_relational_partial_adding(input_xml, source, type, id_num, evidence_text):
+	"""
+	向XML词义定义中添加新的确定关系词义条目
+
+	参数:
+		input_xml (str): XML字符串或XML文件路径。如果是字符串，必须以'<?xml'开头
+		source (str): 新关系条目的来源
+		type (str): 关系类型，支持 "IsA" 或 "PartOf"
+		id_num (str/int): 目标ID编号
+		evidence_text (str): 证据文本内容
+
+	返回:
+		str: 添加新条目后的格式化XML字符串，使用UTF-8编码
+	"""
+	# 参数检查
+	if type not in ["IsA", "PartOf"]:
+		raise ValueError("type不支持")
+	id_num = str(id_num)
+	# 解析输入XML
+	if isinstance(input_xml, str) and input_xml.strip().startswith('<?xml'):
+		root = ET.fromstring(input_xml)
+	else:
+		tree = ET.parse(input_xml)
+		root = tree.getroot()
+	# 找到relational_meaning元素
+	relational_meaning = root.find('./relational_meaning')
+	# 创建新的relation
+	relation = ET.SubElement(relational_meaning, 'relation')
+	# 添加参数并设置内容
+	relation.set('type', type)
+	# 创建新的target
+	target = ET.SubElement(relation, 'target')
+	target.text = id_num
+	evidence = ET.SubElement(relation, 'evidence')
+	evidence.set('source', source)
+	evidence.text = evidence_text
+	# 转换为格式化的XML
+	def remove_whitespace(element):
+		for elem in element.iter():
+			if elem.text and elem.text.isspace():
+				elem.text = None
+			if elem.tail and elem.tail.isspace():
+				elem.tail = None
+	remove_whitespace(root)
+	rough_string = ET.tostring(root, encoding='utf-8')
+	reparsed = minidom.parseString(rough_string)
+	return reparsed.toprettyxml(indent="    ", encoding="utf-8").decode('utf-8')
+
+
 # 测试
 if __name__ == "__main__":
 	input_xml = '''<?xml version="1.0" encoding="utf-8"?>
@@ -337,7 +386,9 @@ if __name__ == "__main__":
 	print(input_xml)
 	xml2 = xml_vector_partial_adding(input_xml,"www123", [1231, 1325124])
 	print(xml2)
-	xml3 = xml_unsure_relational_partial_adding(xml2, "source_data", "IsA", "7")
+	xml3 = xml_unsure_relational_partial_adding(xml2, "source", "IsA", "7")
 	print(xml3)
 	answer = xml_unsure_relational_partial_retrieval(xml3)
 	print(answer)
+	xml4 = xml_relational_partial_adding(xml3, "本草纲目", "IsA", 123, "因为所以科学道理")
+	print(xml4)
