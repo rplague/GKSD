@@ -129,7 +129,7 @@ def xml_semantic_partial_adding(input_xml, source_input, data_input):
 	remove_whitespace(root)
 	rough_string = ET.tostring(root, encoding='utf-8')
 	reparsed = minidom.parseString(rough_string)
-	return reparsed.toprettyxml(indent=" ", encoding="utf-8").decode('utf-8')
+	return reparsed.toprettyxml(indent="    ", encoding="utf-8").decode('utf-8')
 
 def xml_vector_partial_adding(input_xml, model_input, data_input):
 	"""
@@ -171,7 +171,7 @@ def xml_vector_partial_adding(input_xml, model_input, data_input):
 	remove_whitespace(root)
 	rough_string = ET.tostring(root, encoding='utf-8')
 	reparsed = minidom.parseString(rough_string)
-	return reparsed.toprettyxml(indent=" ", encoding="utf-8").decode('utf-8')
+	return reparsed.toprettyxml(indent="    ", encoding="utf-8").decode('utf-8')
 
 def xml_semantic_partial_retrieval(input_xml, source_data):
 	"""
@@ -277,7 +277,7 @@ def xml_unsure_relational_partial_adding(input_xml, source_input, type, id_num, 
 	remove_whitespace(root)
 	rough_string = ET.tostring(root, encoding='utf-8')
 	reparsed = minidom.parseString(rough_string)
-	return reparsed.toprettyxml(indent=" ", encoding="utf-8").decode('utf-8')
+	return reparsed.toprettyxml(indent="    ", encoding="utf-8").decode('utf-8')
 # 测试
 if __name__ == "__main__":
 	input_xml = '''<?xml version="1.0" encoding="utf-8"?>
