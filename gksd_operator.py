@@ -198,96 +198,93 @@ class GKSD_operator(object):
 			- 语义查询返回结果数量受Qdrant配置和score_threshold参数限制
 			- XML解析依赖特定的语义标签结构"Initial_Thaw_DS"
 		"""
+		def get_answer_func(id_num, **kwargs):
+			result = self.mariadb_operator.safe_db_operation(
+				"SELECT 词语, XML含义 FROM chn_wordlist WHERE id = ?", 
+				params=(id_num,),
+				fetch=True
+			)
+			result = result[0]
+			if not kwargs.get("with_xml", True):
+				result[1] = None
+			answer = {
+				"id": id_num,
+				"word": result[0],
+				"xml": result[1],
+				"score": kwargs.get("score"),
+				"payload": kwargs.get("payload"),
+				"vector": kwargs.get("vector")
+			}
+			return answer
+
 		try:
 			target_collection = "chn_wordlist"
 			log = f"GKSD_operator 受理查询\n    "
 			if name != None:
 				log = log + f"查询内容 {name}\n    "
 
-				vector_partial = ai_modules.text_vectorization(name).tolist()
-				answer_list = self.qdrant_operator.safe_qdrant_operation("search_points",
-																		 target_collection,
-																		 vector_partial,
-																		 with_payload = True,
-																		 with_vectors = True,
-																		 **kwargs)
-				log = log + "向量查询........完成\n    "
+				vector = ai_modules.text_vectorization(name).tolist()
+				answer_list = self.qdrant_operator.safe_qdrant_operation(
+					"search_points",
+					target_collection,
+					vector,
+					**kwargs
+				)
 				for index, answer in enumerate(answer_list):
-					result = self.mariadb_operator.safe_db_operation(
-						"SELECT 词语, XML含义 FROM chn_wordlist WHERE id = ?", 
-						params=(answer.id,),
-						fetch=True
+					answer = get_answer_func(
+						answer.id,
+						score=answer.score,
+						payload=answer.payload,
+						vector=answer.vector,
+						**kwargs
 					)
-					result = result[0]
-					meaning = xml_operator.xml_semantic_partial_retrieval(result[1], "Initial_Thaw_DS")
-					answer = {
-						"id": answer.id,
-						"word": result[0],
-						"meaning": meaning,
-						"score": answer.score,
-						"payload": answer.payload,
-						"vector": answer.vector
-					}
 					answer_list[index] = answer
 				log = log + "词条查询........完成"
+
 			elif vector != None:
 				logic_add = kwargs.get("logic_add", None)
 				if logic_add:
 					if logic_add == "PartOf":
 						logic_add_vector = self.PartOf_logic_add_vector
+
 					vector_np = np.array(vector)
 					logic_add_vector_np = np.array(logic_add_vector)
 					vector = (vector_np + logic_add_vector_np).tolist()
 					log = log + f"检测到并完成逻辑添加 {logic_add}\n    "
+
 				log = log + f"查询vector {vector[:3]}\n    "
-				answer_list = self.qdrant_operator.safe_qdrant_operation("search_points",
-																		 target_collection,
-																		 vector,
-																		 with_payload = True,
-																		 with_vectors = True,
-																		 **kwargs)
-				log = log + "向量查询........完成\n    "
+				answer_list = self.qdrant_operator.safe_qdrant_operation(
+					"search_points",
+					target_collection,
+					vector,
+					**kwargs
+				)
+
 				for index, answer in enumerate(answer_list):
-					result = self.mariadb_operator.safe_db_operation(
-						"SELECT 词语, XML含义 FROM chn_wordlist WHERE id = ?", 
-						params=(answer.id,),
-						fetch=True
+					answer = get_answer_func(
+						answer.id,
+						score=answer.score,
+						payload=answer.payload,
+						vector=answer.vector,
+						**kwargs
 					)
-					result = result[0]
-					meaning = xml_operator.xml_semantic_partial_retrieval(result[1], "Initial_Thaw_DS")
-					answer = {
-						"id": answer.id,
-						"word": result[0],
-						"meaning": meaning,
-						"score": answer.score,
-						"payload": answer.payload,
-						"vector": answer.vector
-					}
 					answer_list[index] = answer
+
 				log = log + "词条查询........完成"
 			elif id_num != None:
 				log = log + f"查询条目ID {id_num}\n    "
-				result = self.mariadb_operator.safe_db_operation(
-					"SELECT id, 词语, XML含义 FROM chn_wordlist WHERE id = ?", 
-					params=(id_num,),
-					fetch=True
+				answer = get_answer_func(
+					id_num,
+					**kwargs
 				)
-				result = result[0]
-				meaning = xml_operator.xml_semantic_partial_retrieval(result[-1], "Initial_Thaw_DS")
-				answer_list = self.qdrant_operator.safe_qdrant_operation("retrieve_points",
-																		 target_collection,
-																		 [result[0]],
-																		 with_payload = True,
-																		 with_vectors = True)
-				answer = answer_list[0]
-				answer = {
-					"id": answer.id,
-					"word": result[1],
-					"meaning": meaning,
-					"score": 1.0,
-					"payload": answer.payload,
-					"vector": answer.vector
-				}
+				qdrant_answer = self.qdrant_operator.safe_qdrant_operation(
+					"retrieve_points",
+					target_collection,
+					[id_num],
+					**kwargs
+				)[0]
+				answer["payload"] = qdrant_answer.payload
+				answer["vector"] = qdrant_answer.vector
 				answer_list = [answer]
 				log = log + "词条查询........完成"
 		except Exception as e:
