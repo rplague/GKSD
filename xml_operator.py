@@ -310,7 +310,7 @@ def xml_unsure_relational_partial_retrieval(input_xml):
 			text = relation.text
 			_relation = {
 				'type':  relation.get('type'),
-				'confidence': int(relation.get('confidence')),
+				'confidence': float(relation.get('confidence')),
 				'source': relation.get('source'),
 				'target': int(relation.find('target').text)
 			}
