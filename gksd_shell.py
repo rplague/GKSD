@@ -27,7 +27,7 @@ while True:
 		for answer in answer_list:
 			print(f"{answer["id"]}\t{answer["word"]}\n{answer["score"]}")
 	elif command[0] == "set":
-		answer_list = GKSD_operator.safe_db_operation("search", id_num=command[1])
+		answer_list = GKSD_operator.safe_db_operation("search", id_num=int(command[1]), with_vectors=True)
 		print("    已定位至：")
 		for answer in answer_list:
 			print(f"{answer["id"]}\t{answer["word"]}")
