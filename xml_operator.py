@@ -88,7 +88,10 @@ def xml_update(input_xml):
 	reparsed = minidom.parseString(rough_string)
 	return reparsed.toprettyxml(indent="    ", encoding="utf-8").decode('utf-8')
 
-def xml_semantic_partial_adding(input_xml, source, data_input):
+def xml_semantic_partial_adding(
+	input_xml,
+	source,
+	data_input):
 	"""
 	向XML词义定义中添加新的词义条目
 
@@ -131,7 +134,10 @@ def xml_semantic_partial_adding(input_xml, source, data_input):
 	reparsed = minidom.parseString(rough_string)
 	return reparsed.toprettyxml(indent="    ", encoding="utf-8").decode('utf-8')
 
-def xml_vector_partial_adding(input_xml, source, data_input):
+def xml_vector_partial_adding(
+	input_xml,
+	source,
+	data_input):
 	"""
 	向XML模型定义部分添加新的坐标数据
 
@@ -173,7 +179,9 @@ def xml_vector_partial_adding(input_xml, source, data_input):
 	reparsed = minidom.parseString(rough_string)
 	return reparsed.toprettyxml(indent="    ", encoding="utf-8").decode('utf-8')
 
-def xml_semantic_partial_retrieval(input_xml, source):
+def xml_semantic_partial_retrieval(
+	input_xml,
+	source):
 	"""
 	xml复合数据词义部分检索
 	
@@ -202,7 +210,9 @@ def xml_semantic_partial_retrieval(input_xml, source):
 				return wm.text
 	return None
 
-def xml_vector_partial_retrieval(input_xml, source):
+def xml_vector_partial_retrieval(
+	input_xml,
+	source):
 	"""
 	xml复合数据向量部分检索
 
@@ -232,13 +242,18 @@ def xml_vector_partial_retrieval(input_xml, source):
 				return arr
 	return None
 
-def xml_unsure_relational_partial_adding(input_xml, source, type, id_num, confidence=0):
+def xml_unsure_relational_partial_adding(
+	input_xml,
+	source,
+	type,
+	id_num,
+	confidence=0):
 	"""
 	向XML词义定义中添加新的不确定关系词义条目
 
 	参数:
 		input_xml (str): XML字符串或XML文件路径。如果是字符串，必须以'<?xml'开头
-		source (str): 要添加的新词义解释来源
+		source (str): 要添加的新待定逻辑解释来源
 		type (str): 关系类型，支持 "IsA" 或 "PartOf"
 		id_num (str/int): 目标ID编号
 		confidence (float): 置信度，默认为0
@@ -251,6 +266,11 @@ def xml_unsure_relational_partial_adding(input_xml, source, type, id_num, confid
 		raise ValueError("type不支持")
 	id_num = str(id_num)
 	confidence = str(confidence)
+	# 重复检查
+	answer_list = xml_unsure_relational_partial_retrieval(input_xml)
+	for item in answer_list:
+		if item['type'] == type and item['target'] == target:
+			raise ValueError("数据条目重复")
 	# 解析输入XML
 	if isinstance(input_xml, str) and input_xml.strip().startswith('<?xml'):
 		root = ET.fromstring(input_xml)
@@ -318,7 +338,12 @@ def xml_unsure_relational_partial_retrieval(input_xml):
 		return answer_list
 	return None
 
-def xml_relational_partial_adding(input_xml, source, type, id_num, evidence_text):
+def xml_relational_partial_adding(
+	input_xml,
+	source,
+	type,
+	id_num,
+	evidence_text):
 	"""
 	向XML词义定义中添加新的确定关系词义条目
 
