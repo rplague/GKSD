@@ -1,5 +1,6 @@
 import mariadb
 from mariadb import ConnectionPool
+import traceback
 from typing import List, Tuple, Any, Optional, Union
 
 import basic_program
@@ -10,59 +11,60 @@ class Db_operator(object):
 		config_data = config_operator.get_config_data()
 		self.config = config_data["database_data"]
 
-	def safe_db_operation(self,
-						  operation: str,
-						  params: Optional[Union[tuple, dict]] = None,
-						  fetch: bool = False) -> Optional[Any]:
+	def safe_db_operation(self, operation: str, params: Optional[Union[tuple, dict]] = None, fetch: bool = False, **kwargs) -> Optional[Any]:
 		"""
 		安全的数据库操作
 
-		Args:
-			operation: SQL语句
-			params: SQL参数（防止SQL注入）
-			fetch: 是否获取查询结果
+		参数:
+			operation (str): SQL语句
+			params (list/tuple): SQL参数（防止SQL注入）
+			fetch (bool): 是否获取查询结果
+
 		"""
+		level = 0
+		log_n = "\n    "
+		log = "safe_db_operation 开始" + log_n
+		input_var = f"参数" + log_n \
+			+ f"operation\t{operation}" + log_n \
+			+ f"params\t{params}" + log_n \
+			+ f"fetch\t{fetch}" + log_n
+		log = log + input_var
+
 		conn = None
 		cursor = None
-		
+
 		try:
 			conn = mariadb.connect(**self.config)
 			cursor = conn.cursor()
-			
+			log = log + "数据连接\t完成" + log_n
 			# 执行数据库操作
 			if params:
 				cursor.execute(operation, params)
 			else:
 				cursor.execute(operation)
-			
+			log = log + "指令执行\t完成" + log_n
+
 			# 如果是查询操作，返回结果
 			if fetch:
 				result = cursor.fetchall()
-				return result
+
 			else:
 				# 非查询操作需要提交事务
-				conn.commit()
-				return cursor.rowcount  # 返回影响的行数
-				
-		except mariadb.ProgrammingError as e:
-			print(f"SQL语法错误: {e}")
-			if conn:
-				conn.rollback()
-			raise e
-		except mariadb.IntegrityError as e:
-			print(f"数据完整性错误: {e}")
-			if conn:
-				conn.rollback()
-			raise e
-		except mariadb.OperationalError as e:
-			print(f"操作错误: {e}")
-			if conn:
-				conn.rollback()
-			raise e
+				result = conn.commit() # 返回影响的行数
+			if level < 20:
+				level = 20
+			log = f"safe_db_operation 运行成功" + log_n \
+				+ input_var
+			return result	
 		except mariadb.Error as e:
-			print(f"数据库错误: {e}")
+			if level < 30:
+				level = 50
 			if conn:
 				conn.rollback()
+			error_traceback = traceback.format_exc()
+			log = log + f"错误类型\t{type(e).__name__}" + log_n\
+				+ f"错误信息\t{str(e)}" + log_n\
+				+ f"完整栈追踪:\n{error_traceback}"
 			raise e
 		finally:
 			# 使用更安全的关闭方式
@@ -70,6 +72,7 @@ class Db_operator(object):
 				cursor.close()
 			if conn:
 				conn.close()
+			basic_program.log_message(log, level, kwargs.get("log_printing", True))
 
 class DbOperator_pool(object):
 	"""
