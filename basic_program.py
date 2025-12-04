@@ -1,7 +1,7 @@
 import os
 import datetime
 import json
-
+from typing import List, Tuple, Any, Optional, Union, Dict
 
 class Colors:
 	"""颜色常量类 - 用于终端文字颜色设置"""
@@ -28,9 +28,9 @@ class Colors:
 	BG_RESET = '\033[49m'   # 重置背景色（恢复默认背景）
 
 def log_message(
-	content,
-	level = 20,
-	printing = True):
+	content: str,
+	level_int: int = 20,
+	printing: bool = True):
 	"""
 	日志记录函数
 
@@ -38,7 +38,7 @@ def log_message(
 	
 	参数:
 		content (str): 日志内容
-		level (int): 日志等级
+		level_int (int): 日志等级
 			0   重要信息
 			10  调试信息
 			20  程序运行信息（默认级别）
@@ -48,7 +48,7 @@ def log_message(
 		printing (bool): 是否打印到终端
 
 	报错:
-		ContentNotFound: 日志内容未能获取
+		ValueError: 日志内容未能获取
 	"""
 	# 输入验证
 	if not content:
@@ -57,23 +57,23 @@ def log_message(
 	current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 	
 	# 转换日志等级
-	if    level ==  0:
+	if    level_int ==  0:
 		level = "IMPORTANT"
 		color = Colors.RESET
 		bg_color = Colors.BG_GREEN
-	elif  level <= 10:
+	elif  level_int <= 10:
 		level = "+"
 		color = Colors.CYAN
 		bg_color = Colors.BG_RESET
-	elif  level <= 20:
+	elif  level_int <= 20:
 		level = "-"
 		color = Colors.RESET
 		bg_color = Colors.BG_RESET
-	elif  level <= 30:
+	elif  level_int <= 30:
 		level = "*"
 		color = Colors.YELLOW
 		bg_color = Colors.BG_RESET
-	elif  level <= 40:
+	elif  level_int <= 40:
 		level = "!"
 		color = Colors.RED
 		bg_color = Colors.BG_RESET
