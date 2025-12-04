@@ -165,48 +165,7 @@ class GKSD_operator(object):
 				log = log + f"数据库操作......完成\n    "
 
 			else:
-				search_list = self._search(word=word, log_printing=False, **kwargs)
-				word_list = [item["word"] for item in search_list]
-				if word in word_list: raise ValueError("词条已存在 添加失败")
-				log = log + f"确认唯一性......完成\n    "
-
-				word_meaning = kwargs.get("word_meaning")
-				if word_meaning == None: raise ValueError("参数缺失 未输入定位释义")
-				word_meaning_ITDS = ai_modules.unified_explain(word, word_meaning)
-				word_meaning_BGE_large_zh_configT01 = ai_modules.text_vectorization(word_meaning_ITDS)
-				log = log + f"词语释义数据生成完成\n    "
-
-				# xml字符操作
-				word_meaning_source = kwargs.get("word_meaning_source", "admin_input")
-				xml_data = xml_operator.xml_semantic_partial_adding(xml_operator.generate_empty_word_definition_xml(),
-																	word_meaning_source,
-																	word_meaning)
-				xml_data = xml_operator.xml_semantic_partial_adding(xml_data,
-																	"Initial_Thaw_DS",
-																	word_meaning_ITDS)
-				xml_data = xml_operator.xml_vector_partial_adding(xml_data,
-																  "BGE_large_zh_configT01",
-																  str(word_meaning_BGE_large_zh_configT01.tolist()))
-				# mariadb插入
-				self.mariadb_operator.safe_db_operation(
-					"INSERT INTO chn_wordlist (词语, XML含义) VALUES (?, ?)",
-					params=(word, xml_data,)
-				)
-				# qdrant插入
-				id_list = self.mariadb_operator.safe_db_operation(
-					"SELECT id FROM chn_wordlist WHERE XML含义 = ?",
-					params=(xml_data,),
-					fetch=True
-				)
-				id_num = id_list[0][0]
-				target_collection = "chn_wordlist"
-				self.qdrant_operator.safe_qdrant_operation(
-					"upsert_points",
-					target_collection,
-					[self.qdrant_operator.create_point_struct(int(id_num),
-					 word_meaning_BGE_large_zh_configT01.tolist())]
-				)
-				log = log + f"数据库操作......完成\n    "
+				raise Exception("")
 		except Exception as e:
 			level = 40
 			error_traceback = traceback.format_exc()
@@ -214,15 +173,11 @@ class GKSD_operator(object):
 			log = log + err_log
 			basic_program.log_message(log, 30, kwargs.get("log_printing", True))
 			raise
-		log = f"GKSD_operator 受理添加词条\n    添加内容 {name}\t定位释义 {word_meaning_ITDS}"
+		# log = f"GKSD_operator 受理添加词条\n    添加内容 {name}\t定位释义 {word_meaning_ITDS}"
 		basic_program.log_message(log, 20, kwargs.get("log_printing", True))
 		return True
 
-	def _search(self,
-				name: str = None,
-				id_num: int = None,
-				vector: int = None,
-				**kwargs) -> List:
+	def _search(self, name: Optional[str] = None, id_num: Optional[int] = None, vector: Optional[list] = None, **kwargs) -> List:
 		"""
 		汉语词典查询功能
 
@@ -267,6 +222,8 @@ class GKSD_operator(object):
 				params=(id_num,),
 				fetch=True
 			)
+			if not result:
+				raise Exception(f"mariadb_operator查询失败 ID为{id_num}")
 			result = result[0]
 			if not kwargs.get("with_xml", True):
 				result[1] = None
@@ -293,6 +250,8 @@ class GKSD_operator(object):
 					vector,
 					**kwargs
 				)
+				if not answer_list:
+					raise Exception(f"qdrant_operator查询失败 文段为{name}")
 				for index, answer in enumerate(answer_list):
 					answer = get_answer_func(
 						answer.id,
@@ -305,10 +264,14 @@ class GKSD_operator(object):
 				log = log + "词条查询........完成"
 
 			elif vector != None:
+				if len(vector) < 1000:
+					raise Exception(f"{len(vector)}向量长度不支持")
 				logic_add = kwargs.get("logic_add", None)
 				if logic_add:
 					if logic_add == "PartOf":
 						logic_add_vector = self.PartOf_logic_add_vector
+					else:
+						raise Exception(f"{logic_add}逻辑类型不存在")
 
 					vector_np = np.array(vector)
 					logic_add_vector_np = np.array(logic_add_vector)
@@ -322,7 +285,8 @@ class GKSD_operator(object):
 					vector,
 					**kwargs
 				)
-
+				if not answer_list:
+					raise Exception(f"qdrant_operator查询失败 文段为{name}")
 				for index, answer in enumerate(answer_list):
 					answer = get_answer_func(
 						answer.id,
