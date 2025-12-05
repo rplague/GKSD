@@ -14,14 +14,14 @@ class Db_operator(object):
 
 	def safe_qdrant_operation(self, 
 							  operation: str,
-							  collection_name: str = None, 
+							  collection_name: Optional[str] = None, 
 							  data: Optional[Any] = None,
 							  filters: Optional[Filter] = None,
 							  **kwargs) -> Optional[Any]:
 		"""
 		安全的Qdrant向量数据库操作
 		
-		Args:
+		参数:
 			operation: 操作类型
 			collection_name: 集合名称
 			data: 操作数据（向量、点等）
@@ -33,31 +33,30 @@ class Db_operator(object):
 		"""
 		try:
 			# 集合管理操作
-			if operation == "create_collection":
+			if operation == "create_collection" and collection_name:
 				return self._create_collection(collection_name, **kwargs)
-			elif operation == "delete_collection":
+			elif operation == "delete_collection"and collection_name:
 				return self._delete_collection(collection_name)
-			elif operation == "collection_info":
+			elif operation == "collection_info"and collection_name:
 				return self._get_collection_info(collection_name)
 				
 			# 数据操作
-			elif operation == "upsert_points":
+			elif operation == "upsert_points"and collection_name and data:
 				return self._upsert_points(collection_name, data)
-			elif operation == "search_points":
+			elif operation == "search_points"and collection_name and data:
 				return self._search_points(collection_name, data, filters, **kwargs)
-			elif operation == "retrieve_points":
+			elif operation == "retrieve_points"and collection_name and data:
 				return self._retrieve_points(collection_name, data, **kwargs)
-			elif operation == "delete_points":
+			elif operation == "delete_points"and collection_name and data:
 				return self._delete_points(collection_name, data, filters)
 				
 			# 集合操作
 			elif operation == "list_collections":
 				return self._list_collections()
-			elif operation == "update_aliases":
+			elif operation == "update_aliases" and data:
 				return self._update_aliases(data)
-				
 			else:
-				raise ValueError(f"不支持的操作类型: {operation}")
+				raise ValueError(f"{operation} 或参数不符合 safe_qdrant_operation 格式要求")
 				
 		except Exception as e:
 			raise e
