@@ -1,4 +1,6 @@
 import json
+import traceback
+
 import basic_program
 
 def get_config_data():
@@ -6,16 +8,16 @@ def get_config_data():
 		config_data = json.load(config_file)
 	return config_data
 
-def set_config_data(path_tuple, content, create_missing=False):
+def set_config_data(path_tuple: tuple, content: str, create_missing: bool = False, **kwargs) -> None:
 	""" 
 	设定设置内容
-	
+
 	输入特定条目，修改特定条目的设置内容 
-	
+
 	参数:
 		path_tuple (tuple): 给予需要修改的条目的路径元组
 		content (str): 替换的内容
-	
+
 	报错:
 		ValueError: 路径元组为空
 		KeyError: 路径不存在
@@ -29,7 +31,7 @@ def set_config_data(path_tuple, content, create_missing=False):
 	"""
 	# 输入验证
 	if not path_tuple:
-		raise ValueError("path_tuple 路径元组不能为空")
+		raise ValueError("path_tuple 路径元组不能为空\n函数 set_config_data 调用失败")
 	
 	config_data = get_config_data()
 	current = config_data
@@ -39,27 +41,44 @@ def set_config_data(path_tuple, content, create_missing=False):
 			if create_missing:
 				current[key] = {}
 			else:
-				raise KeyError(f"路径 '{'.'.join(path_tuple[:i+1])}' 不存在")
+				raise ValueError(f"path_tuple 路径 '{'.'.join(path_tuple[:i+1])}' 不存在\n函数 set_config_data 调用失败")
 
 		if not isinstance(current[key], dict):
 			if create_missing:
 				current[key] = {}
 			else:
-				raise TypeError(f"路径 '{'.'.join(path_tuple[:i+1])}' 不是字典类型")
+				raise ValueError(f"path_tuple 路径 '{'.'.join(path_tuple[:i+1])}' 不是字典类型\n函数 set_config_data 调用失败")
 
 		current = current[key]
 	last_key = path_tuple[-1]
 	current[last_key] = content
 
-
-	basic_program.log_message(
-		f"set_config_data 函数开始执行\n    {'.'.join(path_tuple)} 修改设置为:\n    {content}",
-		printing = False
-	)
-	with open('config.json', 'w', encoding='utf-8') as config_file:
-		json.dump(config_data, config_file, indent=4, ensure_ascii=False)
-	
-	basic_program.log_message(
-		f"set_config_data 函数执行完成\n    {'.'.join(path_tuple)} 修改设置为:\n    {content}", 
-		printing = True
-	)
+	level = 0
+	log_n = "\n    "
+	log = "set_config_data 开始" + log_n
+	input_var = f"参数" + log_n \
+		+ f"path_tuple\t{path_tuple}" + log_n \
+		+ f"content\t{content}" + log_n \
+		+ f"create_missing\t{create_missing}"
+	try:
+		with open('config.json', 'w', encoding='utf-8') as config_file:
+			json.dump(config_data, config_file, indent=4, ensure_ascii=False)
+		log = log + f"{'.'.join(path_tuple)} 修改设置为:\n    {content}" + log_n
+		if level < 20:
+			level = 20
+		log = f"function_name 运行成功" + log_n \
+			+ input_var
+	except Exception as e:
+		if level < 30:
+			level = 50
+		error_traceback = traceback.format_exc()
+		log = log + f"错误类型\t{type(e).__name__}" + log_n\
+			+ f"错误信息\t{str(e)}" + log_n\
+			+ f"完整栈追踪:\n{error_traceback}"
+		raise
+	finally:
+		basic_program.log_message(
+			f"set_config_data 函数执行完成\n    {'.'.join(path_tuple)} 修改设置为:\n    {content}",
+			level,
+			kwargs.get("log_printing", False)
+		)
