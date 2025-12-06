@@ -21,14 +21,14 @@ class GKSD_operator(object):
 			log = log + "下游数据库初始化\t完成" + log_n
 			try:
 				self.zgbk_searcher = web_search.ZgbkSearcher()
-				log = log + "联网搜索浏览器初始化\t完成" + log_n
+				log = log + "搜索浏览器初始化\t完成" + log_n
 			except Exception as e:
 				level = 30
 				log = log + "联网搜索浏览器初始化\t失败" + log_n \
 					+ f"{e}" + log_n
 			try:
 				logicfile = logicfile_operator.LogicfileIndex("data/PartOf_data_statistics_summary.json")
-				if type(logicfile) != list:
+				if not isinstance(logicfile, logicfile_operator.LogicfileIndex):
 					raise Exception("未能获得逻辑数据")
 				self.PartOf_logic_add_vector = []
 				for div in range(len(logicfile)):
