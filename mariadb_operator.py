@@ -21,7 +21,7 @@ class Db_operator(object):
 			fetch (bool): 是否获取查询结果
 
 		"""
-		level = 0
+		level = 20
 		log_n = "\n    "
 		log = "safe_db_operation 开始" + log_n
 		input_var = f"参数" + log_n \
@@ -50,15 +50,13 @@ class Db_operator(object):
 
 			else:
 				# 非查询操作需要提交事务
-				result = conn.commit() # 返回影响的行数
-			if level < 20:
-				level = 20
+				conn.commit() # 返回影响的行数
+				result = cursor.rowcount
 			log = f"safe_db_operation 运行成功" + log_n \
 				+ input_var
 			return result	
 		except mariadb.Error as e:
-			if level < 30:
-				level = 50
+			level = 50
 			if conn:
 				conn.rollback()
 			error_traceback = traceback.format_exc()
@@ -72,7 +70,7 @@ class Db_operator(object):
 				cursor.close()
 			if conn:
 				conn.close()
-			basic_program.log_message(log, level, kwargs.get("log_printing", True))
+			basic_program.log_message(log, level, kwargs.get("log_printing", False))
 
 class DbOperator_pool(object):
 	"""
@@ -106,12 +104,9 @@ class DbOperator_pool(object):
 					**self.db_config
 				)
 			except mariadb.Error as e:
-				raise
+				raise e
 	
-	def safe_db_operation(self,
-		operation: str,
-		params: Optional[Union[tuple, dict]] = None,
-		fetch: bool = False) -> Optional[Any]:
+	def safe_db_operation(self, operation: str, params: Optional[Union[tuple, dict]] = None, fetch: bool = False, **kwargs) -> Optional[Any]:
 		"""
 		安全的数据库操作
 		
@@ -140,12 +135,16 @@ class DbOperator_pool(object):
 			raise ValueError("operation 不能为空")
 
 		# 记录函数调用
-		basic_program.log_message(f"函数 safe_db_operation 开始运行\n    目标指令为 {operation}\n    参数元组为 {params}",
-			printing = False)
+		level = 20
+		log_n = "\n    "
 
 		conn   = None
 		cursor = None
-
+		log = f"safe_db_operation 运行成功" + log_n \
+				+ f"参数" + log_n \
+				+ f"operation\t{operation}" + log_n \
+				+ f"params\t{params}" + log_n \
+				+ f"fetch\t{fetch}" + log_n
 		try:
 			# 从连接池获取连接
 			conn = self._pool.get_connection()
@@ -156,94 +155,37 @@ class DbOperator_pool(object):
 				cursor.execute(operation, params)
 			else:
 				cursor.execute(operation)
-			basic_program.log_message(f"函数 safe_db_operation 运行完成\n    执行指令为 {operation}\n    参数元组为 {params}",
-				printing = False)
+
 			# 如果是查询操作，返回结果
 			if fetch:
 				result = cursor.fetchall()
-				return result
+
 			else:
 				# 非查询操作需要提交事务
-				conn.commit()
-				return cursor.rowcount
+				conn.commit() # 返回影响的行数
+				result = cursor.rowcount
+			return result
 
-		except mariadb.ProgrammingError as e:
-			if conn:
-				conn.rollback()
-			basic_program.log_message(f"函数 safe_db_operation 运行错误\n    执行指令为 {operation}\n    参数元组为 {params}\n    {e}",
-				40,
-				False)
-			raise ProgrammingError(f"编程错误\n{e}")
-		except mariadb.IntegrityError as e:
-			if conn:
-				conn.rollback()
-			basic_program.log_message(f"函数 safe_db_operation 运行错误\n    执行指令为 {operation}\n    参数元组为 {params}\n    {e}",
-				40,
-				False)
-			raise IntegrityError(f"完整性错误\n{e}")
-		except mariadb.OperationalError as e:
-			if conn:
-				conn.rollback()
-			basic_program.log_message(f"函数 safe_db_operation 运行错误\n    执行指令为 {operation}\n    参数元组为 {params}\n    {e}",
-				40,
-				False)
-			raise OperationalError(f"操作错误\n{e}")
 		except mariadb.Error as e:
+			level = 50
 			if conn:
 				conn.rollback()
-			basic_program.log_message(f"函数 safe_db_operation 运行错误\n    执行指令为 {operation}\n    参数元组为 {params}\n    {e}",
-				40,
-				False)
-			raise Error(f"基础错误类\n{e}")
+			error_traceback = traceback.format_exc()
+			log = "safe_db_operation" + f"错误类型\t{type(e).__name__}" + log_n\
+				+ f"错误信息\t{str(e)}" + log_n\
+				+ f"完整栈追踪:\n{error_traceback}"
+			raise e
+
 		finally:
 			# 关闭游标，连接返回到连接池
 			if cursor:
 				cursor.close()
-			if conn:
-			    try:
-			        if conn.open:
-			            conn.close() 
-			    except:
-			        pass
-
-	def execute_many(self, operation: str, params_list: List[Union[tuple, dict]]) -> Optional[int]:
-		"""
-		批量执行操作
-		
-		Args:
-			operation: SQL语句
-			params_list: 参数列表
-			
-		Returns:
-			影响的总行数
-		"""
-		conn = None
-		cursor = None
-		
-		try:
-			conn = self._pool.get_connection()
-			cursor = conn.cursor()
-			
-			cursor.executemany(operation, params_list)
-			conn.commit()
-			return cursor.rowcount
-			
-		except mariadb.Error as e:
-			# logger.error(f"批量操作错误: {e}")
-			if conn:
-				conn.rollback()
-			return None
-		finally:
-			if cursor:
-				cursor.close()
-			if conn:
-				conn.close()
+			basic_program.log_message(log, level, kwargs.get("log_printing", False))
 	
 	def close_pool(self):
 		"""关闭连接池"""
 		if DbOperator_pool._pool:
 			DbOperator_pool._pool.close()
-			logger.info("数据库连接池已关闭")
 	
 	def get_pool_stats(self) -> dict:
 		"""
@@ -275,4 +217,3 @@ if __name__ == "__main__":
 	finally:
 		# 应用结束时关闭连接池
 		db.close_pool()
-
