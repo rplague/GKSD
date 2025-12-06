@@ -1,6 +1,6 @@
 import json
 import traceback
-
+import os
 import basic_program
 
 def get_config_data():
@@ -8,8 +8,8 @@ def get_config_data():
 		config_data = json.load(config_file)
 	return config_data
 
-def set_config_data(path_tuple: tuple, content: str, create_missing: bool = False, **kwargs) -> None:
-	""" 
+def set_config_data(path_tuple: tuple, content: str, create_missing: bool = False, config_file_path: str = "config.json", **kwargs) -> None:
+	"""
 	设定设置内容
 
 	输入特定条目，修改特定条目的设置内容 
@@ -53,32 +53,30 @@ def set_config_data(path_tuple: tuple, content: str, create_missing: bool = Fals
 	last_key = path_tuple[-1]
 	current[last_key] = content
 
-	level = 0
+	level = 20
 	log_n = "\n    "
+	# 临时日志生成
 	log = "set_config_data 开始" + log_n
 	input_var = f"参数" + log_n \
 		+ f"path_tuple\t{path_tuple}" + log_n \
 		+ f"content\t{content}" + log_n \
 		+ f"create_missing\t{create_missing}"
+
+	temp_file = f"{config_file_path}.tmp"
 	try:
-		with open('config.json', 'w', encoding='utf-8') as config_file:
-			json.dump(config_data, config_file, indent=4, ensure_ascii=False)
+		with open(temp_file, 'w', encoding='utf-8') as f:
+			json.dump(config_data, f, indent=4, ensure_ascii=False)
+		os.replace(temp_file, config_file_path)
 		log = log + f"{'.'.join(path_tuple)} 修改设置为:\n    {content}" + log_n
-		if level < 20:
-			level = 20
-		log = f"function_name 运行成功" + log_n \
+		log = f"set_config_data 运行成功" + log_n \
 			+ input_var
 	except Exception as e:
-		if level < 30:
-			level = 50
+		os.unlink(temp_file)
+		level = 50
 		error_traceback = traceback.format_exc()
 		log = log + f"错误类型\t{type(e).__name__}" + log_n\
 			+ f"错误信息\t{str(e)}" + log_n\
 			+ f"完整栈追踪:\n{error_traceback}"
 		raise
 	finally:
-		basic_program.log_message(
-			f"set_config_data 函数执行完成\n    {'.'.join(path_tuple)} 修改设置为:\n    {content}",
-			level,
-			kwargs.get("log_printing", False)
-		)
+		basic_program.log_message(log, level, kwargs.get("log_printing", False))
