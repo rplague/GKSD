@@ -12,30 +12,47 @@ from server import web_search
 
 class GKSD_operator(object):
 	def __init__(self):
-		log = "GKSD_operator 初始化\n    "
-		level = 20
+		level = 0
+		log_n = "\n    "
+		log = "GKSD_operator __init__ 开始" + log_n
 		try:
 			self.mariadb_operator = mariadb_operator.Db_operator()
 			self.qdrant_operator = qdrant_operator.Db_operator()
-			log = log + "下游数据库\t\t初始化完成\n    "
-			self.zgbk_searcher = web_search.ZgbkSearcher()
-			log = log + "联网搜索浏览器\t初始化完成\n    "
-			logicfile = logicfile_operator.LogicfileIndex("data/PartOf_data_statistics_summary.json")
-			if type(logicfile) != list:
-				raise Exception("未能获得逻辑数据")
-			self.PartOf_logic_add_vector = []
-			for div in range(len(logicfile)):
-				self.PartOf_logic_add_vector.append(logicfile[div]["mean"])
-			log = log +"预制逻辑向量\t初始化完成\n    "
+			log = log + "下游数据库初始化\t完成" + log_n
+			try:
+				self.zgbk_searcher = web_search.ZgbkSearcher()
+				log = log + "联网搜索浏览器初始化\t完成" + log_n
+			except Exception as e:
+				level = 30
+				log = log + "联网搜索浏览器初始化\t失败" + log_n \
+					+ f"{e}" + log_n
+			try:
+				logicfile = logicfile_operator.LogicfileIndex("data/PartOf_data_statistics_summary.json")
+				if type(logicfile) != list:
+					raise Exception("未能获得逻辑数据")
+				self.PartOf_logic_add_vector = []
+				for div in range(len(logicfile)):
+					self.PartOf_logic_add_vector.append(logicfile[div]["mean"])
+				log = log + "预制逻辑向量初始化\t完成" + log_n
+			except Exception as e:
+				level = 30
+				log = log + "预制逻辑向量初始化\t失败" + log_n \
+					+ f"{e}" + log_n
 			ai_modules.text_vectorization("测试")
-			log = log +"本地模型预加载\t初始化完成\n    "
-			log = log + "GKSD_operator\t初始化完成"
+			log = log + "本地模型预加载\t完成" + log_n
+
+			if level < 20:
+				level = 20
+				log = log + "GKSD_operator\t初始化完成"
 
 		except Exception as e:
-			level = 50
+			if level < 30:
+				level = 50
 			error_traceback = traceback.format_exc()
-			err_log = f"    错误类型\t{type(e).__name__}\n    错误信息\t{str(e)}\n    完整栈追踪:\n{error_traceback}"
-			log = log + "GKSD_operator\t初始化失败\n详细信息：\n\n" + err_log
+			log = log + f"错误类型\t{type(e).__name__}" + log_n\
+				+ f"错误信息\t{str(e)}" + log_n\
+				+ f"完整栈追踪:\n{error_traceback}"
+			raise
 		finally:
 			basic_program.log_message(log, level)
 
