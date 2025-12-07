@@ -70,7 +70,8 @@ class Db_operator(object):
 				cursor.close()
 			if conn:
 				conn.close()
-			basic_program.log_message(log, level, kwargs.get("log_printing", False))
+			if kwargs.get("log_printing", False) and level == 20:
+				basic_program.log_message(log, level, kwargs.get("log_printing", False))
 
 class DbOperator_pool(object):
 	"""
@@ -180,7 +181,8 @@ class DbOperator_pool(object):
 			# 关闭游标，连接返回到连接池
 			if cursor:
 				cursor.close()
-			basic_program.log_message(log, level, kwargs.get("log_printing", False))
+			if kwargs.get("log_printing", False) and level == 20:
+				basic_program.log_message(log, level, kwargs.get("log_printing", False))
 	
 	def close_pool(self):
 		"""关闭连接池"""
