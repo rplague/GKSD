@@ -292,27 +292,31 @@ class GKSD_operator(object):
 
 					vector_np = np.array(vector)
 					logic_add_vector_np = np.array(logic_add_vector)
-					vector = (vector_np + logic_add_vector_np).tolist()
+					target_vector = (vector_np + logic_add_vector_np).tolist()
 					log = log + f"检测到并完成逻辑添加 {logic_add}\n    "
-
-				log = log + f"查询vector {vector[:3]}\n    "
-				answer_list = self.qdrant_operator.safe_qdrant_operation(
+				else:
+					target_vector = vector
+				log = log + f"查询vector {target_vector[:3]}\n    "
+				qdrant_answer_list = self.qdrant_operator.safe_qdrant_operation(
 					"search_points",
 					target_collection,
-					vector,
+					target_vector,
+					with_vectors=True,
 					**kwargs
 				)
-				if not answer_list:
+				if not qdrant_answer_list:
 					raise Exception(f"qdrant_operator查询失败 文段为{name}")
-				for index, answer in enumerate(answer_list):
-					answer = get_answer_func(
-						answer.id,
-						score=answer.score,
-						payload=answer.payload,
-						vector=answer.vector,
-						**kwargs
-					)
-					answer_list[index] = answer
+				answer_list = []
+				for answer in qdrant_answer_list:
+					if answer.vector != vector:
+						answer = get_answer_func(
+							answer.id,
+							score=answer.score,
+							payload=answer.payload,
+							vector=answer.vector,
+							**kwargs
+						)
+						answer_list.append(answer)
 
 				log = log + "词条查询........完成"
 			elif id_num != None:
@@ -321,12 +325,17 @@ class GKSD_operator(object):
 					id_num,
 					**kwargs
 				)
-				qdrant_answer = self.qdrant_operator.safe_qdrant_operation(
+				log = log + f"mariadb_operator查询完成\n    "
+				qdrant_answer_list = self.qdrant_operator.safe_qdrant_operation(
 					"retrieve_points",
 					target_collection,
-					[id_num],
+					[int(id_num)],
 					**kwargs
-				)[0]
+				)
+				if qdrant_answer_list:
+					qdrant_answer = qdrant_answer_list[0]
+				else:
+					raise Exception(f"qdrant_operator查询失败 id为{id_num}")
 				answer["payload"] = qdrant_answer.payload
 				answer["vector"] = qdrant_answer.vector
 				answer_list = [answer]
