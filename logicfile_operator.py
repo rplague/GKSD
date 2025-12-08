@@ -31,6 +31,18 @@ class LogicfileSetIndex:
 			data = json.loads(line)
 			return data['vector'][dim]
 
+	def get_vector(self, line_num):
+		"""使用索引快速获取指定行"""
+		if line_num < 0 or line_num >= len(self.line_positions):
+			return None
+			
+		with open(self.file_path, 'r') as f:
+			f.seek(self.line_positions[line_num])
+			line = f.readline()
+			# print(line[:200])
+			data = json.loads(line)
+			return data['vector']
+
 	def get_value(self, line_num):
 		"""使用索引快速获取指定行"""
 		if line_num < 0 or line_num >= len(self.line_positions):
