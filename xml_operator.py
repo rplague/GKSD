@@ -1,3 +1,4 @@
+from typing import Optional, Union
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
 import numpy as np
@@ -243,11 +244,11 @@ def xml_vector_partial_retrieval(
 	return None
 
 def xml_unsure_relational_partial_adding(
-	input_xml,
-	source,
-	type,
-	id_num,
-	confidence=0):
+	input_xml: str,
+	source: str,
+	type: str,
+	id_num: Union[str, int],
+	confidence: float = 0.0):
 	"""
 	向XML词义定义中添加新的不确定关系词义条目
 
