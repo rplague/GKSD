@@ -44,16 +44,23 @@
 当前实际：
 <?xml version="1.0" encoding="utf-8"?>
 <word_definition version="1.0.0">
-    <traditional_meaning>
-        <word_meaning source="www.zgbk.com">唇形科鼠尾草属多年生草本或亚灌木植物。常作一年生栽培。</word_meaning>
-        <word_meaning source="Initial_Thaw_DS">一串红是一种唇形科鼠尾草属的多年生观赏植物，常被作为一年生花卉栽培。其最显著特征是鲜艳的红色穗状花序和唇形花冠，具有较长的观赏期。它主要用于园林绿化、花坛布置和节日装饰，与万寿菊、矮 牵牛等常见园艺植物共同构成城市景观色彩，是典型的观赏性草本植物。</word_meaning>
-    </traditional_meaning>
-    <model_meaning>
-        <coordinate model="BGE_large_zh_configT01">[0.01646905019879341, 0.012344327755272388]</coordinate>
-    </model_meaning>
-    <unsure_relational_meaning/>
-    <relational_meaning/>
-    <Template_Data_Architecture/>
+	<traditional_meaning>
+		<word_meaning source="www.zgbk.com">垂体中由胚胎口凹的外胚层上皮发育而成的部分。</word_meaning>
+		<word_meaning source="Initial_Thaw_DS">腺垂体是垂体中由胚胎口凹的外胚层上皮发育而成的内分泌器官部分，其核心功能是合成和释放多种重要激素。它主要调节机体的生长发育、代谢平衡和生殖功能，与下丘脑和靶腺器官形成密切的神经内分泌调控轴。</word_meaning>
+	</traditional_meaning>
+	<model_meaning>
+		<coordinate model="BGE_large_zh_configT01">[0.02093636430799961, 0.009262663312256336, -0.05891106277704239]</coordinate>
+	</model_meaning>
+	<unsure_relational_meaning>
+		<relation type="PartOf" confidence="0.2" source="Initial_Thaw_DS">
+			<target>5414</target>
+		</relation>
+		<relation type="PartOf" confidence="0.2" source="Initial_Thaw_DS">
+			<target>17490</target>
+		</relation>
+	</unsure_relational_meaning>
+	<relational_meaning/>
+	<Template_Data_Architecture/>
 </word_definition>
 
 下一代：

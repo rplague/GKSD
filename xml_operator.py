@@ -13,11 +13,11 @@ def generate_empty_word_definition_xml():
 	"""
 	xml_string = '''<?xml version="1.0" encoding="UTF-8"?>
 <word_definition>
-    <traditional_meaning/>
-    <model_meaning/>
-    <unsure_relational_meaning/>
-    <relational_meaning/>
-    <Template_Data_Architecture/>
+	<traditional_meaning/>
+	<model_meaning/>
+	<unsure_relational_meaning/>
+	<relational_meaning/>
+	<Template_Data_Architecture/>
 </word_definition>'''
 	return xml_string
 
@@ -88,6 +88,85 @@ def xml_update(input_xml):
 	rough_string = ET.tostring(root, encoding='utf-8')
 	reparsed = minidom.parseString(rough_string)
 	return reparsed.toprettyxml(indent="    ", encoding="utf-8").decode('utf-8')
+
+def xml_check(input_xml: str, auto: bool = False, id_num: Optional[int] = None):
+	"""
+	检查xml格式并返回
+
+	参数:
+		input_xml (str): XML字符串或XML文件路径。如果是字符串，必须以'<?xml'开头
+		
+	返回:
+
+		str: 成功返回str
+	"""
+	if isinstance(input_xml, str) and input_xml.strip().startswith('<?xml'):
+		root = ET.fromstring(input_xml)
+	else:
+		tree = ET.parse(input_xml)
+		root = tree.getroot()
+	answer = True
+
+	# # 普通释义重复检查
+	# # 每个来源只允许拥有一个普通释义
+	# source_list = root.findall('./traditional_meaning/word_meaning/source')
+	# if len(source_list) != len(set(source_list)):
+	# 	word_meaning_list = root.findall('./traditional_meaning/word_meaning')
+	# 	if len(word_meaning_list) != len(set(word_meaning_list)):
+	# 		return False # auto可解决
+	# 	else:
+	# 		return False
+
+	# # 几何释义重复检查
+	# # 每个来源只允许拥有一个几何释义
+	# model_list = root.findall('./model_meaning/coordinate/model')
+	# if len(model_list) != len(set(model_list)):
+	# 	coordinate_list = root.findall('./model_meaning/coordinate')
+	# 	if len(coordinate_list) != len(set(coordinate_list)):
+	# 		return False # auto可解决
+	# 	else:
+	# 		return False
+
+	# 不确定逻辑关系重复检查
+	# 不确定逻辑不允许重复
+	# 不确定逻辑不允许引用自身
+	# 自动修复以前者为准
+	relations = root.findall('./unsure_relational_meaning/relation')
+	relation_list = []
+	for relation in relations:
+		relation_list.append({
+			'type': relation.get('type'),
+			'target': int(relation.find('target').text)
+		})
+
+	# if len(relation_list) != len(set(relation_list)):
+	# 	return False
+	if id_num:
+		unsure_relational_meaning = root.find('./unsure_relational_meaning')
+		relations = root.findall('./unsure_relational_meaning/relation')
+		for relation in relations:
+			target = relation.find('./target')
+			xml_id = target.text
+			if id_num == int(xml_id):
+				answer = False
+				if auto == True:
+					unsure_relational_meaning.remove(relation)
+				else:
+					return False
+	if answer == False and auto == True:
+		# 转换为格式化的XML
+		def remove_whitespace(element):
+			for elem in element.iter():
+				if elem.text and elem.text.isspace():
+					elem.text = None
+				if elem.tail and elem.tail.isspace():
+					elem.tail = None
+		remove_whitespace(root)
+		rough_string = ET.tostring(root, encoding='utf-8')
+		reparsed = minidom.parseString(rough_string)
+		return reparsed.toprettyxml(indent="    ", encoding="utf-8").decode('utf-8')
+	
+	return True
 
 def xml_semantic_partial_adding(
 	input_xml,
@@ -303,18 +382,18 @@ def xml_unsure_relational_partial_adding(
 
 def xml_unsure_relational_partial_retrieval(input_xml):
 	"""
-    从XML文档中检索所有不确定关系数据
-    
-    该函数在XML文档中查找所有不确定关系数据，
-    并返回完整的关系数据列表。
+	从XML文档中检索所有不确定关系数据
+	
+	该函数在XML文档中查找所有不确定关系数据，
+	并返回完整的关系数据列表。
 
-    参数:
-        input_xml (str): XML字符串或XML文件路径。如果是字符串，必须以'<?xml'开头
+	参数:
+		input_xml (str): XML字符串或XML文件路径。如果是字符串，必须以'<?xml'开头
 
-    返回:
-        list or None: 如果找到关系数据，返回包含所有关系字典的列表；
-                      如果未找到关系数据或XML结构不符合预期，返回None
-    """
+	返回:
+		list or None: 如果找到关系数据，返回包含所有关系字典的列表；
+					  如果未找到关系数据或XML结构不符合预期，返回None
+	"""
 	if isinstance(input_xml, str) and input_xml.strip().startswith('<?xml'):
 		root = ET.fromstring(input_xml)
 	else:
@@ -397,24 +476,26 @@ def xml_relational_partial_adding(
 if __name__ == "__main__":
 	input_xml = '''<?xml version="1.0" encoding="utf-8"?>
 <word_definition version="1.0.0">
-    <traditional_meaning>
-        <word_meaning source="www.zgbk.com">唇形科鼠尾草属多年生草本或亚灌木植物。常作一年生栽培。</word_meaning>
-        <word_meaning source="Initial_Thaw_DS">一串红是一种唇形科鼠尾草属的多年生观赏植物，常被作为一年生花卉栽培。其最显著特征是鲜艳的红色穗状花序和唇形花冠，具有较长的观赏期。它主要用于园林绿化、花坛布置和节日装饰，与万寿菊、矮 牵牛等常见园艺植物共同构成城市景观色彩，是典型的观赏性草本植物。</word_meaning>
-    </traditional_meaning>
-    <model_meaning>
-        <coordinate model="BGE_large_zh_configT01">[0.01646905019879341, 0.012344327755272388]</coordinate>
-    </model_meaning>
-    <unsure_relational_meaning/>
-    <relational_meaning/>
-    <Template_Data_Architecture/>
+	<traditional_meaning>
+		<word_meaning source="www.zgbk.com">垂体中由胚胎口凹的外胚层上皮发育而成的部分。</word_meaning>
+		<word_meaning source="Initial_Thaw_DS">腺垂体是垂体中由胚胎口凹的外胚层上皮发育而成的内分泌器官部分，其核心功能是合成和释放多种重要激素。它主要调节机体的生长发育、代谢平衡和生殖功能，与下丘脑和靶腺器官形成密切的神经内分泌调控轴。</word_meaning>
+	</traditional_meaning>
+	<model_meaning>
+		<coordinate model="BGE_large_zh_configT01">[0.02093636430799961, 0.009262663312256336, -0.05891106277704239]</coordinate>
+	</model_meaning>
+	<unsure_relational_meaning>
+		<relation type="PartOf" confidence="0.2" source="Initial_Thaw_DS">
+			<target>5414</target>
+		</relation>
+		<relation type="PartOf" confidence="0.2" source="Initial_Thaw_DS">
+			<target>17490</target>
+		</relation>
+	</unsure_relational_meaning>
+	<relational_meaning/>
+	<Template_Data_Architecture/>
 </word_definition>'''
 
 	print(input_xml)
-	xml2 = xml_vector_partial_adding(input_xml,"www123", [1231, 1325124])
+	xml2 = xml_check(input_xml, auto=True, id_num=17490)
 	print(xml2)
-	xml3 = xml_unsure_relational_partial_adding(xml2, "source", "IsA", "7")
-	print(xml3)
-	answer = xml_unsure_relational_partial_retrieval(xml3)
-	print(answer)
-	xml4 = xml_relational_partial_adding(xml3, "本草纲目", "IsA", 123, "因为所以科学道理")
-	print(xml4)
+	
