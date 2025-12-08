@@ -65,6 +65,8 @@ class GKSD_operator(object):
 			return self._upsert(**kwargs)
 		elif operation == "search":
 			return self._search(**kwargs)
+		elif operation == "search_v2":
+			return self._search_v2(**kwargs)
 		else:
 			raise ValueError(f"operation参数错误 无 {operation} 操作")
 
@@ -350,3 +352,162 @@ class GKSD_operator(object):
 		log = f"GKSD_operator 受理查询\n    返回 {len(answer_list)} 条结果"
 		basic_program.log_message(log, 20, kwargs.get("log_printing", True))
 		return answer_list
+
+	def _search_v2(self, id_num: Optional[str] = None, text: Optional[str] = None, vector: Optional[list] = None, logic_ask: Optional[list] = None, **kwargs) -> List:
+		"""
+		汉语词典查询功能重构版
+
+		"""
+		def get_answer_func(id_num, **kwargs):
+			result = self.mariadb_operator.safe_db_operation(
+				"SELECT 词语, XML含义 FROM chn_wordlist WHERE id = ?", 
+				params=(id_num,),
+				fetch=True
+			)
+			if not result:
+				raise Exception(f"mariadb_operator查询失败 ID为{id_num}")
+			result = result[0]
+			word = result[0]
+			xml = result[1]
+			vector = xml_operator.xml_vector_partial_retrieval(xml, "BGE_large_zh_configT01")
+			if not kwargs.get("with_xml", True):
+				result[1] = None
+			answer = {
+				"id": id_num,
+				"word": word,
+				"xml": xml,
+				"score": kwargs.get("score"),
+				"payload": kwargs.get("payload"),
+				"vector": vector
+			}
+			return answer
+		level = 20
+		log_n = "\n    "
+		log = "_search_v2 开始" + log_n
+		input_var = f"参数" + log_n \
+			+ f"id_num\t{id_num}" + log_n \
+			+ f"text\t{text}" + log_n
+		log = log + input_var
+
+		# 主函数模块
+		try:
+			if id_num != None:
+				log = log + "基于ID搜索" + log_n
+				answer = get_answer_func(
+					id_num
+				)
+				answer_list = [answer]
+				if logic_ask:
+					log = log + "开始位移" + log_n
+					logic_vector_type = logic_ask['logic_vector']
+					logic_calc_method = logic_ask['calculation_method']
+
+					if not logic_vector_type or not logic_calc_method:
+						raise Exception(f"logic_ask缺少参数却被激活")
+
+					input_var = input_var + f"logic_ask\t{logic_ask}" + log_n
+					log = log + input_var
+					if logic_vector_type == "PartOf":
+						logic_vector = self.PartOf_logic_add_vector
+					else:
+						raise Exception(f"{logic_vector_type}逻辑类型不存在")
+
+					set_vector = np.array(answer['vector'])
+					logic_vector = np.array(logic_vector)
+					if logic_calc_method == "+":
+						target_vector = (set_vector + logic_vector).tolist()
+					elif logic_calc_method == "-":
+						target_vector = (set_vector - logic_vector).tolist()
+					else:
+						raise Exception(f"{logic_calc_method} 逻辑运算不存在")
+					answer_list = self._search_v2(vector=target_vector)
+
+				log = log + "查询\t完成" + log_n
+
+			elif text != None:
+				log = log + "基于输入字符搜索" + log_n
+				target_collection = "chn_wordlist"
+				text_vector = ai_modules.text_vectorization(text).tolist()
+
+				answer_list = self.qdrant_operator.safe_qdrant_operation(
+					"search_points",
+					target_collection,
+					text_vector,
+					**kwargs
+				)
+				if not answer_list:
+					raise Exception('qdrant_operator 没有返回查询结果')
+				for index, answer in enumerate(answer_list):
+					answer = get_answer_func(
+						answer.id,
+						score=answer.score,
+						payload=answer.payload,
+						vector=answer.vector,
+						**kwargs
+					)
+					answer_list[index] = answer
+				log = log + "查询\t完成" + log_n
+
+			elif vector != None:
+				log = log + "基于向量坐标搜索" + log_n
+
+				if logic_ask:
+					log = log + "开始位移" + log_n
+					logic_vector_type = logic_ask['logic_vector']
+					logic_calc_method = logic_ask['calculation_method']
+
+					if not logic_vector_type or not logic_calc_method:
+						raise Exception(f"logic_ask缺少参数却被激活")
+
+					input_var = input_var + f"logic_ask\t{logic_ask}" + log_n
+					log = log + input_var
+					if logic_vector_type == "PartOf":
+						logic_vector = self.PartOf_logic_add_vector
+					else:
+						raise Exception(f"{logic_vector_type}逻辑类型不存在")
+
+					set_vector = np.array(vector)
+					logic_vector = np.array(logic_vector)
+					if logic_calc_method == "+":
+						target_vector = (set_vector + logic_vector).tolist()
+					elif logic_calc_method == "-":
+						target_vector = (set_vector - logic_vector).tolist()
+					else:
+						raise Exception(f"{logic_calc_method} 逻辑运算不存在")
+					answer_list = self._search_v2(vector=target_vector)
+				else:
+					target_collection = "chn_wordlist"
+					answer_list = self.qdrant_operator.safe_qdrant_operation(
+						"search_points",
+						target_collection,
+						vector,
+						**kwargs
+					)
+					if not answer_list:
+						raise Exception('qdrant_operator 没有返回查询结果')
+					for index, answer in enumerate(answer_list):
+						answer = get_answer_func(
+							answer.id,
+							score=answer.score,
+							payload=answer.payload,
+							vector=answer.vector,
+							**kwargs
+						)
+						answer_list[index] = answer
+				log = log + "查询\t完成" + log_n
+
+			else:
+				raise Exception('参数缺失')
+			log = f"_search_v2 运行成功" + log_n \
+				+ input_var
+			return answer_list
+		except Exception as e:
+			level = 50
+			error_traceback = traceback.format_exc()
+			log = log + f"错误类型\t{type(e).__name__}" + log_n\
+				+ f"错误信息\t{str(e)}" + log_n\
+				+ f"完整栈追踪:\n{error_traceback}"
+			raise
+		finally:
+			basic_program.log_message(log, level, kwargs.get("log_printing", True))
+	
