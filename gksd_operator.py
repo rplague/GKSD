@@ -62,9 +62,11 @@ class GKSD_operator(object):
 		**kwargs) -> Optional[Any]:
 
 		if operation == "upsert":
-			return self._upsert(**kwargs)
+			# return self._upsert(**kwargs)
+			raise ValueError(f"upsert 操作不安全")
 		elif operation == "search":
-			return self._search(**kwargs)
+			# return self._search(**kwargs)
+			raise ValueError(f"search 操作即将被废除")
 		elif operation == "search_v2":
 			return self._search_v2(**kwargs)
 		else:
@@ -72,50 +74,19 @@ class GKSD_operator(object):
 
 	def _upsert(self, auto: bool = True, **kwargs) -> bool:
 		# log = f"GKSD_operator 受理添加词条\n    添加内容 {name}\t添加模式 {auto}\n    "
-		def _insert_to_db(word: str, meaning_list: list, vector: dict, target_collection: str = "chn_wordlist") -> None:
+		def _insert_to_db(word_structure: dict, target_collection: str = "chn_wordlist") -> None:
 			"""
 			将词语及其相关信息插入数据库
-
-			参数:
-				word: 要插入的词语
-				meaning_list: 含义列表，每个元素为包含source和data的字典
-				vector: 向量数据，包含source和data的字典
-				target_collection: Qdrant目标集合名称，默认为"chn_wordlist"
-
-			返回:
-				None
-
-			功能说明:
-				1. 生成XML数据结构并添加传统注释
-				2. 添加向量标注到XML
-				3. 将数据插入MariaDB数据库
-				4. 获取插入记录的ID并插入Qdrant向量数据库
 			"""
-			xml_data = xml_operator.generate_empty_word_definition_xml()
-			# 添加所有传统注释
-			for meaning in meaning_list:
-				source = meaning["source"]
-				data = meaning["data"]
-				xml_data = xml_operator.xml_semantic_partial_adding(
-					xml_data,
-					source,
-					data
-				)
-			# 添加向量标注
-			source = vector["source"]
-			data = vector["data"]
-			xml_data = xml_operator.xml_semantic_partial_adding(
-				xml_data,
-				source,
-				str(data)
-			)
+			# xml检查
+
 			# mariadb插入
 			self.mariadb_operator.safe_db_operation(
 				"INSERT INTO chn_wordlist (词语, XML含义) VALUES (?, ?)",
-				params=(word, xml_data,)
+				params=(word_structure['word'], word_structure['xml'],)
 			)
 			# qdrant插入
-			id_list = self.mariadb_operator.safe_db_operation(
+			word_structure['id'] = self.mariadb_operator.safe_db_operation(
 				"SELECT id FROM chn_wordlist WHERE XML含义 = ?",
 				params=(xml_data,),
 				fetch=True
@@ -126,61 +97,48 @@ class GKSD_operator(object):
 			self.qdrant_operator.safe_qdrant_operation(
 				"upsert_points",
 				target_collection,
-				[self.qdrant_operator.create_point_struct(id_num, vector)]
+				[self.qdrant_operator.create_point_struct(word_structure['id'], vector)]
 			)
 		log = ""
 		try:
 			if auto == True:
 				# 参数检查
-				word = kwargs.get("word")
-				if not word:
+				if not kwargs.get("word"):
 					raise ValueError("自动添加模式参数缺失")
-				search_list = self._search(name=word, log_printing=False, **kwargs)
-				word_list = [item["word"] for item in search_list]
-				if word in word_list:
-					raise ValueError("词条已存在 添加失败")
-				log = log + f"确认唯一性......完成\n    "
-				# 搜索来自中国网络百科全书的释义
-				word_meaning = self.zgbk_searcher.search(word)
-				# 获取结构化释义
-				word_meaning_ITDS = ai_modules.unified_explain(word, word_meaning)
+				word_structure = {
+					"id": None,
+					"word": kwargs.get("word"),
+					"xml": None,
+					"vector": None
+				}
+
+				# 唯一性确认
+				# search_list = self._search(name=word, log_printing=False, **kwargs)	|被淘汰
+				# word_list = [item["word"] for item in search_list]					|
+				# if word in word_list:													|
+				# 	raise ValueError("词条已存在 添加失败")							|
+				# log = log + f"确认唯一性......完成\n    "								|
+
+				# 释义获取
+				# # 搜索来自中国网络百科全书的释义
+				# word_meaning_zgbk = self.zgbk_searcher.search(word_structure['word'])						|被淘汰
+				# # 获取结构化释义																			|
+				# word_meaning_ITDS = ai_modules.unified_explain(word_structure['word'], word_meaning_zgbk)	|
 				# 获取向量坐标
 				word_meaning_BGE_large_zh_configT01 = ai_modules.text_vectorization(word_meaning_ITDS)
 				log = log + f"词语释义数据生成完成\n    "
 				# xml字符操作
-				xml_data = xml_operator.xml_semantic_partial_adding(xml_operator.generate_empty_word_definition_xml(),
-																	"www.zgbk.com",
-																	word_meaning)
-				xml_data = xml_operator.xml_semantic_partial_adding(xml_data,
-																	"Initial_Thaw_DS",
-																	word_meaning_ITDS)
-				xml_data = xml_operator.xml_vector_partial_adding(xml_data,
-																  "BGE_large_zh_configT01",
-																  str(word_meaning_BGE_large_zh_configT01.tolist()))
+				# xml_data = xml_operator.xml_semantic_partial_adding(xml_operator.generate_empty_word_definition_xml(),	|被淘汰
+				# 													"www.zgbk.com",											|
+				# 													word_meaning)											|
+				# xml_data = xml_operator.xml_semantic_partial_adding(xml_data,												|
+				# 													"Initial_Thaw_DS",										|
+				# 													word_meaning_ITDS)										|
+				# xml_data = xml_operator.xml_vector_partial_adding(xml_data,												|
+				# 												  "BGE_large_zh_configT01",									|
+				# 												  str(word_meaning_BGE_large_zh_configT01.tolist()))		|
 				# log = log + f"xml生成.........完成\n    "
-				# mariadb插入
-				self.mariadb_operator.safe_db_operation(
-					"INSERT INTO chn_wordlist (词语, XML含义) VALUES (?, ?)",
-					params=(word, xml_data,)
-				)
-				# log = log + f"mariadb操作.....完成\n    "
-				# qdrant插入
-				id_list = self.mariadb_operator.safe_db_operation(
-					"SELECT id FROM chn_wordlist WHERE 词语 = ?",
-					params=(word,),
-					fetch=True
-				)
-				if not id_list:
-					raise Exception(f"回溯插入id失败 词语为{word}")
-				id_num = id_list[0][0]
-				target_collection = "chn_wordlist"
-
-				self.qdrant_operator.safe_qdrant_operation(
-					"upsert_points",
-					target_collection,
-					[self.qdrant_operator.create_point_struct(int(id_num),
-					 word_meaning_BGE_large_zh_configT01.tolist())]
-				)
+				_insert_to_db(word_structure)
 				log = log + f"数据库操作......完成\n    "
 
 			else:
