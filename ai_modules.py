@@ -171,6 +171,30 @@ def unified_explain(word, explain):
 
 def logic_PartOf(word: str, explain: str, choice_list: list):
 	"""
+	基于LLM的关系判断：PartOf关系
+
+	根据给定的词语和释义，从候选列表中找出最可能作为其“整体”的词语，并判断是否符合PartOf关系定义。
+
+	PartOf关系定义为：对象必须是整体在物理结构或功能组织上不可或缺（或极为常见）的构成单元。
+	函数通过两步LLM调用完成：1)从候选列表中选择最匹配的“整体”；2)验证两者是否符合PartOf关系。
+
+	参数:
+	    word (str): 需要判断的词语（作为部分）
+	    explain (str): 该词语的释义或上下文说明
+	    choice_list (list): 候选“整体”词语列表
+
+	返回:
+	    str 或 None: 如果找到符合PartOf关系的“整体”词语则返回该词语，否则返回None
+
+	报错:
+	    Exception: LLM API调用失败或处理过程中出现异常时抛出
+
+	注意:
+	    1. 如果输入词语本身在候选列表中，会被自动移除
+	    2. 使用DeepSeek Reasoner模型进行推理
+	    3. 函数包含两次独立的LLM API调用
+	    4. 所有操作会记录到系统日志中
+	    5. 返回格式要求严格，仅接受'y'或'n'开头的响应
 	"""
 	# 输入验证
 	if word in choice_list:
@@ -240,7 +264,7 @@ def logic_PartOf(word: str, explain: str, choice_list: list):
 			return master_word
 
 		basic_program.log_message(f"{word}PartOf判断: {master_word} {response.choices[0].message.content}", printing = False)
-		return ">无结果<"
+		return None
 	except Exception as e:
 		basic_program.log_message(f"Initial_Thaw_DS 出现错误\n    {e}", 50)
 		raise e
