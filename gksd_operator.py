@@ -153,7 +153,7 @@ class GKSD_operator(object):
 		basic_program.log_message(log, 20, kwargs.get("log_printing", True))
 		return True
 
-	def _search(self, id_num: Optional[str] = None, text: Optional[str] = None, vector: Optional[list] = None, logic_ask: Optional[list] = None, **kwargs) -> List:
+	def _search(self, id_num: Optional[str] = None, text: Optional[str] = None, vector: Optional[list] = None, logic_ask: Optional[dict] = None, **kwargs) -> List:
 		"""
 		汉语词典查询功能重构版
 
