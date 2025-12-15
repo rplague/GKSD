@@ -65,10 +65,9 @@ class GKSD_operator(object):
 			# return self._upsert(**kwargs)
 			raise ValueError(f"upsert 操作不安全")
 		elif operation == "search":
-			# return self._search(**kwargs)
-			raise ValueError(f"search 操作即将被废除")
-		elif operation == "search_v2":
-			return self._search_v2(**kwargs)
+			return self._search(**kwargs)
+		elif operation == "search_v2":									# 即将淘汰
+			return self._search(**kwargs)
 		else:
 			raise ValueError(f"operation参数错误 无 {operation} 操作")
 
@@ -97,7 +96,7 @@ class GKSD_operator(object):
 			self.qdrant_operator.safe_qdrant_operation(
 				"upsert_points",
 				target_collection,
-				[self.qdrant_operator.create_point_struct(word_structure['id'], vector)]
+				[self.qdrant_operator.create_point_struct(word_structure['id'], word_structure['vector'])]
 			)
 		log = ""
 		try:
@@ -154,164 +153,7 @@ class GKSD_operator(object):
 		basic_program.log_message(log, 20, kwargs.get("log_printing", True))
 		return True
 
-	def _search(self, name: Optional[str] = None, id_num: Optional[int] = None, vector: Optional[list] = None, **kwargs) -> List:
-		"""
-		汉语词典查询功能
-
-		支持两种查询模式：
-		1. 语义查询：当仅提供name参数时，使用BGE向量模型将查询文本转换为向量表示，
-			在Qdrant向量数据库中进行相似度搜索，返回语义相关的词语列表
-		2. 精确查询：当提供id_num参数时，直接在MySQL数据库中按ID查询特定词条
-
-		参数:
-			name (str): 查询文本，支持任意长度的中文文本（语义查询模式使用）
-			vector
-			id_num (int): 词条ID，用于精确查询特定词条
-			**kwargs: 
-				Qdrant搜索的可选参数	用于自定义搜索行为（仅语义查询模式有效）
-				log_printing			log系统输出控制
-
-		返回:
-			list: 包含查询结果的字典列表，每个字典包含：
-				- id: 词条ID
-				- word: 词语
-				- meaning: 含义
-				- score: 相似度分数（仅语义查询）
-				- payload: 向量数据库中的payload
-				- vector: 向量表示
-
-		报错:
-			FileNotFoundError: BGE模型文件不存在
-			ConnectionError: 数据库连接失败
-			ValueError: 输入参数格式错误
-			Exception: 其他处理过程中的异常
-
-		注意:
-			- 当id_num为None时，执行语义查询，返回语义相关而非精确匹配的结果
-			- 当id_num提供时，执行精确查询，忽略name参数的语义内容
-			- 查询过程涉及多个系统组件，性能受网络和硬件资源影响
-			- 语义查询返回结果数量受Qdrant配置和score_threshold参数限制
-			- XML解析依赖特定的语义标签结构"Initial_Thaw_DS"
-		"""
-		def get_answer_func(id_num, **kwargs):
-			result = self.mariadb_operator.safe_db_operation(
-				"SELECT 词语, XML含义 FROM chn_wordlist WHERE id = ?", 
-				params=(id_num,),
-				fetch=True
-			)
-			if not result:
-				raise Exception(f"mariadb_operator查询失败 ID为{id_num}")
-			result = result[0]
-			if not kwargs.get("with_xml", True):
-				result[1] = None
-			answer = {
-				"id": id_num,
-				"word": result[0],
-				"xml": result[1],
-				"score": kwargs.get("score"),
-				"payload": kwargs.get("payload"),
-				"vector": kwargs.get("vector")
-			}
-			return answer
-
-		try:
-			target_collection = "chn_wordlist"
-			log = f"GKSD_operator 受理查询\n    "
-			if name != None:
-				log = log + f"查询内容 {name}\n    "
-
-				vector = ai_modules.text_vectorization(name).tolist()
-				answer_list = self.qdrant_operator.safe_qdrant_operation(
-					"search_points",
-					target_collection,
-					vector,
-					**kwargs
-				)
-				if not answer_list:
-					raise Exception(f"qdrant_operator查询失败 文段为{name}")
-				for index, answer in enumerate(answer_list):
-					answer = get_answer_func(
-						answer.id,
-						score=answer.score,
-						payload=answer.payload,
-						vector=answer.vector,
-						**kwargs
-					)
-					answer_list[index] = answer
-				log = log + "词条查询........完成"
-
-			elif vector != None:
-				if len(vector) < 1000:
-					raise Exception(f"{len(vector)}向量长度不支持")
-				logic_add = kwargs.get("logic_add", None)
-				if logic_add:
-					if logic_add == "PartOf":
-						logic_add_vector = self.PartOf_logic_add_vector
-					else:
-						raise Exception(f"{logic_add}逻辑类型不存在")
-
-					vector_np = np.array(vector)
-					logic_add_vector_np = np.array(logic_add_vector)
-					target_vector = (vector_np + logic_add_vector_np).tolist()
-					log = log + f"检测到并完成逻辑添加 {logic_add}\n    "
-				else:
-					target_vector = vector
-				log = log + f"查询vector {target_vector[:3]}\n    "
-				qdrant_answer_list = self.qdrant_operator.safe_qdrant_operation(
-					"search_points",
-					target_collection,
-					target_vector,
-					with_vectors=True,
-					**kwargs
-				)
-				if not qdrant_answer_list:
-					raise Exception(f"qdrant_operator查询失败 文段为{name}")
-				answer_list = []
-				for answer in qdrant_answer_list:
-					if answer.vector != vector:
-						answer = get_answer_func(
-							answer.id,
-							score=answer.score,
-							payload=answer.payload,
-							vector=answer.vector,
-							**kwargs
-						)
-						answer_list.append(answer)
-
-				log = log + "词条查询........完成"
-			elif id_num != None:
-				log = log + f"查询条目ID {id_num}\n    "
-				answer = get_answer_func(
-					id_num,
-					**kwargs
-				)
-				log = log + f"mariadb_operator查询完成\n    "
-				qdrant_answer_list = self.qdrant_operator.safe_qdrant_operation(
-					"retrieve_points",
-					target_collection,
-					[int(id_num)],
-					**kwargs
-				)
-				if qdrant_answer_list:
-					qdrant_answer = qdrant_answer_list[0]
-				else:
-					raise Exception(f"qdrant_operator查询失败 id为{id_num}")
-				answer["payload"] = qdrant_answer.payload
-				answer["vector"] = qdrant_answer.vector
-				answer_list = [answer]
-				log = log + "词条查询........完成"
-		except Exception as e:
-			error_traceback = traceback.format_exc()
-			err_log = f"    错误类型\t{type(e).__name__}\n    错误信息\t{str(e)}\n    完整栈追踪:\n{error_traceback}"
-			log = log + "查询任务失败\n详细信息：\n" + err_log
-			basic_program.log_message(log, 30, kwargs.get("log_printing", True))
-			raise
-
-		log = f"GKSD_operator 受理查询\n    返回 {len(answer_list)} 条结果"
-		basic_program.log_message(log, 20, kwargs.get("log_printing", True))
-		return answer_list
-
-	def _search_v2(self, id_num: Optional[str] = None, text: Optional[str] = None, vector: Optional[list] = None, logic_ask: Optional[list] = None, **kwargs) -> List:
+	def _search(self, id_num: Optional[str] = None, text: Optional[str] = None, vector: Optional[list] = None, logic_ask: Optional[list] = None, **kwargs) -> List:
 		"""
 		汉语词典查询功能重构版
 
