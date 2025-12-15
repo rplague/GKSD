@@ -298,7 +298,7 @@ class GKSD_operator(object):
 
 			else:
 				raise Exception('参数缺失')
-			log = f"_search_v2 运行成功" + log_n \
+			log = f"gksd_operator search运行成功" + log_n \
 				+ input_var
 			return answer_list
 		except Exception as e:
