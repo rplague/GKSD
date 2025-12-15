@@ -183,7 +183,7 @@ class GKSD_operator(object):
 			return answer
 		level = 20
 		log_n = "\n    "
-		log = "_search_v2 开始" + log_n
+		log = "_search 开始" + log_n
 		input_var = f"参数" + log_n \
 			+ f"id_num\t{id_num}" + log_n \
 			+ f"text\t{text}" + log_n
@@ -220,7 +220,7 @@ class GKSD_operator(object):
 						target_vector = (set_vector - logic_vector).tolist()
 					else:
 						raise Exception(f"{logic_calc_method} 逻辑运算不存在")
-					answer_list = self._search_v2(vector=target_vector)
+					answer_list = self._search(vector=target_vector)
 
 				log = log + "查询\t完成" + log_n
 
@@ -274,7 +274,7 @@ class GKSD_operator(object):
 						target_vector = (set_vector - logic_vector).tolist()
 					else:
 						raise Exception(f"{logic_calc_method} 逻辑运算不存在")
-					answer_list = self._search_v2(vector=target_vector)
+					answer_list = self._search(vector=target_vector)
 				else:
 					target_collection = "chn_wordlist"
 					answer_list = self.qdrant_operator.safe_qdrant_operation(
