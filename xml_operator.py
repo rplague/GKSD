@@ -21,86 +21,7 @@ def generate_empty_word_definition_xml():
 </word_definition>'''
 	return xml_string
 
-def xml_check(input_xml: str, auto: bool = False, id_num: Optional[int] = None):
-	"""
-	检查xml格式并返回
-
-	参数:
-		input_xml (str): XML字符串或XML文件路径。如果是字符串，必须以'<?xml'开头
-		
-	返回:
-
-		str: 成功返回str
-	"""
-	if isinstance(input_xml, str) and input_xml.strip().startswith('<?xml'):
-		root = ET.fromstring(input_xml)
-	else:
-		tree = ET.parse(input_xml)
-		root = tree.getroot()
-	answer = True
-
-	# # 普通释义重复检查
-	# # 每个来源只允许拥有一个普通释义
-	# source_list = root.findall('./traditional_meaning/word_meaning/source')
-	# if len(source_list) != len(set(source_list)):
-	# 	word_meaning_list = root.findall('./traditional_meaning/word_meaning')
-	# 	if len(word_meaning_list) != len(set(word_meaning_list)):
-	# 		return False # auto可解决
-	# 	else:
-	# 		return False
-
-	# # 几何释义重复检查
-	# # 每个来源只允许拥有一个几何释义
-	# model_list = root.findall('./model_meaning/coordinate/model')
-	# if len(model_list) != len(set(model_list)):
-	# 	coordinate_list = root.findall('./model_meaning/coordinate')
-	# 	if len(coordinate_list) != len(set(coordinate_list)):
-	# 		return False # auto可解决
-	# 	else:
-	# 		return False
-
-	# 不确定逻辑关系重复检查
-	# 不确定逻辑不允许重复
-	# 不确定逻辑不允许引用自身
-	# 自动修复以前者为准
-	relations = root.findall('./unsure_relational_meaning/relation')
-	relation_list = []
-	for relation in relations:
-		relation_list.append({
-			'type': relation.get('type'),
-			'target': int(relation.find('target').text)
-		})
-
-	# if len(relation_list) != len(set(relation_list)):
-	# 	return False
-	if id_num:
-		unsure_relational_meaning = root.find('./unsure_relational_meaning')
-		relations = root.findall('./unsure_relational_meaning/relation')
-		for relation in relations:
-			target = relation.find('./target')
-			xml_id = target.text
-			if id_num == int(xml_id):
-				answer = False
-				if auto == True:
-					unsure_relational_meaning.remove(relation)
-				else:
-					return False
-	if answer == False and auto == True:
-		# 转换为格式化的XML
-		def remove_whitespace(element):
-			for elem in element.iter():
-				if elem.text and elem.text.isspace():
-					elem.text = None
-				if elem.tail and elem.tail.isspace():
-					elem.tail = None
-		remove_whitespace(root)
-		rough_string = ET.tostring(root, encoding='utf-8')
-		reparsed = minidom.parseString(rough_string)
-		return reparsed.toprettyxml(indent="    ", encoding="utf-8").decode('utf-8')
-	
-	return True
-
-def xml_check_v2(input_xml: str, auto: bool = False, id_num: Optional[int] = None) -> Any:
+def xml_check(input_xml: str, auto: bool = False, id_num: Optional[int] = None) -> Any:
 	"""
 	检查xml格式并返回
 
@@ -153,7 +74,7 @@ def xml_check_v2(input_xml: str, auto: bool = False, id_num: Optional[int] = Non
 		if auto:
 			# 保留第一个，删除后续重复的
 			for _, duplicate_wm in duplicate_word_meanings:
-				parent = duplicate_wm.getparent()
+				parent = root.find('./traditional_meaning')
 				if parent is not None:
 					parent.remove(duplicate_wm)
 			fixes_applied.append("已删除重复的普通释义")
@@ -196,8 +117,6 @@ def xml_check_v2(input_xml: str, auto: bool = False, id_num: Optional[int] = Non
 			problems.append("不确定关系缺少type属性")
 		if confidence is None:
 			problems.append("不确定关系缺少confidence属性")
-		elif not re.match(r'^0(\.\d+)?$', confidence):
-			problems.append(f"confidence值格式错误: {confidence}")
 		
 		# 检查target
 		target_elem = relation.find('target')
@@ -223,7 +142,7 @@ def xml_check_v2(input_xml: str, auto: bool = False, id_num: Optional[int] = Non
 		problems.append(f"发现{len(duplicate_relations)}个重复的不确定关系")
 		if auto:
 			for rel in duplicate_relations:
-				parent = rel.getparent()
+				parent = parent = root.find('./unsure_relational_meaning')
 				if parent is not None:
 					parent.remove(rel)
 			fixes_applied.append("已删除重复的不确定关系")
@@ -232,9 +151,12 @@ def xml_check_v2(input_xml: str, auto: bool = False, id_num: Optional[int] = Non
 		problems.append(f"发现{len(self_references)}个引用自身ID({id_num})的不确定关系")
 		if auto:
 			for rel in self_references:
-				parent = rel.getparent()
+				parent = parent = parent = root.find('./unsure_relational_meaning')
 				if parent is not None:
-					parent.remove(rel)
+					try:
+						parent.remove(rel)
+					except:
+						pass
 			fixes_applied.append("已删除引用自身的不确定关系")
 	
 	# 4. 确定逻辑关系检查
@@ -669,6 +591,12 @@ if __name__ == "__main__":
 		<relation type="PartOf" confidence="0.2" source="Initial_Thaw_DS">
 			<target>5414</target>
 		</relation>
+		<relation type="PartOf" confidence="0.3" source="Initial_Thaw_DS">
+			<target>5414</target>
+		</relation>
+		<relation type="PartOf" confidence="0.2" source="Initial_Thaw_DS">
+			<target>17490</target>
+		</relation>
 		<relation type="PartOf" confidence="0.2" source="Initial_Thaw_DS">
 			<target>17490</target>
 		</relation>
@@ -678,6 +606,6 @@ if __name__ == "__main__":
 </word_definition>'''
 
 	# print(input_xml)
-	xml2 = xml_check_v2(input_xml, auto=True, id_num=17490)
+	xml2 = xml_check(input_xml, auto=True, id_num=17490)["xml"]
 	print(xml2)
 	
