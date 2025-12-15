@@ -451,6 +451,8 @@ def xml_unsure_relational_partial_adding(
 	confidence = str(confidence)
 	# 重复检查
 	answer_list = xml_unsure_relational_partial_retrieval(input_xml)
+	if not answer_list:
+		answer_list = []
 	for item in answer_list:
 		if item['type'] == type and item['target'] == target:
 			raise ValueError("数据条目重复")
