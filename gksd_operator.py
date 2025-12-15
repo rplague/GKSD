@@ -168,10 +168,20 @@ class GKSD_operator(object):
 				raise Exception(f"mariadb_operator查询失败 ID为{id_num}")
 			result = result[0]
 			word = result[0]
-			xml = result[1]
-			vector = xml_operator.xml_vector_partial_retrieval(xml, "BGE_large_zh_configT01")
-			if not kwargs.get("with_xml", True):
-				result[1] = None
+			
+			# 有效的选择性补充查询
+			if kwargs.get("with_xml", True):
+				xml = result[1]
+			else: xml = None
+			if kwargs.get("vector", False):
+
+				if kwargs.get("with_vector", False):
+					xml = result[1]
+					vector = xml_operator.xml_vector_partial_retrieval(xml, "BGE_large_zh_configT01")
+				else: vector = None
+			else:
+				vector = kwargs.get("vector", False)
+
 			answer = {
 				"id": id_num,
 				"word": word,
