@@ -194,7 +194,8 @@ class GKSD_operator(object):
 			if id_num != None:
 				log = log + "基于ID搜索" + log_n
 				answer = get_answer_func(
-					id_num
+					id_num,
+					with_vector=True
 				)
 				answer_list = [answer]
 				if logic_ask:
