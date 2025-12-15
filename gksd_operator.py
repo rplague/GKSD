@@ -322,3 +322,64 @@ class GKSD_operator(object):
 		finally:
 			basic_program.log_message(log, level, kwargs.get("log_printing", True))
 	
+
+	def advance_db_operation(self, operation: str, **kwargs) -> Optional[Any]:
+		if operation == "auto_search_partof":
+			self._ao_search_partof(**kwargs)
+		else:
+			raise ValueError(f"operation参数错误 无 {operation} 操作")
+
+	def _ao_search_partof(self, word_data):
+
+		word_data["explain"] = xml_operator.xml_semantic_partial_retrieval(word_data["xml"], "Initial_Thaw_DS")
+
+		logic_ask = {
+			"logic_vector": "PartOf",
+			"calculation_method": "+"
+		}
+		unsure_relational_partial_retrieval_list = xml_operator.xml_unsure_relational_partial_retrieval(word_data["xml"])
+		part_of_relational_partial_list = []
+		if unsure_relational_partial_retrieval_list:
+			for relational_partial_retrieval in unsure_relational_partial_retrieval_list:
+				if relational_partial_retrieval['type'] == "PartOf":
+					target_word_data = self._search(id_num=relational_partial_retrieval['target'])
+					if target_word_data:
+						part_of_relational_partial_list.append(target_word_data[0]['word'])
+					else:
+						raise 															# 待完善
+
+		target_list_data_list = self._search(id_num=word_data["id"], logic_ask=logic_ask)
+		target_list_data_list_c = []
+		for target_list_data in target_list_data_list:
+			if target_list_data['word'] not in part_of_relational_partial_list:
+				target_list_data_list_c.append(target_list_data['word'])
+
+
+		answer = ai_modules.logic_PartOf(
+			word_data["word"],
+			word_data["explain"],
+			target_list_data_list_c
+		)
+		if not answer: return 0
+
+		for target_list_data in target_list_data_list:
+			if answer == target_list_data['word']:
+				target_data = target_list_data
+				break
+		word_data['xml'] = xml_operator.xml_unsure_relational_partial_adding(
+			word_data['xml'],
+			'Initial_Thaw_DS',
+			'PartOf',
+			target_data['id'],
+			0.3
+			)
+		word_data['xml'] = xml_operator.xml_check(word_data['xml'], True, word_data['id'])
+		self.mariadb_operator.safe_db_operation(
+			"UPDATE chn_wordlist SET XML含义 = ? WHERE id = ?;",
+			params=(word_data['xml'], word_data['id'],),
+			fetch=False
+		)
+		return 0
+
+
+
