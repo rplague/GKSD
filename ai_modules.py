@@ -1,4 +1,6 @@
 from typing import Optional
+
+from openai.types.chat.chat_completion import Choice
 from sentence_transformers import SentenceTransformer
 from openai import OpenAI
 import numpy as np
@@ -259,6 +261,9 @@ def logic_PartOf(word: str, explain: str, choice_list: list):
 					],
 			stream=False,
 		)
+		if not response.choices[0].message.content:
+			basic_program.log_message(f"{word}PartOf判断: {master_word} 无审核", printing = False)
+			return None
 		if 'y' == response.choices[0].message.content[0]:
 			basic_program.log_message(f"{word} PartOf判断: {master_word} {response.choices[0].message.content}", printing = False)
 			return master_word
@@ -266,7 +271,7 @@ def logic_PartOf(word: str, explain: str, choice_list: list):
 		basic_program.log_message(f"{word}PartOf判断: {master_word} {response.choices[0].message.content}", printing = False)
 		return None
 	except Exception as e:
-		basic_program.log_message(f"Initial_Thaw_DS 出现错误\n    {e}", 50)
+		basic_program.log_message(f"Initial_Thaw_DS 出现错误\n    {e}", 30)
 		raise e
 
 def logic_Antonym(word):
@@ -368,107 +373,108 @@ def logic_Antonym(word):
 		raise e
 
 def logic_IsA(word):
-    """
-    AI词语is-a关系判断工具 模型代号 Initial_Thaw_DS
+	"""
+	AI词语is-a关系判断工具 模型代号 Initial_Thaw_DS
 
-    该函数使用DeepSeek AI API判断给定词语的is-a逻辑关系（上位词/下位词关系），
-    适用于向量数据库的实体表示生成。
+	该函数使用DeepSeek AI API判断给定词语的is-a逻辑关系（上位词/下位词关系），
+	适用于向量数据库的实体表示生成。
 
-    函数参数:
-        word (str): 需要分析的实体名称
+	函数参数:
+		word (str): 需要分析的实体名称
 
-    函数功能:
-        - 判断实体的直接上位词（父类）
-        - 生成简洁的is-a关系表示
+	函数功能:
+		- 判断实体的直接上位词（父类）
+		- 生成简洁的is-a关系表示
 
-    API配置:
-        - 提供商: DeepSeek AI
-        - 模型: deepseek-chat
-        - 基础URL: https://api.deepseek.com/v1
+	API配置:
+		- 提供商: DeepSeek AI
+		- 模型: deepseek-chat
+		- 基础URL: https://api.deepseek.com/v1
 
-    使用示例:
-        >>> logic_IsA("苹果")
-        "水果"
-        >>> logic_IsA("汽车")  
-        "交通工具"
-        >>> logic_IsA("哲学")
-        "学科"
-        >>> logic_IsA("东西")
-        ">无结果<"
+	使用示例:
+		>>> logic_IsA("苹果")
+		"水果"
+		>>> logic_IsA("汽车")  
+		"交通工具"
+		>>> logic_IsA("哲学")
+		"学科"
+		>>> logic_IsA("东西")
+		">无结果<"
 
-    注意:
-        - 需要有效的AI API密钥
-        - 函数会返回AI生成的is-a关系结果
-    """
-    text = word
-    config_data = config_operator.get_config_data()
-    llm_config = config_data["llm_api"]
-    client = OpenAI(
-        api_key=llm_config["api_key"],
-        base_url=llm_config["base_url"],
-    )
-    try:
-        setting_text = """
-        请严格依据"is-a关系"识别给定对象的直接上位词（父类概念）。
-        必须同时满足**语义包含性**和**概念层次性**标准。如果不存在符合此严格定义的上位词，则返回">无结果<"。
-        
-        is-a关系要求两个概念在语义上形成包含关系，且具有明确的层次结构：
-         - **类属关系**：个体属于某个类别（如：苹果-水果、汽车-交通工具）
-         - **种属关系**：子类属于父类（如：哺乳动物-动物、轿车-汽车）
-         - **实例关系**：具体实例属于抽象概念（如：莎士比亚-作家、长城-建筑）
-         - **领域归属**：具体领域属于更大范畴（如：物理学-科学、唐诗-文学）
-        
-        必须排除的关系：
-         - **部分关系**：整体与部分的关系（如：车轮-汽车 | 这是部分关系，不是is-a）
-         - **属性关系**：对象与属性的关系（如：红色-颜色 | 这是属性关系）
-         - **功能关系**：对象与功能的关系（如：刀-切割 | 这是功能关系）
-         - **偶然关联**：没有必然的语义包含关系（如：苹果-公司 | 只是品牌关联）
-         - **过于宽泛**：上位词过于宽泛失去意义（如：苹果-物质 | 过于宽泛）
-        
-        判断标准：
-         1. 两个概念必须在同一语义层次结构中
-         2. 必须形成明确的语义包含关系（下位词 is a 上位词）
-         3. 在逻辑上具有层次性
-         4. 是语言中公认的类属关系
-         5. 上位词应该是直接且最接近的父类概念
-        
-        示例：
-        输入：苹果
-        返回：水果
-        
-        输入：汽车
-        返回：交通工具
-        
-        输入：哲学
-        返回：学科
-        
-        输入：唐诗
-        返回：诗歌
-        
-        输入：东西
-        返回：>无结果<
-        
-        输入：红色
-        返回：>无结果<
-        
-        输入：喜欢
-        返回：>无结果<
-        """
-        ask_text = f"{text}"
-        response = client.chat.completions.create(
-            model="deepseek-chat",
-            messages=[
-                    {"role": "system", "content": f"{setting_text}"},
-                    {"role": "user", "content": f"{ask_text}"},
-                    ],
-            stream=False,
-        )
-        basic_program.log_message(f"{word} is-a关系判断: {response.choices[0].message.content}", printing = False)
-        return response.choices[0].message.content
-    except Exception as e:
-        basic_program.log_message(f"Initial_Thaw_DS is-a关系判断出现错误\n    {e}", 50)
-        raise e
+	注意:
+		- 需要有效的AI API密钥
+		- 函数会返回AI生成的is-a关系结果
+	"""
+	text = word
+	config_data = config_operator.get_config_data()
+	llm_config = config_data["llm_api"]
+	client = OpenAI(
+		api_key=llm_config["api_key"],
+		base_url=llm_config["base_url"],
+	)
+	try:
+		setting_text = """
+		请严格依据"is-a关系"识别给定对象的直接上位词（父类概念）。
+		必须同时满足**语义包含性**和**概念层次性**标准。如果不存在符合此严格定义的上位词，则返回">无结果<"。
+		
+		is-a关系要求两个概念在语义上形成包含关系，且具有明确的层次结构：
+		 - **类属关系**：个体属于某个类别（如：苹果-水果、汽车-交通工具）
+		 - **种属关系**：子类属于父类（如：哺乳动物-动物、轿车-汽车）
+		 - **实例关系**：具体实例属于抽象概念（如：莎士比亚-作家、长城-建筑）
+		 - **领域归属**：具体领域属于更大范畴（如：物理学-科学、唐诗-文学）
+		
+		必须排除的关系：
+		 - **部分关系**：整体与部分的关系（如：车轮-汽车 | 这是部分关系，不是is-a）
+		 - **属性关系**：对象与属性的关系（如：红色-颜色 | 这是属性关系）
+		 - **功能关系**：对象与功能的关系（如：刀-切割 | 这是功能关系）
+		 - **偶然关联**：没有必然的语义包含关系（如：苹果-公司 | 只是品牌关联）
+		 - **过于宽泛**：上位词过于宽泛失去意义（如：苹果-物质 | 过于宽泛）
+		
+		判断标准：
+		 1. 两个概念必须在同一语义层次结构中
+		 2. 必须形成明确的语义包含关系（下位词 is a 上位词）
+		 3. 在逻辑上具有层次性
+		 4. 是语言中公认的类属关系
+		 5. 上位词应该是直接且最接近的父类概念
+		
+		示例：
+		输入：苹果
+		返回：水果
+		
+		输入：汽车
+		返回：交通工具
+		
+		输入：哲学
+		返回：学科
+		
+		输入：唐诗
+		返回：诗歌
+		
+		输入：东西
+		返回：>无结果<
+		
+		输入：红色
+		返回：>无结果<
+		
+		输入：喜欢
+		返回：>无结果<
+		"""
+		ask_text = f"{text}"
+		response = client.chat.completions.create(
+			model="deepseek-chat",
+			messages=[
+					{"role": "system", "content": f"{setting_text}"},
+					{"role": "user", "content": f"{ask_text}"},
+					],
+			stream=False,
+		)
+		basic_program.log_message(f"{word} is-a关系判断: {response.choices[0].message.content}", printing = False)
+		return response.choices[0].message.content
+	except Exception as e:
+		basic_program.log_message(f"Initial_Thaw_DS is-a关系判断出现错误\n    {e}", 50)
+		raise e
 
 # 测试
 if __name__ == "__main__":
-	print(logic_PartOf("雨刷器"))
+	# print(logic_PartOf("垂体", "垂体是一种位于人和脊椎动物脑底部正中央的内分泌腺，呈椭圆形并借漏斗悬于下丘脑腹侧面。它主要通过分泌多种激素来调节生长、代谢和生殖等生理过程，与下丘脑和甲状腺等内分泌器官的功能调控密切相关。", choice_list=["大脑", "腺垂体", "神经垂体", "内分泌腺", "下丘脑", "内分泌系统", "肾上腺", "内分泌", "促黄体素", "肾"]))
+	print(logic_PartOf("腺垂体", "腺垂体是垂体中由胚胎口凹的外胚层上皮发育而成的内分泌器官部分，其核心功能是合成和释放多种重要激素。它主要调节机体的生长发育、代谢平衡和生殖功能，与下丘脑和靶腺器官形成密切的神经内分泌调控轴。", choice_list=["腺垂体", "垂体", "神经垂体", "内分泌腺", "内分泌系统", "生殖激素", "卵巢功能", "下丘脑", "卵巢", "促黄体素"]))
