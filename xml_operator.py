@@ -206,7 +206,7 @@ def xml_check(input_xml: str, auto: bool = False, id_num: Optional[int] = None) 
 		}
 	
 	# 如果有问题但自动修复了，或者没有问题
-	if auto and (problems or fixes_applied):
+	if auto:
 		# 清理空白
 		def remove_whitespace(element):
 			for elem in element.iter():
@@ -222,12 +222,7 @@ def xml_check(input_xml: str, auto: bool = False, id_num: Optional[int] = None) 
 		reparsed = minidom.parseString(rough_string)
 		formatted_xml = reparsed.toprettyxml(indent="    ", encoding="utf-8").decode('utf-8')
 		
-		return {
-			'status': True,
-			'xml': formatted_xml,
-			'fixes_applied': fixes_applied,
-			'original_problems': problems if problems else []
-		}
+		return formatted_xml
 	
 	# 没有问题的正常情况
 	if not problems:
@@ -236,7 +231,11 @@ def xml_check(input_xml: str, auto: bool = False, id_num: Optional[int] = None) 
 			'message': "XML格式检查通过"
 		}
 	
-	return False
+	return {
+		'status': False,
+		'message': "XML格式不检查通过",
+		'original_problems': problems if problems else []
+	}
 
 # 辅助函数：验证单个关系
 def validate_relation(relation_elem: ET.Element, is_unsure: bool = True):
@@ -454,7 +453,7 @@ def xml_unsure_relational_partial_adding(
 	if not answer_list:
 		answer_list = []
 	for item in answer_list:
-		if item['type'] == type and item['target'] == target:
+		if item['type'] == type and item['target'] == id_num:
 			raise ValueError("数据条目重复")
 	# 解析输入XML
 	if isinstance(input_xml, str) and input_xml.strip().startswith('<?xml'):
