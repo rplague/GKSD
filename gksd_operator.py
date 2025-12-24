@@ -173,7 +173,7 @@ class GKSD_operator(object):
 			if kwargs.get("with_xml", True):
 				xml = result[1]
 			else: xml = None
-			if kwargs.get("vector", False):
+			if not kwargs.get("vector", False):
 
 				if kwargs.get("with_vector", False):
 					xml = result[1]
