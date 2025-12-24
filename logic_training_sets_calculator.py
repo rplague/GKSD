@@ -141,7 +141,7 @@ def mad_method(data, median = None):
 	return mad
 
 
-index = VectorIndex("./data/IsA.json")
+index = VectorIndex("./data/Antonym.json") # 数据集输入位置
 vector_info = index.get_vector_info()
 stats_dict = []
 
